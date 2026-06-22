@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Solución Flex · Simulador de Crédito</title>
+
+    <!-- ===== FAVICON ===== -->
+    <link rel="icon" href="logo.png" type="image/png" />
+
+    <!-- ===== META DESCRIPTION ===== -->
+    <meta name="description" content="Simulá tu préstamo en minutos con Solución Flex. Sin compromiso, atención personalizada y más de 150 clientes satisfechos." />
+
+    <!-- ===== OPEN GRAPH (corregido con tu nueva URL) ===== -->
+    <meta property="og:title" content="Solución Flex · Simulador de Crédito" />
+    <meta property="og:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada." />
+    <meta property="og:site_name" content="Solución Flex" />
+    <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=1" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://solucionflex.github.io/simulador-credito/" />
+
+    <!-- ===== TWITTER ===== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Solución Flex · Simulador de Crédito" />
+    <meta name="twitter:description" content="Simulá tu préstamo en minutos. Sin compromiso." />
+    <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=1" />
+
+    <!-- Font Awesome y Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== RESET Y VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        :root {
+            --bg: #f4f9fe;
+            --card-bg: #ffffff;
+            --text: #0a2a33;
+            --text-light: #4a6a7a;
+            --primary: #0f6f85;
+            --primary-dark: #08505e;
+            --primary-light: #d4eaf0;
+            --primary-gradient: linear-gradient(145deg, #0f6f85, #0a4b5c);
+            --border: #e2ecf2;
+            --shadow: 0 12px 40px rgba(10, 55, 70, 0.08);
+            --shadow-hover: 0 20px 60px rgba(10, 55, 70, 0.12);
+            --radius: 28px;
+            --radius-sm: 18px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        .app-container {
+            max-width: 580px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px 22px 32px;
+            transition: background 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.6s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1.5px solid var(--border);
+        }
+        .logo-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            flex-shrink: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            line-height: 1.2;
+        }
+        .header h1 small {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+        }
+        .theme-toggle {
+            margin-left: auto;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .theme-toggle:hover { background: var(--primary-light); }
+
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            letter-spacing: 0.2px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            transition: var(--transition);
+            color: var(--text);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(15, 111, 133, 0.12);
+            background: var(--card-bg);
+        }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+            padding-top: 6px;
+            margin-bottom: 12px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 400;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text);
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            letter-spacing: 0.2px;
+        }
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(15, 111, 133, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(15, 111, 133, 0.35);
+        }
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .btn-secondary:hover { background: var(--border); }
+        .btn-success {
+            background: #1a7a4a;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(26, 122, 74, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(26, 122, 74, 0.35);
+        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+        /* ===== STEPS ===== */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            position: relative;
+        }
+        .step-dot {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+            position: relative;
+            z-index: 2;
+        }
+        .step-dot .circle {
+            width: 36px;
+            height: 36px;
+            background: var(--border);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-light);
+            transition: var(--transition);
+            margin-bottom: 4px;
+        }
+        .step-dot.active .circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 6px rgba(15,111,133,0.15); }
+        .step-dot.completed .circle { background: var(--primary-dark); color: #fff; }
+        .step-dot.active .step-label { color: var(--primary); font-weight: 600; }
+        .step-line {
+            position: absolute;
+            top: 18px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+        .form-step { display: none; animation: fadeStep 0.4s ease; }
+        .form-step.active-step { display: block; }
+        @keyframes fadeStep { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ===== ALERTAS ===== */
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+        }
+        .alert-error { background: #fee9e9; color: #b91c1c; border-left: 4px solid #ef4444; }
+        .alert-success { background: #e3f5eb; color: #0b5e3a; border-left: 4px solid #10b981; }
+        .alert-warning { background: #fef5e7; color: #a16207; border-left: 4px solid #f59e0b; }
+
+        /* ===== TESTIMONIOS ===== */
+        .testimonios {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1.5px solid var(--border);
+        }
+        .testimonios h4 {
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 14px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .testimonio-item {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+        .testimonio-item:hover { box-shadow: var(--shadow-hover); }
+        .testimonio-item .stars { color: #f5b342; font-size: 14px; margin-bottom: 4px; }
+        .testimonio-item .comentario { font-size: 14px; font-style: italic; color: var(--text); }
+        .testimonio-item .autor { font-size: 13px; font-weight: 600; color: var(--text-light); margin-top: 6px; }
+
+        /* ===== CUOTA BOX ===== */
+        .cuota-box {
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .cuota-box .label { font-size: 12px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .cuota-box .value { font-size: 26px; font-weight: 800; color: var(--primary); }
+
+        /* ===== CONSENT SCREEN ===== */
+        .consent-screen { text-align: center; }
+        .consent-screen .hero-icon { font-size: 52px; color: var(--primary); margin-bottom: 12px; }
+        .consent-screen h2 { font-size: 24px; margin-bottom: 6px; font-weight: 700; }
+        .consent-screen p { color: var(--text-light); font-size: 15px; margin-bottom: 16px; }
+        .consent-screen .badge-clientes {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+        .consent-checkbox-group {
+            text-align: left;
+            margin: 18px 0;
+        }
+        .consent-checkbox-group label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .consent-checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+        .flex-info {
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+        .flex-info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .success-screen {
+            text-align: center;
+            padding: 28px 0;
+        }
+        .success-screen i { font-size: 72px; color: #10b981; margin-bottom: 16px; }
+        .success-screen h2 { font-size: 24px; margin-bottom: 8px; }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: 0.4s;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .toast.show { opacity: 1; }
+        .hidden { display: none !important; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .app-container { padding: 16px; }
+            .row-2 { grid-template-columns: 1fr; }
+            .header h1 { font-size: 19px; }
+            .consent-screen h2 { font-size: 20px; }
+            .flex-info { font-size: 11px; gap: 4px; }
+        }
+        /* ===== MODO OSCURO ===== */
+        body.dark {
+            --bg: #0f1e26;
+            --card-bg: #1a2c36;
+            --text: #e6edf2;
+            --text-light: #9bb3c0;
+            --border: #2a4050;
+            --primary-light: #1f4050;
+            --shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+        body.dark .form-control { background: #1f2f3a; color: #e6edf2; }
+        body.dark .btn-secondary { background: #1f2f3a; color: #e6edf2; }
+        body.dark .btn-secondary:hover { background: #2a4050; }
+        body.dark .theme-toggle { background: #1f2f3a; border-color: #2a4050; }
+        .theme-toggle .fa-moon { display: inline; }
+        .theme-toggle .fa-sun { display: none; }
+        body.dark .theme-toggle .fa-moon { display: none; }
+        body.dark .theme-toggle .fa-sun { display: inline; }
+        body.dark .testimonio-item { background: #1f2f3a; }
+        body.dark .consent-checkbox-group label { color: #e6edf2; }
+    </style>
+</head>
+<body>
+
+<div class="app-container" id="app">
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA 1: CONSENTIMIENTO + PRESENTACIÓN               -->
+    <!-- ========================================================= -->
+    <div id="consentScreen" class="consent-screen">
+        <div class="header" style="border-bottom: none; margin-bottom: 6px;">
+            <div class="logo-container" id="logoContainer">
+                <img src="logo.png" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+            <h1>Solución Flex <small>Rápido y Fácil</small></h1>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+        </div>
+
+        <div class="hero-icon"><i class="fas fa-handshake"></i></div>
+        <h2>Simulador de Crédito</h2>
+        <p>En Solución Flex te ayudamos a encontrar la mejor opción de préstamo. Simulá tu cuota en minutos y recibí atención personalizada.</p>
+        <div class="badge-clientes">🌟 +150 clientes satisfechos</div>
+
+        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; margin-bottom:18px; text-align:left; font-size:14px; color:var(--text-light); display:flex; flex-direction:column; gap:6px;">
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Simulación sin compromiso</span>
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Atención por asesor</span>
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Proceso simple y seguro</span>
+        </div>
+
+        <hr style="border:1px solid var(--border); margin:18px 0;">
+
+        <div style="text-align:left; font-weight:600; font-size:15px; margin-bottom:12px; color:var(--text);">
+            <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:6px;"></i> Autorización y declaración
+        </div>
+        <div class="consent-checkbox-group">
+            <label><input type="checkbox" id="chk1"> Declaro que la información que proporcionaré es 100% real y comprobable.</label>
+            <label><input type="checkbox" id="chk2"> Autorizo voluntariamente a Solución Flex a utilizar mis datos personales para la gestión de mi presolicitud.</label>
+            <label><input type="checkbox" id="chk3"> Autorizo voluntariamente la verificación de mi estado crediticio en las entidades correspondientes.</label>
+        </div>
+
+        <div class="alert alert-error" id="consentError" style="display:none;">Debes aceptar todas las condiciones para continuar.</div>
+        <button class="btn btn-primary" id="btnConsent">Comenzar simulación →</button>
+
+        <!-- Pie de página -->
+        <div class="flex-info" style="margin-top:20px;">
+            <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
+            <span>·</span>
+            <span><i class="fas fa-phone"></i> +595 992 271 485</span>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA 2: FORMULARIO (3 pasos)                         -->
+    <!-- ========================================================= -->
+    <div id="formScreen" style="display:none;">
+
+        <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
+            <div class="logo-container" style="width:40px; height:40px;">
+                <img src="logo.png" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+            <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
+            <button class="theme-toggle" id="themeToggle2"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+        </div>
+
+        <form id="formProspecto" autocomplete="off">
+            <!-- PASO 1 -->
+            <div class="form-step active-step" id="step1">
+                <div class="step-indicator">
+                    <div class="step-dot active"><span class="circle">1</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot"><span class="circle">2</span><div class="step-label">Perfil</div></div>
+                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Monto a solicitar (Gs.) *</label>
+                    <select class="form-control" id="monto">
+                        <option value="1000000">1.000.000</option>
+                        <option value="2000000">2.000.000</option>
+                        <option value="3000000">3.000.000</option>
+                        <option value="4000000">4.000.000</option>
+                        <option value="5000000" selected>5.000.000</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Plazo (meses) *</label>
+                    <select class="form-control" id="plazo">
+                        <option value="6">6</option>
+                        <option value="12" selected>12</option>
+                        <option value="18">18</option>
+                        <option value="24">24</option>
+                    </select>
+                </div>
+
+                <div class="cuota-box">
+                    <div class="label">Cuota estimada (referencial)</div>
+                    <div class="value" id="cuotaPreview">₲ 0</div>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group"><label>Nombres *</label><input class="form-control" type="text" id="nombres" placeholder="Juan" required></div>
+                    <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
+                    <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group"><label>Fecha de Nacimiento *</label><input class="form-control" type="date" id="fechaNac" required></div>
+                    <div class="form-group"><label>Departamento *</label>
+                        <select class="form-control" id="departamento" required>
+                            <option value="">Seleccionar</option>
+                            <option value="Asunción">Asunción</option>
+                            <option value="Central">Central</option>
+                            <option value="Alto Paraná">Alto Paraná</option>
+                            <option value="San Pedro">San Pedro</option>
+                            <option value="Itapúa">Itapúa</option>
+                            <option value="Misiones">Misiones</option>
+                            <option value="Paraguarí">Paraguarí</option>
+                            <option value="Cordillera">Cordillera</option>
+                            <option value="Guairá">Guairá</option>
+                            <option value="Concepción">Concepción</option>
+                            <option value="Ñeembucú">Ñeembucú</option>
+                            <option value="Caazapá">Caazapá</option>
+                            <option value="Pdte. Hayes">Pdte. Hayes</option>
+                            <option value="Canindeyú">Canindeyú</option>
+                            <option value="Amambay">Amambay</option>
+                            <option value="Boquerón">Boquerón</option>
+                            <option value="Alto Paraguay">Alto Paraguay</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ciudad *</label>
+                    <select class="form-control" id="ciudad" required>
+                        <option value="">Primero selecciona un departamento</option>
+                    </select>
+                    <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad">
+                </div>
+                <div class="alert alert-error" id="errorStep1"></div>
+                <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
+            </div>
+
+            <!-- PASO 2 -->
+            <div class="form-step" id="step2">
+                <div class="step-indicator">
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot active"><span class="circle">2</span><div class="step-label">Perfil</div></div>
+                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Actividad Laboral *</label>
+                    <select class="form-control" id="actividad" required onchange="actualizarCheckboxes()">
+                        <option value="">Seleccionar...</option>
+                        <option value="asalariado_ips">Asalariado con IPS</option>
+                        <option value="asalariado_iva">Asalariado con IVA</option>
+                        <option value="asalariado_informal">Asalariado Informal (sin IVA ni IPS)</option>
+                        <option value="funcionario_permanente">Funcionario Público PERMANENTE</option>
+                        <option value="funcionario_contratado">Funcionario Público CONTRATADO</option>
+                        <option value="jubilado">Jubilado</option>
+                        <option value="prof_independiente">Profesional Independiente</option>
+                        <option value="independiente">Independiente</option>
+                        <option value="micro_comerciante">Micro / Comerciante</option>
+                    </select>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group"><label>Antigüedad (años) *</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="0" min="0" step="1" required></div>
+                    <div class="form-group"><label>Antigüedad (meses) *</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="0" min="0" max="11" step="1" required></div>
+                </div>
+                <div class="form-group">
+                    <label>Ingreso mensual (Gs.) *</label>
+                    <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
+                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
+                </div>
+
+                <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
+
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
+                </div>
+                <div class="form-group">
+                    <label>¿Tiene deudas con casas de compra de carteras?</label>
+                    <select class="form-control" id="carteras" onchange="validarCartera()">
+                        <option value="ninguna">Ninguna</option>
+                        <option value="nexo">Nexo</option>
+                        <option value="carsa">Carsa</option>
+                        <option value="ingesa">Ingesa</option>
+                        <option value="geco">Geco</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
+                </div>
+
+                <div class="alert alert-warning" id="warningModificacion" style="display:none;">
+                    ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Recuerda que tus datos serán verificados.
+                </div>
+                <div class="alert alert-error" id="errorStep2"></div>
+                <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
+                    <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- PASO 3 -->
+            <div class="form-step" id="step3">
+                <div class="step-indicator">
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Perfil</div></div>
+                    <div class="step-dot active"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:14px; margin-bottom:14px;"></div>
+
+                <div class="alert alert-error" id="errorStep3"></div>
+                <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
+                    <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- TESTIMONIOS -->
+        <div class="testimonios">
+            <h4><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente y el asesor me guió en cada paso."</div>
+                <div class="autor">— Carlos M., Asunción</div>
+            </div>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Nunca había tenido una asesoría tan clara. Recomiendo 100% a Solución Flex para cualquier tipo de crédito."</div>
+                <div class="autor">— Laura G., CDE</div>
+            </div>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Me ayudaron a encontrar la mejor opción para mi negocio. El proceso fue simple, rápido y seguro."</div>
+                <div class="autor">— Roberto D., Encarnación</div>
+            </div>
+        </div>
+
+        <!-- Pie de página -->
+        <div class="flex-info" style="margin-top:16px;">
+            <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
+            <span>·</span>
+            <span><i class="fas fa-phone"></i> +595 992 271 485</span>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA DE ÉXITO                                        -->
+    <!-- ========================================================= -->
+    <div id="successScreen" class="success-screen" style="display:none;">
+        <i class="fas fa-check-circle"></i>
+        <h2>¡Gracias por tu presolicitud!</h2>
+        <p>Nuestro equipo analizará tu perfil y te contactará a la brevedad para continuar con el proceso.</p>
+        <button class="btn btn-primary" style="margin-top:20px;" onclick="location.reload()">Nueva simulación</button>
+    </div>
+
+    <div id="toast" class="toast">✅ Enviado</div>
+</div>
+
+<script>
+    // ================================================================
+    //  1. CONFIGURACIÓN
+    // ================================================================
+    const WHATSAPP_NUMBER = '595992271485';
+
+    const cuotasReferencia = {
+        1000000: {6:235000, 12:127000, 18:101000, 24:90000},
+        2000000: {6:465000, 12:254000, 18:201000, 24:177000},
+        3000000: {6:685000, 12:380000, 18:302000, 24:266000},
+        4000000: {6:900000, 12:507000, 18:402000, 24:354000},
+        5000000: {6:1150000, 12:633000, 18:503000, 24:443000}
+    };
+
+    const ciudadesPorDepartamento = {
+        'Asunción': ['Asunción'],
+        'Central': ['San Lorenzo', 'Luque', 'Fernando de la Mora', 'Lambaré', 'Villa Elisa', 'Capiatá', 'Itauguá', 'Areguá', 'Ypacaraí', 'OTRA'],
+        'Alto Paraná': ['Ciudad del Este', 'Hernandarias', 'Minga Guazú', 'Presidente Franco', 'OTRA'],
+        'San Pedro': ['San Pedro', 'Villa del Rosario', 'Yrybucuá', 'Capiibary', 'OTRA'],
+        'Itapúa': ['Encarnación', 'Hohenau', 'Obligado', 'Bella Vista', 'San Juan del Paraná', 'OTRA'],
+        'Misiones': ['San Juan Bautista', 'Ayolas', 'Santiago', 'Villa Florida', 'OTRA'],
+        'Paraguarí': ['Paraguarí', 'Carapeguá', 'Acahay', 'Yaguarón', 'Pirayú', 'OTRA'],
+        'Cordillera': ['Caacupé', 'Piribebuy', 'Eusebio Ayala', 'Itacurubí de la Cordillera', 'Tobatí', 'OTRA'],
+        'Guairá': ['Villarrica', 'Mbocayaty', 'Yataity', 'Coronel Martínez', 'OTRA'],
+        'Concepción': ['Concepción', 'Belén', 'San Carlos', 'Horqueta', 'OTRA'],
+        'Ñeembucú': ['Pilar', 'Villa Franca', 'San Ignacio', 'Tacuary', 'OTRA'],
+        'Caazapá': ['Caazapá', 'Yuty', 'Abaí', 'San Juan Nepomuceno', 'OTRA'],
+        'Pdte. Hayes': ['Villa Hayes', 'Benjamín Aceval', 'Nanawa', 'OTRA'],
+        'Canindeyú': ['Salto del Guairá', 'Curuguaty', 'Villa Ygatimí', 'Ypejhú', 'OTRA'],
+        'Amambay': ['Pedro Juan Caballero', 'Bellavista', 'Capitán Bado', 'OTRA'],
+        'Boquerón': ['Filadelfia', 'Loma Plata', 'Neuland', 'OTRA'],
+        'Alto Paraguay': ['Fuerte Olimpo', 'Bahía Negra', 'OTRA']
+    };
+
+    // ================================================================
+    //  2. FUNCIONES AUXILIARES
+    // ================================================================
+    function calcularEdad(fechaNac) {
+        if (!fechaNac) return 0;
+        const hoy = new Date();
+        const nac = new Date(fechaNac);
+        let edad = hoy.getFullYear() - nac.getFullYear();
+        const m = hoy.getMonth() - nac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+        return edad;
+    }
+
+    function formatearNumero(n) {
+        return n ? n.toLocaleString('es-PY') : '0';
+    }
+
+    function mostrarToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function soloLetras(e) {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    }
+    function soloNumeros(e) {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    }
+
+    function obtenerCuota(monto, plazo) {
+        const fila = cuotasReferencia[monto];
+        return fila ? fila[plazo] || null : null;
+    }
+
+    // ================================================================
+    //  3. CHECKBOXES DINÁMICOS DE TIEMPO (IPS/IVA/PATENTE)
+    // ================================================================
+    function actualizarCheckboxes() {
+        const perfil = document.getElementById('actividad').value;
+        const container = document.getElementById('tiempoContainer');
+        container.innerHTML = '';
+
+        const perfiles = {
+            'asalariado_ips': { ips: true, iva: false, patente: false },
+            'asalariado_iva': { ips: false, iva: true, patente: false },
+            'asalariado_informal': { ips: false, iva: false, patente: false },
+            'funcionario_permanente': { ips: true, iva: false, patente: false },
+            'funcionario_contratado': { ips: true, iva: false, patente: false },
+            'jubilado': { ips: true, iva: false, patente: false },
+            'prof_independiente': { ips: false, iva: true, patente: false },
+            'independiente': { ips: false, iva: false, patente: true },
+            'micro_comerciante': { ips: false, iva: false, patente: true }
+        };
+
+        const config = perfiles[perfil] || { ips: false, iva: false, patente: false };
+
+        const createTimeField = (id, label) => {
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label>${label} (años * / meses *)</label>
+                <div class="row-2" style="gap:8px;">
+                    <input class="form-control" type="number" id="${id}_anios" placeholder="0" min="0" step="1" required>
+                    <input class="form-control" type="number" id="${id}_meses" placeholder="0" min="0" max="11" step="1" required>
+                </div>
+            `;
+            return div;
+        };
+
+        if (config.ips) container.appendChild(createTimeField('ips', 'Aportes IPS'));
+        if (config.iva) container.appendChild(createTimeField('iva', 'Declaración IVA'));
+        if (config.patente) container.appendChild(createTimeField('patente', 'Patente / RUC'));
+
+        document.getElementById('errorStep2').style.display = 'none';
+        document.getElementById('btnContinueStep2').disabled = false;
+    }
+
+    // ================================================================
+    //  4. VALIDACIONES DE INFORMCONF Y CARTERA
+    // ================================================================
+    let informconfModificado = false;
+    let carteraModificado = false;
+
+    function validarInformconf() {
+        const informconf = document.getElementById('informconf');
+        const error = document.getElementById('errorStep2');
+        const btn = document.getElementById('btnContinueStep2');
+        const warning = document.getElementById('warningModificacion');
+
+        if (informconf.checked) {
+            error.textContent = '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio.';
+            error.style.display = 'block';
+            btn.disabled = true;
+            informconfModificado = true;
+        } else {
+            error.style.display = 'none';
+            btn.disabled = false;
+            if (informconfModificado) {
+                warning.style.display = 'block';
+            }
+            validarCartera();
+        }
+    }
+
+    function validarCartera() {
+        const carteras = document.getElementById('carteras');
+        const otraCartera = document.getElementById('otraCartera');
+        const error = document.getElementById('errorStep2');
+        const btn = document.getElementById('btnContinueStep2');
+        const warning = document.getElementById('warningModificacion');
+
+        const informconf = document.getElementById('informconf');
+        if (informconf.checked) return;
+
+        let tieneCartera = false;
+        let msg = '';
+
+        if (carteras.value !== 'ninguna') {
+            tieneCartera = true;
+            if (carteras.value === 'otro' && otraCartera.value.trim() === '') {
+                msg = '❌ Especifica el nombre de la casa de cartera.';
+            } else {
+                msg = '❌ Tienes deuda con casa de cartera. No puedes continuar.';
+            }
+        }
+
+        if (tieneCartera) {
+            error.textContent = msg;
+            error.style.display = 'block';
+            btn.disabled = true;
+            if (carteras.value !== 'ninguna') {
+                carteraModificado = true;
+            }
+        } else {
+            error.style.display = 'none';
+            btn.disabled = false;
+            if (carteraModificado) {
+                warning.style.display = 'block';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('carteras').addEventListener('change', function() {
+            if (this.value !== 'ninguna') {
+                carteraModificado = true;
+            }
+            validarCartera();
+        });
+        document.getElementById('otraCartera').addEventListener('input', validarCartera);
+    });
+
+    // ================================================================
+    //  5. MANEJO DE PANTALLAS Y PASOS
+    // ================================================================
+    document.getElementById('consentScreen').style.display = 'block';
+    document.getElementById('formScreen').style.display = 'none';
+
+    document.getElementById('btnConsent').addEventListener('click', function() {
+        const chk1 = document.getElementById('chk1').checked;
+        const chk2 = document.getElementById('chk2').checked;
+        const chk3 = document.getElementById('chk3').checked;
+        const err = document.getElementById('consentError');
+
+        if (chk1 && chk2 && chk3) {
+            document.getElementById('consentScreen').style.display = 'none';
+            document.getElementById('formScreen').style.display = 'block';
+            err.style.display = 'none';
+            actualizarCheckboxes();
+            calcularCuotaPreview();
+            if (localStorage.getItem('solucionFlex_theme') === 'dark') {
+                document.body.classList.add('dark');
+            }
+        } else {
+            err.style.display = 'block';
+            setTimeout(() => err.style.display = 'none', 5000);
+        }
+    });
+
+    let currentStep = 1;
+
+    function nextStep(step) {
+        if (step === 2 && !validateStep1()) return;
+        if (step === 3 && !validateStep2()) return;
+
+        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
+        document.getElementById('step' + step).classList.add('active-step');
+
+        document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+            const num = idx + 1;
+            dot.classList.remove('active', 'completed');
+            if (num === step) dot.classList.add('active');
+            else if (num < step) dot.classList.add('completed');
+        });
+
+        if (step === 3) generarResumen();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevStep(step) { nextStep(step); }
+
+    // ================================================================
+    //  6. VALIDACIONES
+    // ================================================================
+    function validateStep1() {
+        const err = document.getElementById('errorStep1');
+        err.style.display = 'none';
+
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
+        const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
+        const fecha = document.getElementById('fechaNac').value;
+        const departamento = document.getElementById('departamento').value;
+        const ciudad = document.getElementById('ciudad').value;
+        const otraCiudad = document.getElementById('otraCiudad').value.trim();
+        const monto = parseInt(document.getElementById('monto').value);
+
+        const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+        if (!regexLetras.test(nombres) || nombres.length < 2) {
+            showErrorStep(err, 'Nombre: solo letras y mínimo 2 caracteres.');
+            return false;
+        }
+        if (!regexLetras.test(apellidos) || apellidos.length < 2) {
+            showErrorStep(err, 'Apellido: solo letras y mínimo 2 caracteres.');
+            return false;
+        }
+        if (cedula.length < 6 || cedula.length > 7) {
+            showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
+            return false;
+        }
+        if (celular.length !== 10 || !celular.startsWith('09')) {
+            showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
+            return false;
+        }
+        if (!fecha) {
+            showErrorStep(err, 'Fecha de nacimiento requerida.');
+            return false;
+        }
+        const edad = calcularEdad(fecha);
+        if (edad < 18 || edad > 74) {
+            showErrorStep(err, 'Edad entre 18 y 74 años.');
+            return false;
+        }
+        if (!departamento) {
+            showErrorStep(err, 'Selecciona un departamento.');
+            return false;
+        }
+        if (ciudad === '') {
+            showErrorStep(err, 'Selecciona una ciudad o escribe "OTRA".');
+            return false;
+        }
+        if (ciudad === 'OTRA' && otraCiudad === '') {
+            showErrorStep(err, 'Escribe el nombre de tu ciudad.');
+            return false;
+        }
+        if (monto < 1000000 || monto > 5000000) {
+            showErrorStep(err, 'Monto entre 1 y 5 millones.');
+            return false;
+        }
+        return true;
+    }
+
+    function validateStep2() {
+        const err = document.getElementById('errorStep2');
+        if (err.style.display === 'block') {
+            return false;
+        }
+
+        const actividad = document.getElementById('actividad').value;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
+        const ingreso = parseInt(document.getElementById('ingreso').value);
+
+        if (!actividad) {
+            showErrorStep(err, 'Selecciona actividad laboral.');
+            return false;
+        }
+        if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
+            showErrorStep(err, 'Ingresa antigüedad en años (número válido).');
+            return false;
+        }
+        if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
+            showErrorStep(err, 'Ingresa antigüedad en meses (0 a 11).');
+            return false;
+        }
+        if (isNaN(ingreso) || ingreso < 1800000) {
+            showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.');
+            return false;
+        }
+
+        const perfilesConTiempo = {
+            'asalariado_ips': { id: 'ips', label: 'IPS', minMeses: 6 },
+            'asalariado_iva': { id: 'iva', label: 'IVA', minMeses: 6 },
+            'funcionario_permanente': { id: 'ips', label: 'IPS', minMeses: 6 },
+            'funcionario_contratado': { id: 'ips', label: 'IPS', minMeses: 6 },
+            'jubilado': { id: 'ips', label: 'IPS', minMeses: 2 },
+            'prof_independiente': { id: 'iva', label: 'IVA', minMeses: 12 },
+            'independiente': { id: 'patente', label: 'Patente/RUC', minMeses: 18 },
+            'micro_comerciante': { id: 'patente', label: 'Patente/RUC', minMeses: 12 }
+        };
+
+        const req = perfilesConTiempo[actividad];
+        if (req) {
+            const anios = parseInt(document.getElementById(req.id + '_anios').value) || 0;
+            const meses = parseInt(document.getElementById(req.id + '_meses').value) || 0;
+            const totalMeses = anios * 12 + meses;
+            if (totalMeses < req.minMeses) {
+                showErrorStep(err, `❌ Debes tener al menos ${req.minMeses} meses de ${req.label}.`);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function showErrorStep(el, msg) {
+        el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 5000);
+    }
+
+    // ================================================================
+    //  7. RESUMEN
+    // ================================================================
+    function generarResumen() {
+        const monto = parseInt(document.getElementById('monto').value);
+        const plazo = parseInt(document.getElementById('plazo').value);
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const cedula = document.getElementById('cedula').value;
+        const celular = document.getElementById('celular').value;
+        const fecha = document.getElementById('fechaNac').value;
+        const departamento = document.getElementById('departamento').value;
+        const ciudadSel = document.getElementById('ciudad').value;
+        const otraCiudad = document.getElementById('otraCiudad').value.trim();
+        const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
+        const actividad = document.getElementById('actividad').value;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+        const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const edad = calcularEdad(fecha);
+        const cuota = obtenerCuota(monto, plazo);
+
+        const perfilesConTiempo = {
+            'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
+            'asalariado_iva': 'iva', 'prof_independiente': 'iva',
+            'independiente': 'patente', 'micro_comerciante': 'patente'
+        };
+        let tiempoTexto = '';
+        const key = perfilesConTiempo[actividad];
+        if (key) {
+            const anios = parseInt(document.getElementById(key + '_anios').value) || 0;
+            const meses = parseInt(document.getElementById(key + '_meses').value) || 0;
+            tiempoTexto = `${anios} años ${meses} meses`;
+        } else {
+            tiempoTexto = 'No aplica';
+        }
+
+        const informconf = document.getElementById('informconf').checked;
+        const carteras = document.getElementById('carteras').value;
+        const otraCartera = document.getElementById('otraCartera').value.trim();
+        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
+        let advertencia = '';
+        if (informconfModificado || carteraModificado) {
+            advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.</div>';
+        }
+
+        const resumen = document.getElementById('resumenContainer');
+        resumen.innerHTML = `
+            <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
+            <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
+            <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
+            <p>Antigüedad: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
+            <p>${key ? key.toUpperCase() + ': ' + tiempoTexto : ''}</p>
+            <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
+            <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
+            ${advertencia}
+        `;
+    }
+
+    // ================================================================
+    //  8. ENVÍO A WHATSAPP
+    // ================================================================
+    document.getElementById('btnEnviar').addEventListener('click', function() {
+        const err = document.getElementById('errorStep3');
+        err.style.display = 'none';
+
+        if (!validateStep2()) return;
+
+        const monto = parseInt(document.getElementById('monto').value);
+        const plazo = parseInt(document.getElementById('plazo').value);
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
+        const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
+        const fecha = document.getElementById('fechaNac').value;
+        const departamento = document.getElementById('departamento').value;
+        const ciudadSel = document.getElementById('ciudad').value;
+        const otraCiudad = document.getElementById('otraCiudad').value.trim();
+        const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
+        const actividad = document.getElementById('actividad').value;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+        const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const edad = calcularEdad(fecha);
+        const cuota = obtenerCuota(monto, plazo);
+
+        const informconf = document.getElementById('informconf').checked;
+        const carteras = document.getElementById('carteras').value;
+        const otraCartera = document.getElementById('otraCartera').value.trim();
+        const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
+        const perfilesConTiempo = {
+            'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
+            'asalariado_iva': 'iva', 'prof_independiente': 'iva',
+            'independiente': 'patente', 'micro_comerciante': 'patente'
+        };
+        let tiempoTexto = '';
+        const key = perfilesConTiempo[actividad];
+        if (key) {
+            const anios = parseInt(document.getElementById(key + '_anios').value) || 0;
+            const meses = parseInt(document.getElementById(key + '_meses').value) || 0;
+            tiempoTexto = `${anios} años ${meses} meses`;
+        } else {
+            tiempoTexto = 'No aplica';
+        }
+
+        const perfilTexto = {
+            'asalariado_ips': 'Asalariado con IPS',
+            'asalariado_iva': 'Asalariado con IVA',
+            'asalariado_informal': 'Asalariado Informal (sin IVA ni IPS)',
+            'funcionario_permanente': 'Funcionario Público PERMANENTE',
+            'funcionario_contratado': 'Funcionario Público CONTRATADO',
+            'jubilado': 'Jubilado',
+            'prof_independiente': 'Profesional Independiente',
+            'independiente': 'Independiente',
+            'micro_comerciante': 'Micro / Comerciante'
+        };
+
+        let mensaje = `*NUEVA PRESOLICITUD - SOLUCIÓN FLEX*%0A%0A`;
+        mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
+        mensaje += `📄 *CI:* ${cedula}%0A`;
+        mensaje += `📞 *WhatsApp:* ${celular}%0A`;
+        mensaje += `🎂 *Edad:* ${edad} años%0A`;
+        mensaje += `📍 *Ciudad:* ${ciudadFinal}, ${departamento}%0A`;
+        mensaje += `💰 *Monto:* ₲ ${formatearNumero(monto)}%0A`;
+        mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
+        mensaje += `💵 *Cuota ref.:* ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}%0A`;
+        mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
+        mensaje += `📊 *Perfil:* ${perfilTexto[actividad] || actividad}%0A`;
+        mensaje += `🕒 *Antigüedad:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        if (key) {
+            mensaje += `📌 *${key.toUpperCase()}:* ${tiempoTexto}%0A`;
+        }
+        mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
+        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A`;
+
+        if (informconfModificado || carteraModificado) {
+            mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
+        }
+
+        mensaje += `%0A_✅ El cliente aceptó la declaración de veracidad y autorizó la verificación de datos._`;
+
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
+
+        document.getElementById('formScreen').style.display = 'none';
+        document.getElementById('successScreen').style.display = 'block';
+        mostrarToast('✅ Presolicitud enviada');
+    });
+
+    // ================================================================
+    //  9. CIUDADES DINÁMICAS
+    // ================================================================
+    document.getElementById('departamento').addEventListener('change', function() {
+        const depto = this.value;
+        const ciudadSelect = document.getElementById('ciudad');
+        const otraInput = document.getElementById('otraCiudad');
+        ciudadSelect.innerHTML = '<option value="">Seleccionar ciudad</option>';
+        otraInput.classList.add('hidden');
+        otraInput.value = '';
+
+        if (depto && ciudadesPorDepartamento[depto]) {
+            const opciones = ciudadesPorDepartamento[depto];
+            opciones.forEach(ci => {
+                const opt = document.createElement('option');
+                opt.value = ci;
+                opt.textContent = ci;
+                ciudadSelect.appendChild(opt);
+            });
+            ciudadSelect.disabled = false;
+        } else {
+            ciudadSelect.disabled = true;
+        }
+    });
+
+    document.getElementById('ciudad').addEventListener('change', function() {
+        const otraInput = document.getElementById('otraCiudad');
+        if (this.value === 'OTRA') {
+            otraInput.classList.remove('hidden');
+            otraInput.required = true;
+        } else {
+            otraInput.classList.add('hidden');
+            otraInput.required = false;
+            otraInput.value = '';
+        }
+    });
+
+    // ================================================================
+    //  10. VALIDACIONES INPUT
+    // ================================================================
+    document.getElementById('nombres').addEventListener('input', soloLetras);
+    document.getElementById('apellidos').addEventListener('input', soloLetras);
+    document.getElementById('cedula').addEventListener('input', soloNumeros);
+
+    // ================================================================
+    //  11. CALCULAR CUOTA
+    // ================================================================
+    function calcularCuotaPreview() {
+        const monto = parseInt(document.getElementById('monto').value);
+        const plazo = parseInt(document.getElementById('plazo').value);
+        const cuota = obtenerCuota(monto, plazo);
+        document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
+    }
+    document.getElementById('monto').addEventListener('change', calcularCuotaPreview);
+    document.getElementById('plazo').addEventListener('change', calcularCuotaPreview);
+
+    // ================================================================
+    //  12. TEMA OSCURO
+    // ================================================================
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('solucionFlex_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('themeToggle2').addEventListener('click', toggleTheme);
+
+    if (localStorage.getItem('solucionFlex_theme') === 'dark') {
+        document.body.classList.add('dark');
+    }
+
+    // ================================================================
+    //  13. INICIALIZACIÓN
+    // ================================================================
+    window.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('departamento').value = '';
+        document.getElementById('ciudad').disabled = true;
+        document.getElementById('otraCiudad').classList.add('hidden');
+        document.getElementById('otraCartera').classList.add('hidden');
+        calcularCuotaPreview();
+        actualizarCheckboxes();
+        document.getElementById('btnContinueStep2').disabled = false;
+    });
+
+    window.nextStep = nextStep;
+    window.prevStep = prevStep;
+    window.actualizarCheckboxes = actualizarCheckboxes;
+    window.validarInformconf = validarInformconf;
+    window.validarCartera = validarCartera;
+</script>
+</body>
+</html>
