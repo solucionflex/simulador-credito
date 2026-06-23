@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Solución Flex · Simulador de Crédito</title>
-    <link rel="icon" href="logo.png?v=6" type="image/png" />
+    <link rel="icon" href="logo.png?v=8" type="image/png" />
     <meta name="description" content="Simulá tu préstamo en minutos con Solución Flex. Sin compromiso, atención personalizada y más de 150 clientes satisfechos." />
     <meta property="og:title" content="Solución Flex · Simulador de Crédito" />
     <meta property="og:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada." />
     <meta property="og:site_name" content="Solución Flex" />
-    <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=6" />
+    <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=8" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
@@ -17,7 +17,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Solución Flex · Simulador de Crédito" />
     <meta name="twitter:description" content="Simulá tu préstamo en minutos. Sin compromiso." />
-    <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=6" />
+    <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
@@ -146,6 +146,7 @@
             background: #FFFFFF;
         }
         .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -374,9 +375,37 @@
         .toast.show { opacity: 1; }
         .hidden { display: none!important; }
 
+        .requisitos-box {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-top: 10px;
+            border-left: 4px solid var(--primary);
+            color: white;
+        }
+        .requisitos-box h5 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        .requisitos-box .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: white;
+        }
+        .requisitos-box .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
         @media (max-width: 480px) {
             .app-container { padding: 16px; }
             .row-2 { grid-template-columns: 1fr; }
+            .row-3 { grid-template-columns: 1fr 1fr; }
             .header h1 { font-size: 19px; }
             .consent-screen h2 { font-size: 20px; }
             .flex-info { font-size: 11px; gap: 4px; }
@@ -422,6 +451,8 @@
         body.dark .cuota-box { background: #1A2D42; border-color: var(--primary); }
         body.dark .cuota-box .value { color: var(--primary); }
         body.dark .logo-container { background: transparent; }
+        body.dark .requisitos-box { background: #0A1628; }
+        body.dark .requisitos-box .checkbox-item { color: #E6EDF2; }
     </style>
 </head>
 <body>
@@ -434,7 +465,7 @@
     <div id="consentScreen" class="consent-screen">
         <div class="header" style="border-bottom: none; margin-bottom: 6px;">
             <div class="logo-container" id="logoContainer">
-                <img src="logo.png?v=6" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+                <img src="logo.png?v=8" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1>Solución Flex <small>Rápido y Fácil</small></h1>
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
@@ -479,7 +510,7 @@
 
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
             <div class="logo-container" style="width:40px; height:40px; background:transparent;">
-                <img src="logo.png?v=6" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+                <img src="logo.png?v=8" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
             <button class="theme-toggle" id="themeToggle2"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
@@ -582,7 +613,7 @@
 
                 <div class="form-group">
                     <label>Actividad Laboral *</label>
-                    <select class="form-control" id="actividad" required onchange="actualizarCheckboxes()">
+                    <select class="form-control" id="actividad" required onchange="actualizarCamposYRequisitos()">
                         <option value="">Seleccionar...</option>
                         <option value="asalariado_ips">Asalariado con IPS</option>
                         <option value="asalariado_iva">Asalariado con IVA</option>
@@ -617,8 +648,27 @@
                     <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
                 </div>
 
-                <!-- CONTENEDOR DINÁMICO PARA IPS / IVA / PATENTE -->
+                <!-- CAMPOS DE EMPRESA Y TELÉFONO LABORAL (solo para asalariados) -->
+                <div id="camposEmpresa" style="display:none;">
+                    <div class="form-group">
+                        <label>Empresa / Institución *</label>
+                        <input class="form-control" type="text" id="empresa" placeholder="Ej: ABC S.A." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono laboral *</label>
+                        <input class="form-control" type="tel" id="telefonoLab" placeholder="0991.123.456" required>
+                    </div>
+                </div>
+
+                <!-- CONTENEDOR DINÁMICO PARA TIEMPO (IPS/IVA/PATENTE) -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
+
+                <!-- REQUISITOS (checkboxes por perfil) -->
+                <div id="requisitosContainer" class="requisitos-box" style="display:none;">
+                    <h5>📋 Documentos requeridos</h5>
+                    <div id="requisitosList"></div>
+                    <div class="alert alert-error" id="errorRequisitos" style="display:none; margin-top:8px;">Debes marcar todos los documentos requeridos.</div>
+                </div>
 
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
@@ -710,39 +760,22 @@
     //  0. MÁSCARA DE FECHA (corregida)
     // ================================================================
     function formatDateInput(input) {
-        let value = input.value.replace(/\D/g, ''); // Solo números
+        let value = input.value.replace(/\D/g, '');
         if (value.length > 8) value = value.slice(0, 8);
-
-        // Extraer partes
         let day = value.slice(0, 2);
         let month = value.slice(2, 4);
         let year = value.slice(4, 8);
-
-        // Rellenar con ceros a la izquierda si es necesario
         if (day.length === 1) day = '0' + day;
         if (month.length === 1) month = '0' + month;
-
-        // Construir el string con barras automáticas
         let formatted = '';
-        if (day) {
-            formatted += day;
-            // Agregar barra después del día si hay más números o si el día tiene 2 dígitos
-            if (value.length >= 2 || month || year) formatted += '/';
-        }
-        if (month) {
-            formatted += month;
-            // Agregar barra después del mes si hay más números o si el mes tiene 2 dígitos
-            if (value.length >= 4 || year) formatted += '/';
-        }
-        if (year) {
-            formatted += year;
-        }
-
+        if (day) formatted += day;
+        if (month) formatted += '/' + month;
+        if (year) formatted += '/' + year;
         input.value = formatted;
     }
 
     // ================================================================
-    //  1. CONFIGURACIÓN (resto del código igual)
+    //  1. CONFIGURACIÓN
     // ================================================================
     const WHATSAPP_NUMBER = '595992271485';
 
@@ -775,7 +808,7 @@
     };
 
     // ================================================================
-    //  FUNCIONES AUXILIARES
+    //  2. FUNCIONES AUXILIARES
     // ================================================================
     function parsearFecha(fechaStr) {
         const partes = fechaStr.split('/');
@@ -821,53 +854,129 @@
     }
 
     // ================================================================
-    //  3. CHECKBOXES DINÁMICOS
+    //  3. CAMPOS DINÁMICOS: EMPRESA, REQUISITOS Y TIEMPO
     // ================================================================
-    function actualizarCheckboxes() {
+    const perfilesConfig = {
+        'asalariado_ips': {
+            label: 'Asalariado con IPS',
+            camposEmpresa: true,
+            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            requisitos: ['Boleta de IPS (6 aportes)', 'Liquidación de salario', '3 referencias personales (1 familiar)']
+        },
+        'asalariado_iva': {
+            label: 'Asalariado con IVA',
+            camposEmpresa: true,
+            tiempo: { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
+            requisitos: ['6 últimos IVAs', '6 facturas emitidas a la empresa', 'RUC de la empresa']
+        },
+        'asalariado_informal': {
+            label: 'Asalariado Informal (sin IVA ni IPS)',
+            camposEmpresa: true,
+            tiempo: { ips: false, iva: false, patente: false },
+            requisitos: ['Certificado de trabajo actualizado (máx 60 días)', 'RUC de la empresa o patronal', '3 referencias personales (1 familiar)']
+        },
+        'funcionario_permanente': {
+            label: 'Funcionario Público PERMANENTE',
+            camposEmpresa: false,
+            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            requisitos: ['Liquidación de salario', 'Certificado de trabajo', '3 referencias personales (1 familiar)']
+        },
+        'funcionario_contratado': {
+            label: 'Funcionario Público CONTRATADO',
+            camposEmpresa: false,
+            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            requisitos: ['Liquidación de salario', 'Certificado de trabajo', '3 referencias personales (1 familiar)']
+        },
+        'jubilado': {
+            label: 'Jubilado',
+            camposEmpresa: false,
+            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            requisitos: ['Boleta de IPS o JUPE (2 cobros)', '3 referencias personales (1 familiar)']
+        },
+        'prof_independiente': {
+            label: 'Profesional Independiente',
+            camposEmpresa: false,
+            tiempo: { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
+            requisitos: ['6 últimos IVAs', 'Título profesional o registro', 'Facturas emitidas a clientes (3 últimos meses)', 'RUC']
+        },
+        'independiente': {
+            label: 'Independiente',
+            camposEmpresa: false,
+            tiempo: { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' },
+            requisitos: ['Patente o RUC', '6 últimos IVAs o facturas de compra', '3 referencias personales (1 familiar)']
+        },
+        'micro_comerciante': {
+            label: 'Micro / Comerciante',
+            camposEmpresa: false,
+            tiempo: { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' },
+            requisitos: ['Patente o RUC', '6 últimos IVAs', 'Fotos del local', 'Ubicación para visita in situ', '3 referencias personales (1 familiar)']
+        }
+    };
+
+    function actualizarCamposYRequisitos() {
         const perfil = document.getElementById('actividad').value;
+        const config = perfilesConfig[perfil];
+
+        // Campos de empresa
+        const camposEmpresa = document.getElementById('camposEmpresa');
+        if (config && config.camposEmpresa) {
+            camposEmpresa.style.display = 'block';
+        } else {
+            camposEmpresa.style.display = 'none';
+            document.getElementById('empresa').value = '';
+            document.getElementById('telefonoLab').value = '';
+        }
+
+        // Campos de tiempo (IPS/IVA/Patente)
         const container = document.getElementById('tiempoContainer');
         container.innerHTML = '';
-
-        const perfiles = {
-            'asalariado_ips': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            'asalariado_iva': { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
-            'asalariado_informal': { ips: false, iva: false, patente: false },
-            'funcionario_permanente': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            'funcionario_contratado': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            'jubilado': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            'prof_independiente': { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
-            'independiente': { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' },
-            'micro_comerciante': { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' }
-        };
-
-        const config = perfiles[perfil] || { ips: false, iva: false, patente: false };
-
-        const createTimeField = (id, label) => {
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.style.width = '100%';
-            div.innerHTML = `
-                <label style="display:block; margin-bottom:4px;">${label} *</label>
-                <div class="row-2" style="gap:8px;">
-                    <div>
-                        <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
-                        <input class="form-control" type="number" id="${id}_anios" placeholder="Ej: 2" min="0" step="1" required>
+        if (config && config.tiempo) {
+            const t = config.tiempo;
+            const createTimeField = (id, label) => {
+                const div = document.createElement('div');
+                div.className = 'form-group';
+                div.style.width = '100%';
+                div.innerHTML = `
+                    <label style="display:block; margin-bottom:4px;">${label} *</label>
+                    <div class="row-2" style="gap:8px;">
+                        <div>
+                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
+                            <input class="form-control" type="number" id="${id}_anios" placeholder="Ej: 2" min="0" step="1" required>
+                        </div>
+                        <div>
+                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
+                            <input class="form-control" type="number" id="${id}_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                        </div>
                     </div>
-                    <div>
-                        <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
-                        <input class="form-control" type="number" id="${id}_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
-                    </div>
-                </div>
-            `;
-            return div;
-        };
+                `;
+                return div;
+            };
+            if (t.ips) container.appendChild(createTimeField('ips', t.labelIps || 'Aporte IPS'));
+            if (t.iva) container.appendChild(createTimeField('iva', t.labelIva || 'Aporte IVA'));
+            if (t.patente) container.appendChild(createTimeField('patente', t.labelPatente || 'Antigüedad de patente'));
+        }
 
-        if (config.ips) container.appendChild(createTimeField('ips', config.labelIps || 'Aporte IPS'));
-        if (config.iva) container.appendChild(createTimeField('iva', config.labelIva || 'Aporte IVA'));
-        if (config.patente) container.appendChild(createTimeField('patente', config.labelPatente || 'Antigüedad de patente'));
+        // Requisitos (checkboxes)
+        const reqContainer = document.getElementById('requisitosContainer');
+        const reqList = document.getElementById('requisitosList');
+        reqList.innerHTML = '';
+        if (config && config.requisitos && config.requisitos.length > 0) {
+            reqContainer.style.display = 'block';
+            config.requisitos.forEach((req, idx) => {
+                const item = document.createElement('div');
+                item.className = 'checkbox-item';
+                item.innerHTML = `
+                    <input type="checkbox" class="chk-requisito" data-idx="${idx}">
+                    <label style="color:white;">${req}</label>
+                `;
+                reqList.appendChild(item);
+            });
+        } else {
+            reqContainer.style.display = 'none';
+        }
 
-        document.getElementById('errorStep2').style.display = 'none';
-        document.getElementById('btnContinueStep2').disabled = false;
+        // Ocultar error de requisitos
+        document.getElementById('errorRequisitos').style.display = 'none';
     }
 
     // ================================================================
@@ -961,7 +1070,7 @@
             document.getElementById('consentScreen').style.display = 'none';
             document.getElementById('formScreen').style.display = 'block';
             err.style.display = 'none';
-            actualizarCheckboxes();
+            actualizarCamposYRequisitos();
             calcularCuotaPreview();
             if (localStorage.getItem('solucionFlex_theme') === 'dark') {
                 document.body.classList.add('dark');
@@ -1065,15 +1174,17 @@
             return false;
         }
 
-        const actividad = document.getElementById('actividad').value;
+        const perfil = document.getElementById('actividad').value;
+        const config = perfilesConfig[perfil];
+        if (!config) {
+            showErrorStep(err, 'Selecciona una actividad laboral.');
+            return false;
+        }
+
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
         const ingreso = parseInt(document.getElementById('ingreso').value);
 
-        if (!actividad) {
-            showErrorStep(err, 'Selecciona actividad laboral.');
-            return false;
-        }
         if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
             showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
             return false;
@@ -1087,26 +1198,64 @@
             return false;
         }
 
-        const perfilesConTiempo = {
-            'asalariado_ips': { id: 'ips', label: 'Aporte IPS', minMeses: 6 },
-            'asalariado_iva': { id: 'iva', label: 'Aporte IVA', minMeses: 6 },
-            'funcionario_permanente': { id: 'ips', label: 'Aporte IPS', minMeses: 6 },
-            'funcionario_contratado': { id: 'ips', label: 'Aporte IPS', minMeses: 6 },
-            'jubilado': { id: 'ips', label: 'Aporte IPS', minMeses: 2 },
-            'prof_independiente': { id: 'iva', label: 'Aporte IVA', minMeses: 12 },
-            'independiente': { id: 'patente', label: 'Antigüedad de patente', minMeses: 18 },
-            'micro_comerciante': { id: 'patente', label: 'Antigüedad de patente', minMeses: 12 }
-        };
-
-        const req = perfilesConTiempo[actividad];
-        if (req) {
-            const anios = parseInt(document.getElementById(req.id + '_anios').value) || 0;
-            const meses = parseInt(document.getElementById(req.id + '_meses').value) || 0;
-            const totalMeses = anios * 12 + meses;
-            if (totalMeses < req.minMeses) {
-                showErrorStep(err, `❌ Debes tener al menos ${req.minMeses} meses de ${req.label}.`);
+        // Validar empresa y teléfono para asalariados
+        if (config.camposEmpresa) {
+            const empresa = document.getElementById('empresa').value.trim();
+            const telefono = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+            if (empresa.length < 2) {
+                showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
                 return false;
             }
+            if (telefono.length !== 10 || !telefono.startsWith('09')) {
+                showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
+                return false;
+            }
+        }
+
+        // Validar campos de tiempo (IPS/IVA/Patente)
+        const t = config.tiempo;
+        if (t.ips) {
+            const anios = parseInt(document.getElementById('ips_anios').value) || 0;
+            const meses = parseInt(document.getElementById('ips_meses').value) || 0;
+            const totalMeses = anios * 12 + meses;
+            if (totalMeses < 6) {
+                showErrorStep(err, '❌ Debes tener al menos 6 meses de aporte IPS.');
+                return false;
+            }
+        }
+        if (t.iva) {
+            const anios = parseInt(document.getElementById('iva_anios').value) || 0;
+            const meses = parseInt(document.getElementById('iva_meses').value) || 0;
+            const totalMeses = anios * 12 + meses;
+            if (totalMeses < 6) {
+                showErrorStep(err, '❌ Debes tener al menos 6 meses de declaración IVA.');
+                return false;
+            }
+        }
+        if (t.patente) {
+            const anios = parseInt(document.getElementById('patente_anios').value) || 0;
+            const meses = parseInt(document.getElementById('patente_meses').value) || 0;
+            const totalMeses = anios * 12 + meses;
+            let minMeses = 12;
+            if (perfil === 'independiente') minMeses = 18;
+            if (totalMeses < minMeses) {
+                showErrorStep(err, `❌ Debes tener al menos ${minMeses} meses de antigüedad de patente.`);
+                return false;
+            }
+        }
+
+        // Validar requisitos (checkboxes)
+        const chkRequisitos = document.querySelectorAll('.chk-requisito');
+        const errorRequisitos = document.getElementById('errorRequisitos');
+        let todosMarcados = true;
+        chkRequisitos.forEach(chk => {
+            if (!chk.checked) todosMarcados = false;
+        });
+        if (chkRequisitos.length > 0 && !todosMarcados) {
+            errorRequisitos.style.display = 'block';
+            return false;
+        } else {
+            errorRequisitos.style.display = 'none';
         }
 
         return true;
@@ -1133,35 +1282,48 @@
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const actividad = document.getElementById('actividad').value;
+        const perfil = document.getElementById('actividad').value;
+        const config = perfilesConfig[perfil];
+        const perfilLabel = config ? config.label : 'No seleccionado';
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const edad = calcularEdad(fechaStr);
         const cuota = obtenerCuota(monto, plazo);
+        const empresa = document.getElementById('empresa').value.trim();
+        const telefonoLab = document.getElementById('telefonoLab').value;
 
-        const perfilesConTiempo = {
-            'asalariado_ips': 'Aporte IPS', 'funcionario_permanente': 'Aporte IPS', 'funcionario_contratado': 'Aporte IPS', 'jubilado': 'Aporte IPS',
-            'asalariado_iva': 'Aporte IVA', 'prof_independiente': 'Aporte IVA',
-            'independiente': 'Antigüedad de patente', 'micro_comerciante': 'Antigüedad de patente'
-        };
-        let tiempoTexto = '';
-        const key = perfilesConTiempo[actividad];
-        if (key) {
-            const id = { 'Aporte IPS':'ips', 'Aporte IVA':'iva', 'Antigüedad de patente':'patente' }[key];
-            if(id) {
-                const anios = parseInt(document.getElementById(id + '_anios').value) || 0;
-                const meses = parseInt(document.getElementById(id + '_meses').value) || 0;
-                tiempoTexto = `${anios} años ${meses} meses`;
-            }
-        } else {
-            tiempoTexto = 'No aplica';
-        }
+        // Obtener documentos marcados
+        const docsMarcados = [];
+        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
+            const label = chk.parentElement.querySelector('label');
+            if (label) docsMarcados.push(label.textContent.trim());
+        });
 
         const informconf = document.getElementById('informconf').checked;
         const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
+        let tiempoTexto = '';
+        if (config) {
+            const t = config.tiempo;
+            if (t.ips) {
+                const anios = parseInt(document.getElementById('ips_anios').value) || 0;
+                const meses = parseInt(document.getElementById('ips_meses').value) || 0;
+                tiempoTexto = `Aporte IPS: ${anios} años ${meses} meses`;
+            } else if (t.iva) {
+                const anios = parseInt(document.getElementById('iva_anios').value) || 0;
+                const meses = parseInt(document.getElementById('iva_meses').value) || 0;
+                tiempoTexto = `Aporte IVA: ${anios} años ${meses} meses`;
+            } else if (t.patente) {
+                const anios = parseInt(document.getElementById('patente_anios').value) || 0;
+                const meses = parseInt(document.getElementById('patente_meses').value) || 0;
+                tiempoTexto = `Antigüedad de patente: ${anios} años ${meses} meses`;
+            } else {
+                tiempoTexto = 'No aplica';
+            }
+        }
 
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
@@ -1173,16 +1335,19 @@
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
             <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
+            <p>Perfil: ${perfilLabel}</p>
+            ${config && config.camposEmpresa ? `<p>Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>` : ''}
             <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
-            <p>${key ? key + ': ' + tiempoTexto : ''}</p>
+            <p>${tiempoTexto}</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
+            <p><strong>Documentos posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>
             ${advertencia}
         `;
     }
 
     // ================================================================
-    //  8. ENVÍO A WHATSAPP
+    //  8. ENVÍO A WHATSAPP (con orden específico)
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -1201,65 +1366,77 @@
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const actividad = document.getElementById('actividad').value;
+        const perfil = document.getElementById('actividad').value;
+        const config = perfilesConfig[perfil];
+        const perfilLabel = config ? config.label : 'No seleccionado';
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const edad = calcularEdad(fechaStr);
         const cuota = obtenerCuota(monto, plazo);
+        const empresa = document.getElementById('empresa').value.trim();
+        const telefonoLab = document.getElementById('telefonoLab').value;
+
+        const docsMarcados = [];
+        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
+            const label = chk.parentElement.querySelector('label');
+            if (label) docsMarcados.push(label.textContent.trim());
+        });
 
         const informconf = document.getElementById('informconf').checked;
         const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        const perfilesConTiempo = {
-            'asalariado_ips': 'Aporte IPS', 'funcionario_permanente': 'Aporte IPS', 'funcionario_contratado': 'Aporte IPS', 'jubilado': 'Aporte IPS',
-            'asalariado_iva': 'Aporte IVA', 'prof_independiente': 'Aporte IVA',
-            'independiente': 'Antigüedad de patente', 'micro_comerciante': 'Antigüedad de patente'
-        };
         let tiempoTexto = '';
-        const key = perfilesConTiempo[actividad];
-        if (key) {
-            const id = { 'Aporte IPS':'ips', 'Aporte IVA':'iva', 'Antigüedad de patente':'patente' }[key];
-            if(id) {
-                const anios = parseInt(document.getElementById(id + '_anios').value) || 0;
-                const meses = parseInt(document.getElementById(id + '_meses').value) || 0;
-                tiempoTexto = `${anios} años ${meses} meses`;
+        if (config) {
+            const t = config.tiempo;
+            if (t.ips) {
+                const anios = parseInt(document.getElementById('ips_anios').value) || 0;
+                const meses = parseInt(document.getElementById('ips_meses').value) || 0;
+                tiempoTexto = `Aporte IPS: ${anios} años ${meses} meses`;
+            } else if (t.iva) {
+                const anios = parseInt(document.getElementById('iva_anios').value) || 0;
+                const meses = parseInt(document.getElementById('iva_meses').value) || 0;
+                tiempoTexto = `Aporte IVA: ${anios} años ${meses} meses`;
+            } else if (t.patente) {
+                const anios = parseInt(document.getElementById('patente_anios').value) || 0;
+                const meses = parseInt(document.getElementById('patente_meses').value) || 0;
+                tiempoTexto = `Antigüedad de patente: ${anios} años ${meses} meses`;
+            } else {
+                tiempoTexto = 'No aplica';
             }
-        } else {
-            tiempoTexto = 'No aplica';
         }
 
-        const perfilTexto = {
-            'asalariado_ips': 'Asalariado con IPS',
-            'asalariado_iva': 'Asalariado con IVA',
-            'asalariado_informal': 'Asalariado Informal (sin IVA ni IPS)',
-            'funcionario_permanente': 'Funcionario Público PERMANENTE',
-            'funcionario_contratado': 'Funcionario Público CONTRATADO',
-            'jubilado': 'Jubilado',
-            'prof_independiente': 'Profesional Independiente',
-            'independiente': 'Independiente',
-            'micro_comerciante': 'Micro / Comerciante'
-        };
-
+        // ORDEN ESPECÍFICO: cliente, CI, WhatsApp, edad, departamento, ciudad, monto, plazo, cuota ref., ingreso, perfil, empresa, teléfono, antigüedad, etc.
         let mensaje = `*NUEVA PRESOLICITUD - SOLUCIÓN FLEX*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
         mensaje += `🎂 *Edad:* ${edad} años%0A`;
-        mensaje += `📍 *Ciudad:* ${ciudadFinal}, ${departamento}%0A`;
+        mensaje += `📍 *Departamento:* ${departamento}%0A`;
+        mensaje += `🏙️ *Ciudad:* ${ciudadFinal}%0A`;
         mensaje += `💰 *Monto:* ₲ ${formatearNumero(monto)}%0A`;
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
         mensaje += `💵 *Cuota ref.:* ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
-        mensaje += `📊 *Perfil:* ${perfilTexto[actividad] || actividad}%0A`;
-        mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
-        if (key) {
-            mensaje += `📌 *${key}:* ${tiempoTexto}%0A`;
+        mensaje += `📊 *Perfil:* ${perfilLabel}%0A`;
+        if (config && config.camposEmpresa) {
+            mensaje += `🏢 *Empresa:* ${empresa}%0A`;
+            mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
         }
+        mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        mensaje += `📌 *${tiempoTexto}*%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A`;
+        mensaje += `📋 *Documentos que posee:*%0A`;
+        if (docsMarcados.length > 0) {
+            docsMarcados.forEach(doc => {
+                mensaje += `✅ ${doc}%0A`;
+            });
+        } else {
+            mensaje += `❌ Ninguno%0A`;
+        }
 
         if (informconfModificado || carteraModificado) {
             mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
@@ -1353,13 +1530,16 @@
         document.getElementById('otraCiudad').classList.add('hidden');
         document.getElementById('otraCartera').classList.add('hidden');
         calcularCuotaPreview();
-        actualizarCheckboxes();
+        actualizarCamposYRequisitos();
         document.getElementById('btnContinueStep2').disabled = false;
+        // Inicializar informconf y cartera
+        validarInformconf();
+        validarCartera();
     });
 
     window.nextStep = nextStep;
     window.prevStep = prevStep;
-    window.actualizarCheckboxes = actualizarCheckboxes;
+    window.actualizarCamposYRequisitos = actualizarCamposYRequisitos;
     window.validarInformconf = validarInformconf;
     window.validarCartera = validarCartera;
 </script>
