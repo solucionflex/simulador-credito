@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Solución Flex · Simulador de Crédito</title>
-    <link rel="icon" href="logo.png?v=9" type="image/png" />
+    <link rel="icon" href="logo.png?v=10" type="image/png" />
     <meta name="description" content="Simulá tu préstamo en minutos con Solución Flex. Sin compromiso, atención personalizada y más de 150 clientes satisfechos." />
     <meta property="og:title" content="Solución Flex · Simulador de Crédito" />
     <meta property="og:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada." />
     <meta property="og:site_name" content="Solución Flex" />
-    <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=9" />
+    <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=10" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
@@ -17,7 +17,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Solución Flex · Simulador de Crédito" />
     <meta name="twitter:description" content="Simulá tu préstamo en minutos. Sin compromiso." />
-    <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=9" />
+    <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=10" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
@@ -436,7 +436,7 @@
     <div id="consentScreen" class="consent-screen">
         <div class="header" style="border-bottom: none; margin-bottom: 4px;">
             <div class="logo-container" id="logoContainer">
-                <img src="logo.png?v=9" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+                <img src="logo.png?v=10" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1>Solución Flex <small>Rápido y Fácil</small></h1>
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
@@ -474,7 +474,7 @@
 
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 14px;">
             <div class="logo-container" style="width:38px; height:38px;">
-                <img src="logo.png?v=9" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+                <img src="logo.png?v=10" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
             <button class="theme-toggle" id="themeToggle2"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
@@ -525,8 +525,8 @@
                 <div class="row-2">
                     <div class="form-group">
                         <label>Fecha de Nacimiento *</label>
-                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="smartDateMask(event)" onblur="fixYear(this)" inputmode="numeric" maxlength="10">
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Las barras se colocan solas</div>
+                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="smartDateMask(event)" inputmode="numeric" maxlength="10">
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 14/05/1981 (solo números, las barras se colocan solas)</div>
                     </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
@@ -699,58 +699,29 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA INTELIGENTE (ESTILO BANCARIO)
+    //  0. MÁSCARA DE FECHA SIMPLIFICADA Y ROBUSTA
     // ================================================================
     function smartDateMask(e) {
         let input = e.target;
+        // No interferir cuando el usuario borra
         if (e.inputType === 'deleteContentBackward') return;
 
-        let v = input.value.replace(/[^0-9/ ]/g, '');
-        v = v.replace(/^(\d)[/ ]/, '0$1/');       
-        v = v.replace(/^(\d{2})\/(\d)[/ ]/, '$1/0$2/'); 
-        v = v.replace(/\D/g, '');
+        let value = input.value.replace(/\D/g, ''); // solo números
+        if (value.length > 8) value = value.slice(0, 8);
 
-        let day = v.substring(0, 2);
-        let month = v.substring(2, 4);
-        let year = v.substring(4, 8);
+        let day = value.slice(0, 2);
+        let month = value.slice(2, 4);
+        let year = value.slice(4, 8);
 
-        if (day.length === 1 && parseInt(day) > 3) {
-            day = '0' + day;
-        }
-        if (day.length === 2) {
-            if (parseInt(day) > 31) day = '31';
-            if (parseInt(day) === 0) day = '01';
-        }
+        if (day.length === 1) day = '0' + day;
+        if (month.length === 1) month = '0' + month;
 
-        if (month.length === 1 && parseInt(month) > 1) {
-            month = '0' + month;
-        }
-        if (month.length === 2) {
-            if (parseInt(month) > 12) month = '12';
-            if (parseInt(month) === 0) month = '01';
-        }
+        let formatted = '';
+        if (day) formatted += day;
+        if (month) formatted += '/' + month;
+        if (year) formatted += '/' + year;
 
-        let finalValue = day;
-        if (day.length === 2 && v.length >= 2) {
-            finalValue += '/';
-            finalValue += month;
-        }
-        if (month.length === 2 && v.length >= 4) {
-            finalValue += '/';
-            finalValue += year;
-        }
-
-        input.value = finalValue;
-    }
-
-    function fixYear(input) {
-        let val = input.value;
-        let parts = val.split('/');
-        if (parts.length === 3 && parts[2].length === 2) {
-            let y = parseInt(parts[2]);
-            parts[2] = (y > 24 ? '19' : '20') + parts[2];
-            input.value = parts.join('/');
-        }
+        input.value = formatted;
     }
 
     // ================================================================
@@ -994,20 +965,27 @@
 
         if (carteras.value !== 'ninguna') {
             tieneCartera = true;
+            // CORRECCIÓN: activar flag de modificación al seleccionar cualquier opción distinta a "ninguna"
+            carteraModificado = true;
             if (carteras.value === 'otro' && otraCartera.value.trim() === '') {
                 msg = '❌ Especifica el nombre de la casa de cartera.';
             } else {
                 msg = '❌ Tienes deuda con casa de cartera. No puedes continuar.';
             }
+        } else {
+            error.style.display = 'none';
+            btn.disabled = false;
+            // Si se vuelve a "ninguna", mantenemos el flag de modificación (ya hubo cambio)
+            if (carteraModificado) {
+                warning.style.display = 'block';
+            }
+            return; // Salir para no sobrescribir
         }
 
         if (tieneCartera) {
             error.textContent = msg;
             error.style.display = 'block';
             btn.disabled = true;
-            if (carteras.value !== 'ninguna') {
-                carteraModificado = true;
-            }
         } else {
             error.style.display = 'none';
             btn.disabled = false;
@@ -1109,11 +1087,19 @@
             return false;
         }
 
+        // Validación de fecha
         const fechaValida = parsearFecha(fechaStr);
         if (!fechaValida || fechaStr.length < 10) {
-            showErrorStep(err, 'Fecha inválida. Ingresa el día, mes y año completo.');
+            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 14/05/1981).');
             return false;
         }
+        // Validación de año completo (4 dígitos)
+        const year = parseInt(fechaStr.split('/')[2], 10);
+        if (isNaN(year) || year < 1900 || year > 2100) {
+            showErrorStep(err, 'Ingresa un año válido de 4 dígitos (ej: 1988).');
+            return false;
+        }
+
         const edad = calcularEdad(fechaStr);
         if (edad === null || edad < 18 || edad > 74) {
             showErrorStep(err, 'Edad entre 18 y 74 años.');
@@ -1213,7 +1199,6 @@
             }
         }
 
-        // Ya no exigimos que se marquen todos los requisitos
         return true;
     }
 
