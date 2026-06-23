@@ -21,105 +21,411 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET Y VARIABLES (mismo que antes) ===== */
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',system-ui,sans-serif; }
-        :root {
-            --bg:#f4f9fe; --card-bg:#ffffff; --text:#0a2a33; --text-light:#4a6a7a;
-            --primary:#0f6f85; --primary-dark:#08505e; --primary-light:#d4eaf0;
-            --primary-gradient:linear-gradient(145deg,#0f6f85,#0a4b5c);
-            --border:#e2ecf2; --shadow:0 12px 40px rgba(10,55,70,0.08);
-            --shadow-hover:0 20px 60px rgba(10,55,70,0.12);
-            --radius:28px; --radius-sm:18px; --transition:0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+        /* ===== RESET Y VARIABLES (Marca: Azul Marino + Oro) ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
         }
-        body { background:var(--bg); color:var(--text); padding:20px; min-height:100vh; display:flex; justify-content:center; align-items:center; font-weight:400; line-height:1.6; }
-        .app-container { max-width:580px; width:100%; background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px 22px 32px; transition:background .3s,box-shadow .3s; animation:fadeInUp .6s ease; }
-        @keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        :root {
+            --bg: #0A1628;               /* Azul marino - Base dominante */
+            --card-bg: #FFFFFF;          /* Blanco - Comunicación */
+            --text: #0A1628;             /* Azul marino para texto sobre fondo blanco */
+            --text-light: #5A6F88;       /* Azul grisáceo */
+            --primary: #C9A84C;          /* Oro premium - Acento / Diferenciación */
+            --primary-dark: #B3923E;     /* Oro oscuro para hover */
+            --primary-light: #F5ECD7;    /* Oro muy claro para fondos sutiles */
+            --primary-gradient: linear-gradient(145deg, #C9A84C, #B3923E);
+            --border: #E2E8F0;
+            --shadow: 0 12px 40px rgba(10, 22, 40, 0.15);
+            --shadow-hover: 0 20px 60px rgba(10, 22, 40, 0.22);
+            --radius: 28px;
+            --radius-sm: 18px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        .app-container {
+            max-width: 580px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px 22px 32px;
+            transition: background .3s, box-shadow .3s;
+            animation: fadeInUp .6s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .header { display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:14px; border-bottom:1.5px solid var(--border); }
-        .logo-container { width:50px; height:50px; border-radius:16px; flex-shrink:0; overflow:hidden; background:transparent; }
-        .logo-container img { width:100%; height:100%; object-fit:contain; display:block; }
-        .header h1 { font-size:22px; font-weight:700; letter-spacing:-0.4px; line-height:1.2; }
-        .header h1 small { display:block; font-size:12px; font-weight:500; color:var(--text-light); letter-spacing:0.2px; text-transform:uppercase; }
-        .theme-toggle { margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:40px; padding:6px 14px; font-size:18px; cursor:pointer; transition:var(--transition); }
-        .theme-toggle:hover { background:var(--primary-light); }
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1.5px solid var(--border);
+        }
+        .logo-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            flex-shrink: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            line-height: 1.2;
+            color: var(--text);
+        }
+        .header h1 small {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+        }
+        .theme-toggle {
+            margin-left: auto;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: white;
+        }
+        .theme-toggle:hover { background: var(--primary-dark); }
 
-        .form-group { margin-bottom:16px; }
-        .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-light); margin-bottom:4px; letter-spacing:0.2px; }
-        .form-control { width:100%; padding:12px 16px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:var(--bg); transition:var(--transition); color:var(--text); }
-        .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(15,111,133,0.12); background:var(--card-bg); }
-        .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-        .checkbox-group { display:flex; flex-wrap:wrap; gap:8px 20px; padding-top:6px; margin-bottom:12px; }
-        .checkbox-group label { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14px; cursor:pointer; color:var(--text); }
-        .checkbox-group input[type="checkbox"] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            letter-spacing: 0.2px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.2);
+            background: var(--card-bg);
+        }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 20px;
+            padding-top: 6px;
+            margin-bottom: 12px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 400;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--text);
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
 
-        .btn { padding:14px 24px; border:none; border-radius:40px; font-weight:600; font-size:16px; cursor:pointer; transition:var(--transition); text-align:center; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; letter-spacing:0.2px; }
-        .btn-primary { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(15,111,133,0.25); }
-        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(15,111,133,0.35); }
-        .btn-secondary { background:var(--bg); color:var(--text); border:1.5px solid var(--border); }
-        .btn-secondary:hover { background:var(--border); }
-        .btn-success { background:#1a7a4a; color:#fff; box-shadow:0 4px 14px rgba(26,122,74,0.25); }
-        .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(26,122,74,0.35); }
-        .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none!important; }
+        /* ===== BOTONES (Oro) ===== */
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            letter-spacing: 0.2px;
+        }
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(201, 168, 76, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(201, 168, 76, 0.45);
+        }
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+        }
+        .btn-secondary:hover { background: var(--border); }
+        .btn-success {
+            background: var(--primary-gradient);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(201, 168, 76, 0.35);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(201, 168, 76, 0.45);
+        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none!important; }
 
-        .step-indicator { display:flex; justify-content:space-between; margin-bottom:22px; position:relative; }
-        .step-dot { flex:1; text-align:center; font-size:12px; font-weight:500; color:var(--text-light); position:relative; z-index:2; }
-        .step-dot .circle { width:36px; height:36px; background:var(--border); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:var(--text-light); transition:var(--transition); margin-bottom:4px; }
-        .step-dot.active .circle { background:var(--primary); color:#fff; box-shadow:0 0 0 6px rgba(15,111,133,0.15); }
-        .step-dot.completed .circle { background:var(--primary-dark); color:#fff; }
-        .step-dot.active .step-label { color:var(--primary); font-weight:600; }
-        .step-line { position:absolute; top:18px; left:10%; right:10%; height:2px; background:var(--border); z-index:1; }
-        .form-step { display:none; animation:fadeStep .4s ease; }
-        .form-step.active-step { display:block; }
-        @keyframes fadeStep { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        /* ===== STEPS ===== */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            position: relative;
+        }
+        .step-dot {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-light);
+            position: relative;
+            z-index: 2;
+        }
+        .step-dot .circle {
+            width: 36px;
+            height: 36px;
+            background: var(--border);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-light);
+            transition: var(--transition);
+            margin-bottom: 4px;
+        }
+        .step-dot.active .circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 6px rgba(201,168,76,0.2); }
+        .step-dot.completed .circle { background: var(--primary-dark); color: #fff; }
+        .step-dot.active .step-label { color: var(--primary); font-weight: 600; }
+        .step-line {
+            position: absolute;
+            top: 18px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border);
+            z-index: 1;
+        }
+        .form-step { display: none; animation: fadeStep .4s ease; }
+        .form-step.active-step { display: block; }
+        @keyframes fadeStep { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 
-        .alert { padding:12px 16px; border-radius:var(--radius-sm); margin-bottom:14px; font-size:13px; font-weight:500; display:none; }
-        .alert-error { background:#fee9e9; color:#b91c1c; border-left:4px solid #ef4444; }
-        .alert-success { background:#e3f5eb; color:#0b5e3a; border-left:4px solid #10b981; }
-        .alert-warning { background:#fef5e7; color:#a16207; border-left:4px solid #f59e0b; }
+        /* ===== ALERTAS ===== */
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+        }
+        .alert-error { background: #fee9e9; color: #b91c1c; border-left: 4px solid #ef4444; }
+        .alert-success { background: #e3f5eb; color: #0b5e3a; border-left: 4px solid #10b981; }
+        .alert-warning { background: #fef5e7; color: #a16207; border-left: 4px solid #f59e0b; }
 
-        .testimonios { margin-top:24px; padding-top:20px; border-top:1.5px solid var(--border); }
-        .testimonios h4 { font-size:15px; text-align:center; margin-bottom:14px; color:var(--text-light); font-weight:600; }
-        .testimonio-item { background:var(--bg); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:12px; border-left:4px solid var(--primary); transition:var(--transition); }
-        .testimonio-item:hover { box-shadow:var(--shadow-hover); }
-        .testimonio-item .stars { color:#f5b342; font-size:14px; margin-bottom:4px; }
-        .testimonio-item .comentario { font-size:14px; font-style:italic; color:var(--text); }
-        .testimonio-item .autor { font-size:13px; font-weight:600; color:var(--text-light); margin-top:6px; }
+        /* ===== TESTIMONIOS ===== */
+        .testimonios {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1.5px solid var(--border);
+        }
+        .testimonios h4 {
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 14px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .testimonio-item {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary);
+            color: white;
+            transition: var(--transition);
+        }
+        .testimonio-item:hover { box-shadow: var(--shadow-hover); }
+        .testimonio-item .stars { color: var(--primary); font-size: 14px; margin-bottom: 4px; }
+        .testimonio-item .comentario { font-size: 14px; font-style: italic; color: white; }
+        .testimonio-item .autor { font-size: 13px; font-weight: 600; color: #cbd5e1; margin-top: 6px; }
 
-        .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin-bottom:18px; }
-        .cuota-box .label { font-size:12px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
-        .cuota-box .value { font-size:26px; font-weight:800; color:var(--primary); }
+        /* ===== CUOTA BOX ===== */
+        .cuota-box {
+            background: var(--primary-light);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 18px;
+            border: 1px solid var(--primary);
+        }
+        .cuota-box .label { font-size: 12px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .cuota-box .value { font-size: 26px; font-weight: 800; color: var(--primary); }
 
-        .consent-screen { text-align:center; }
-        .consent-screen .hero-icon { font-size:52px; color:var(--primary); margin-bottom:12px; }
-        .consent-screen h2 { font-size:24px; margin-bottom:6px; font-weight:700; }
-        .consent-screen p { color:var(--text-light); font-size:15px; margin-bottom:16px; }
-        .consent-screen .badge-clientes { display:inline-block; background:var(--primary-light); color:var(--primary-dark); padding:6px 20px; border-radius:40px; font-weight:700; font-size:14px; margin-bottom:18px; }
-        .consent-checkbox-group { text-align:left; margin:18px 0; }
-        .consent-checkbox-group label { display:flex; align-items:flex-start; gap:12px; font-size:14px; margin-bottom:14px; cursor:pointer; color:var(--text); line-height:1.5; }
-        .consent-checkbox-group input[type="checkbox"] { width:20px; height:20px; margin-top:2px; accent-color:var(--primary); flex-shrink:0; }
+        /* ===== CONSENT SCREEN ===== */
+        .consent-screen { text-align: center; }
+        .consent-screen .hero-icon { font-size: 52px; color: var(--primary); margin-bottom: 12px; }
+        .consent-screen h2 { font-size: 24px; margin-bottom: 6px; font-weight: 700; color: var(--text); }
+        .consent-screen p { color: var(--text-light); font-size: 15px; margin-bottom: 16px; }
+        .consent-screen .badge-clientes {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+        .consent-checkbox-group { text-align: left; margin: 18px 0; }
+        .consent-checkbox-group label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .consent-checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
 
-        .flex-info { font-size:12px; color:var(--text-light); text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; justify-content:center; gap:6px; }
-        .flex-info span { display:inline-flex; align-items:center; gap:4px; }
-        .success-screen { text-align:center; padding:28px 0; }
-        .success-screen i { font-size:72px; color:#10b981; margin-bottom:16px; }
-        .success-screen h2 { font-size:24px; margin-bottom:8px; }
-        .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--text); color:#fff; padding:14px 28px; border-radius:40px; font-weight:500; font-size:15px; box-shadow:0 12px 32px rgba(0,0,0,0.2); opacity:0; transition:.4s; pointer-events:none; z-index:999; }
-        .toast.show { opacity:1; }
-        .hidden { display:none!important; }
+        .flex-info {
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+        .flex-info span { display: inline-flex; align-items: center; gap: 4px; }
+        .success-screen { text-align: center; padding: 28px 0; }
+        .success-screen i { font-size: 72px; color: var(--primary); margin-bottom: 16px; }
+        .success-screen h2 { font-size: 24px; margin-bottom: 8px; }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: .4s;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .toast.show { opacity: 1; }
+        .hidden { display: none!important; }
 
-        @media (max-width:480px) { .app-container{padding:16px} .row-2{grid-template-columns:1fr} .header h1{font-size:19px} .consent-screen h2{font-size:20px} .flex-info{font-size:11px;gap:4px} }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .app-container { padding: 16px; }
+            .row-2 { grid-template-columns: 1fr; }
+            .header h1 { font-size: 19px; }
+            .consent-screen h2 { font-size: 20px; }
+            .flex-info { font-size: 11px; gap: 4px; }
+        }
 
-        body.dark { --bg:#0f1e26; --card-bg:#1a2c36; --text:#e6edf2; --text-light:#9bb3c0; --border:#2a4050; --primary-light:#1f4050; --shadow:0 12px 40px rgba(0,0,0,0.4); }
-        body.dark .form-control { background:#1f2f3a; color:#e6edf2; }
-        body.dark .btn-secondary { background:#1f2f3a; color:#e6edf2; }
-        body.dark .btn-secondary:hover { background:#2a4050; }
-        body.dark .theme-toggle { background:#1f2f3a; border-color:#2a4050; }
-        .theme-toggle .fa-moon { display:inline; }
-        .theme-toggle .fa-sun { display:none; }
-        body.dark .theme-toggle .fa-moon { display:none; }
-        body.dark .theme-toggle .fa-sun { display:inline; }
-        body.dark .testimonio-item { background:#1f2f3a; }
-        body.dark .consent-checkbox-group label { color:#e6edf2; }
+        /* ===== MODO OSCURO (adaptado a la nueva paleta) ===== */
+        body.dark {
+            --bg: #050C17;
+            --card-bg: #0F1E2F;
+            --text: #E6EDF2;
+            --text-light: #9BB0C5;
+            --border: #1A2D42;
+            --primary-light: #2A1F0A;
+            --shadow: 0 12px 40px rgba(0,0,0,0.6);
+            --shadow-hover: 0 20px 60px rgba(0,0,0,0.8);
+        }
+        body.dark .form-control {
+            background: #0A1628;
+            color: #E6EDF2;
+            border-color: #1A2D42;
+        }
+        body.dark .btn-secondary {
+            background: #0A1628;
+            color: #E6EDF2;
+        }
+        body.dark .btn-secondary:hover { background: #1A2D42; }
+        body.dark .theme-toggle {
+            background: #0A1628;
+            border-color: #1A2D42;
+            color: white;
+        }
+        .theme-toggle .fa-moon { display: inline; }
+        .theme-toggle .fa-sun { display: none; }
+        body.dark .theme-toggle .fa-moon { display: none; }
+        body.dark .theme-toggle .fa-sun { display: inline; }
+        body.dark .testimonio-item { background: #0A1628; }
+        body.dark .consent-checkbox-group label { color: #E6EDF2; }
+        body.dark .badge-clientes { background: var(--primary); color: #0A1628; }
+        body.dark .cuota-box { background: #1A2D42; border-color: var(--primary); }
+        body.dark .cuota-box .value { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -138,6 +444,7 @@
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
         </div>
 
+        <!-- Ícono principal: Apretón de manos (mantenido) -->
         <div class="hero-icon"><i class="fas fa-handshake"></i></div>
         <h2>Simulador de Crédito</h2>
         <p>En Solución Flex te ayudamos a encontrar la mejor opción de préstamo. Simulá tu cuota en minutos y recibí atención personalizada.</p>
@@ -227,10 +534,11 @@
                     <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
                 </div>
                 <div class="row-2">
-                    <div class="form-group"><label>Fecha de Nacimiento *</label>
-                        <!-- CAMBIADO: ahora es texto con placeholder y formato -->
-                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required>
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 15/08/1990</div>
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento *</label>
+                        <!-- MÁSCARA AUTOMÁTICA: el usuario escribe números, las barras aparecen solas -->
+                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="formatDateInput(this)" maxlength="10">
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 14081988 → 14/08/1988 (solo números)</div>
                     </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
@@ -255,13 +563,16 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Ciudad *</label>
-                    <select class="form-control" id="ciudad" required>
+
+                <!-- SECCIÓN CIUDAD CENTRADA -->
+                <div class="form-group" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+                    <label style="align-self:flex-start;">Ciudad *</label>
+                    <select class="form-control" id="ciudad" required style="max-width:100%;">
                         <option value="">Primero selecciona un departamento</option>
                     </select>
-                    <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad">
+                    <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad" style="max-width:100%; margin-top:8px;">
                 </div>
+
                 <div class="alert alert-error" id="errorStep1"></div>
                 <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
             </div>
@@ -291,23 +602,28 @@
                     </select>
                 </div>
 
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>Antigüedad laboral (años) *</label>
-                        <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Antigüedad laboral (meses) *</label>
-                        <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                <!-- ANTIGÜEDAD LABORAL (con etiquetas claras) -->
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:4px;">Antigüedad laboral *</label>
+                    <div class="row-2" style="gap:8px;">
+                        <div>
+                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
+                            <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
+                        </div>
+                        <div>
+                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
+                            <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                        </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
                     <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
                     <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
                 </div>
 
-                <!-- Contenedor dinámico para campos de tiempo (IPS/IVA/Patente) -->
+                <!-- CONTENEDOR DINÁMICO PARA IPS / IVA / PATENTE -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
                 <div class="checkbox-group">
@@ -345,7 +661,7 @@
                     <div class="step-line"></div>
                 </div>
 
-                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:14px; margin-bottom:14px;"></div>
+                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:14px; margin-bottom:14px; color:white;"></div>
 
                 <div class="alert alert-error" id="errorStep3"></div>
                 <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
@@ -357,7 +673,7 @@
 
         <!-- TESTIMONIOS -->
         <div class="testimonios">
-            <h4><i class="fas fa-star" style="color:#f5b342;"></i> Lo que dicen nuestros clientes</h4>
+            <h4><i class="fas fa-star" style="color:var(--primary);"></i> Lo que dicen nuestros clientes</h4>
             <div class="testimonio-item">
                 <div class="stars">★★★★★</div>
                 <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente y el asesor me guió en cada paso."</div>
@@ -396,6 +712,20 @@
 </div>
 
 <script>
+    // ================================================================
+    //  0. MÁSCARA DE FECHA (solo números, barras automáticas)
+    // ================================================================
+    function formatDateInput(input) {
+        let value = input.value.replace(/\D/g, ''); // elimina todo lo que no sea número
+        if (value.length > 8) value = value.slice(0, 8);
+        let formatted = '';
+        for (let i = 0; i < value.length; i++) {
+            if (i === 2 || i === 4) formatted += '/';
+            formatted += value[i];
+        }
+        input.value = formatted;
+    }
+
     // ================================================================
     //  1. CONFIGURACIÓN
     // ================================================================
@@ -437,7 +767,7 @@
         const partes = fechaStr.split('/');
         if (partes.length !== 3) return null;
         const dia = parseInt(partes[0], 10);
-        const mes = parseInt(partes[1], 10) - 1; // meses 0-11
+        const mes = parseInt(partes[1], 10) - 1;
         const anio = parseInt(partes[2], 10);
         if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
         return new Date(anio, mes, dia);
@@ -477,7 +807,7 @@
     }
 
     // ================================================================
-    //  3. CHECKBOXES DINÁMICOS DE TIEMPO (IPS/IVA/PATENTE)
+    //  3. CHECKBOXES DINÁMICOS (con etiquetas claras)
     // ================================================================
     function actualizarCheckboxes() {
         const perfil = document.getElementById('actividad').value;
@@ -485,15 +815,15 @@
         container.innerHTML = '';
 
         const perfiles = {
-            'asalariado_ips': { ips: true, iva: false, patente: false },
-            'asalariado_iva': { ips: false, iva: true, patente: false },
+            'asalariado_ips': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            'asalariado_iva': { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
             'asalariado_informal': { ips: false, iva: false, patente: false },
-            'funcionario_permanente': { ips: true, iva: false, patente: false },
-            'funcionario_contratado': { ips: true, iva: false, patente: false },
-            'jubilado': { ips: true, iva: false, patente: false },
-            'prof_independiente': { ips: false, iva: true, patente: false },
-            'independiente': { ips: false, iva: false, patente: true },
-            'micro_comerciante': { ips: false, iva: false, patente: true }
+            'funcionario_permanente': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            'funcionario_contratado': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            'jubilado': { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            'prof_independiente': { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
+            'independiente': { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' },
+            'micro_comerciante': { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' }
         };
 
         const config = perfiles[perfil] || { ips: false, iva: false, patente: false };
@@ -501,19 +831,26 @@
         const createTimeField = (id, label) => {
             const div = document.createElement('div');
             div.className = 'form-group';
+            div.style.width = '100%';
             div.innerHTML = `
-                <label>${label} (años de aporte * / meses de aporte *)</label>
+                <label style="display:block; margin-bottom:4px;">${label} *</label>
                 <div class="row-2" style="gap:8px;">
-                    <input class="form-control" type="number" id="${id}_anios" placeholder="Ej: 2" min="0" step="1" required>
-                    <input class="form-control" type="number" id="${id}_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                    <div>
+                        <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
+                        <input class="form-control" type="number" id="${id}_anios" placeholder="Ej: 2" min="0" step="1" required>
+                    </div>
+                    <div>
+                        <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
+                        <input class="form-control" type="number" id="${id}_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                    </div>
                 </div>
             `;
             return div;
         };
 
-        if (config.ips) container.appendChild(createTimeField('ips', 'Aportes IPS'));
-        if (config.iva) container.appendChild(createTimeField('iva', 'Declaración IVA'));
-        if (config.patente) container.appendChild(createTimeField('patente', 'Patente / RUC'));
+        if (config.ips) container.appendChild(createTimeField('ips', config.labelIps || 'Aporte IPS'));
+        if (config.iva) container.appendChild(createTimeField('iva', config.labelIva || 'Aporte IVA'));
+        if (config.patente) container.appendChild(createTimeField('patente', config.labelPatente || 'Antigüedad de patente'));
 
         document.getElementById('errorStep2').style.display = 'none';
         document.getElementById('btnContinueStep2').disabled = false;
@@ -678,10 +1015,9 @@
             return false;
         }
 
-        // Validación de fecha (DD/MM/AAAA)
         const fechaValida = parsearFecha(fechaStr);
         if (!fechaValida) {
-            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 15/08/1990).');
+            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 14/08/1988).');
             return false;
         }
         const edad = calcularEdad(fechaStr);
@@ -738,14 +1074,14 @@
         }
 
         const perfilesConTiempo = {
-            'asalariado_ips': { id: 'ips', label: 'IPS', minMeses: 6 },
-            'asalariado_iva': { id: 'iva', label: 'IVA', minMeses: 6 },
-            'funcionario_permanente': { id: 'ips', label: 'IPS', minMeses: 6 },
-            'funcionario_contratado': { id: 'ips', label: 'IPS', minMeses: 6 },
-            'jubilado': { id: 'ips', label: 'IPS', minMeses: 2 },
-            'prof_independiente': { id: 'iva', label: 'IVA', minMeses: 12 },
-            'independiente': { id: 'patente', label: 'Patente/RUC', minMeses: 18 },
-            'micro_comerciante': { id: 'patente', label: 'Patente/RUC', minMeses: 12 }
+            'asalariado_ips': { id: 'ips', label: 'Aporte IPS', minMeses: 6 },
+            'asalariado_iva': { id: 'iva', label: 'Aporte IVA', minMeses: 6 },
+            'funcionario_permanente': { id: 'ips', label: 'Aporte IPS', minMeses: 6 },
+            'funcionario_contratado': { id: 'ips', label: 'Aporte IPS', minMeses: 6 },
+            'jubilado': { id: 'ips', label: 'Aporte IPS', minMeses: 2 },
+            'prof_independiente': { id: 'iva', label: 'Aporte IVA', minMeses: 12 },
+            'independiente': { id: 'patente', label: 'Antigüedad de patente', minMeses: 18 },
+            'micro_comerciante': { id: 'patente', label: 'Antigüedad de patente', minMeses: 12 }
         };
 
         const req = perfilesConTiempo[actividad];
@@ -791,16 +1127,19 @@
         const cuota = obtenerCuota(monto, plazo);
 
         const perfilesConTiempo = {
-            'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
-            'asalariado_iva': 'iva', 'prof_independiente': 'iva',
-            'independiente': 'patente', 'micro_comerciante': 'patente'
+            'asalariado_ips': 'Aporte IPS', 'funcionario_permanente': 'Aporte IPS', 'funcionario_contratado': 'Aporte IPS', 'jubilado': 'Aporte IPS',
+            'asalariado_iva': 'Aporte IVA', 'prof_independiente': 'Aporte IVA',
+            'independiente': 'Antigüedad de patente', 'micro_comerciante': 'Antigüedad de patente'
         };
         let tiempoTexto = '';
         const key = perfilesConTiempo[actividad];
         if (key) {
-            const anios = parseInt(document.getElementById(key + '_anios').value) || 0;
-            const meses = parseInt(document.getElementById(key + '_meses').value) || 0;
-            tiempoTexto = `${anios} años ${meses} meses`;
+            const id = { 'Aporte IPS':'ips', 'Aporte IVA':'iva', 'Antigüedad de patente':'patente' }[key];
+            if(id) {
+                const anios = parseInt(document.getElementById(id + '_anios').value) || 0;
+                const meses = parseInt(document.getElementById(id + '_meses').value) || 0;
+                tiempoTexto = `${anios} años ${meses} meses`;
+            }
         } else {
             tiempoTexto = 'No aplica';
         }
@@ -821,7 +1160,7 @@
             <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
             <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
-            <p>${key ? key.toUpperCase() + ': ' + tiempoTexto : ''}</p>
+            <p>${key ? key + ': ' + tiempoTexto : ''}</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
             ${advertencia}
@@ -861,16 +1200,19 @@
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
         const perfilesConTiempo = {
-            'asalariado_ips': 'ips', 'funcionario_permanente': 'ips', 'funcionario_contratado': 'ips', 'jubilado': 'ips',
-            'asalariado_iva': 'iva', 'prof_independiente': 'iva',
-            'independiente': 'patente', 'micro_comerciante': 'patente'
+            'asalariado_ips': 'Aporte IPS', 'funcionario_permanente': 'Aporte IPS', 'funcionario_contratado': 'Aporte IPS', 'jubilado': 'Aporte IPS',
+            'asalariado_iva': 'Aporte IVA', 'prof_independiente': 'Aporte IVA',
+            'independiente': 'Antigüedad de patente', 'micro_comerciante': 'Antigüedad de patente'
         };
         let tiempoTexto = '';
         const key = perfilesConTiempo[actividad];
         if (key) {
-            const anios = parseInt(document.getElementById(key + '_anios').value) || 0;
-            const meses = parseInt(document.getElementById(key + '_meses').value) || 0;
-            tiempoTexto = `${anios} años ${meses} meses`;
+            const id = { 'Aporte IPS':'ips', 'Aporte IVA':'iva', 'Antigüedad de patente':'patente' }[key];
+            if(id) {
+                const anios = parseInt(document.getElementById(id + '_anios').value) || 0;
+                const meses = parseInt(document.getElementById(id + '_meses').value) || 0;
+                tiempoTexto = `${anios} años ${meses} meses`;
+            }
         } else {
             tiempoTexto = 'No aplica';
         }
@@ -900,7 +1242,7 @@
         mensaje += `📊 *Perfil:* ${perfilTexto[actividad] || actividad}%0A`;
         mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         if (key) {
-            mensaje += `📌 *${key.toUpperCase()}:* ${tiempoTexto}%0A`;
+            mensaje += `📌 *${key}:* ${tiempoTexto}%0A`;
         }
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A`;
