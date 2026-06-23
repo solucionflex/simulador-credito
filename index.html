@@ -40,20 +40,20 @@
             --border: #E2E8F0;
             --shadow: 0 12px 40px rgba(10, 22, 40, 0.15);
             --shadow-hover: 0 20px 60px rgba(10, 22, 40, 0.22);
-            --radius: 28px;
-            --radius-sm: 18px;
+            --radius: 24px;
+            --radius-sm: 14px;
             --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         body {
             background: var(--bg);
             color: var(--text);
-            padding: 20px;
+            padding: 12px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 400;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         .app-container {
             max-width: 580px;
@@ -61,7 +61,7 @@
             background: var(--card-bg);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 24px 22px 32px;
+            padding: 20px 18px 24px;
             transition: background .3s, box-shadow .3s;
             animation: fadeInUp .6s ease;
         }
@@ -73,15 +73,15 @@
         .header {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
             border-bottom: 1.5px solid var(--border);
         }
         .logo-container {
-            width: 50px;
-            height: 50px;
-            border-radius: 16px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             flex-shrink: 0;
             overflow: hidden;
             background: transparent;
@@ -93,15 +93,15 @@
             display: block;
         }
         .header h1 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             letter-spacing: -0.4px;
-            line-height: 1.2;
+            line-height: 1.1;
             color: var(--text);
         }
         .header h1 small {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--text-light);
             letter-spacing: 0.2px;
@@ -112,15 +112,15 @@
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 40px;
-            padding: 6px 14px;
-            font-size: 18px;
+            padding: 5px 12px;
+            font-size: 16px;
             cursor: pointer;
             transition: var(--transition);
             color: white;
         }
         .theme-toggle:hover { background: var(--primary-dark); }
 
-        .form-group { margin-bottom: 16px; }
+        .form-group { margin-bottom: 14px; }
         .form-group label {
             display: block;
             font-size: 13px;
@@ -131,7 +131,7 @@
         }
         .form-control {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             font-size: 15px;
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
@@ -145,14 +145,13 @@
             box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.2);
             background: #FFFFFF;
         }
-        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 8px 20px;
-            padding-top: 6px;
-            margin-bottom: 12px;
+            padding-top: 4px;
+            margin-bottom: 10px;
         }
         .checkbox-group label {
             display: flex;
@@ -171,11 +170,11 @@
         }
 
         .btn {
-            padding: 14px 24px;
+            padding: 12px 24px;
             border: none;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: var(--transition);
             text-align: center;
@@ -191,10 +190,7 @@
             color: #fff;
             box-shadow: 0 4px 14px rgba(201, 168, 76, 0.35);
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(201, 168, 76, 0.45);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201, 168, 76, 0.45); }
         .btn-secondary {
             background: var(--bg);
             color: var(--text);
@@ -206,37 +202,34 @@
             color: #fff;
             box-shadow: 0 4px 14px rgba(201, 168, 76, 0.35);
         }
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(201, 168, 76, 0.45);
-        }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201, 168, 76, 0.45); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none!important; }
 
         .step-indicator {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             position: relative;
         }
         .step-dot {
             flex: 1;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--text-light);
             position: relative;
             z-index: 2;
         }
         .step-dot .circle {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             background: var(--border);
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-light);
             transition: var(--transition);
             margin-bottom: 4px;
@@ -246,7 +239,7 @@
         .step-dot.active .step-label { color: var(--primary); font-weight: 600; }
         .step-line {
             position: absolute;
-            top: 18px;
+            top: 16px;
             left: 10%;
             right: 10%;
             height: 2px;
@@ -258,93 +251,90 @@
         @keyframes fadeStep { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 
         .alert {
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: var(--radius-sm);
-            margin-bottom: 14px;
-            font-size: 13px;
+            margin-bottom: 12px;
+            font-size: 12px;
             font-weight: 500;
             display: none;
         }
         .alert-error { background: #fee9e9; color: #b91c1c; border-left: 4px solid #ef4444; }
-        .alert-success { background: #e3f5eb; color: #0b5e3a; border-left: 4px solid #10b981; }
         .alert-warning { background: #fef5e7; color: #a16207; border-left: 4px solid #f59e0b; }
 
         .testimonios {
-            margin-top: 24px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 16px;
             border-top: 1.5px solid var(--border);
         }
         .testimonios h4 {
-            font-size: 15px;
+            font-size: 14px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             color: var(--text-light);
             font-weight: 600;
         }
         .testimonio-item {
             background: var(--bg);
             border-radius: var(--radius-sm);
-            padding: 14px 18px;
-            margin-bottom: 12px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
             border-left: 4px solid var(--primary);
             color: white;
-            transition: var(--transition);
         }
-        .testimonio-item:hover { box-shadow: var(--shadow-hover); }
-        .testimonio-item .stars { color: var(--primary); font-size: 14px; margin-bottom: 4px; }
-        .testimonio-item .comentario { font-size: 14px; font-style: italic; color: white; }
-        .testimonio-item .autor { font-size: 13px; font-weight: 600; color: #cbd5e1; margin-top: 6px; }
+        .testimonio-item .stars { color: var(--primary); font-size: 12px; margin-bottom: 2px; }
+        .testimonio-item .comentario { font-size: 13px; font-style: italic; color: white; }
+        .testimonio-item .autor { font-size: 12px; font-weight: 600; color: #cbd5e1; margin-top: 4px; }
 
         .cuota-box {
             background: var(--primary-light);
             border-radius: var(--radius-sm);
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             border: 1px solid var(--primary);
         }
-        .cuota-box .label { font-size: 12px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-        .cuota-box .value { font-size: 26px; font-weight: 800; color: var(--primary); }
+        .cuota-box .label { font-size: 11px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+        .cuota-box .value { font-size: 24px; font-weight: 800; color: var(--primary); }
 
+        /* PANTALLA CONSENTIMIENTO COMPACTA */
         .consent-screen { text-align: center; }
-        .consent-screen .hero-icon { font-size: 52px; color: var(--primary); margin-bottom: 12px; }
-        .consent-screen h2 { font-size: 24px; margin-bottom: 6px; font-weight: 700; color: var(--text); }
-        .consent-screen p { color: var(--text-light); font-size: 15px; margin-bottom: 16px; }
+        .consent-screen .hero-icon { font-size: 42px; color: var(--primary); margin-bottom: 8px; }
+        .consent-screen h2 { font-size: 20px; margin-bottom: 4px; font-weight: 700; color: var(--text); }
+        .consent-screen p { color: var(--text-light); font-size: 13px; margin-bottom: 12px; padding: 0 10px; }
         .consent-screen .badge-clientes {
             display: inline-block;
             background: var(--primary);
             color: #fff;
-            padding: 6px 20px;
+            padding: 4px 16px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 18px;
+            font-size: 12px;
+            margin-bottom: 14px;
         }
-        .consent-checkbox-group { text-align: left; margin: 18px 0; }
+        .consent-checkbox-group { text-align: left; margin: 12px 0; }
         .consent-checkbox-group label {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            font-size: 14px;
-            margin-bottom: 14px;
+            gap: 10px;
+            font-size: 13px;
             cursor: pointer;
             color: var(--text);
-            line-height: 1.5;
+            line-height: 1.4;
         }
         .consent-checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            margin-top: 1px;
             accent-color: var(--primary);
             flex-shrink: 0;
         }
 
         .flex-info {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-light);
             text-align: center;
-            margin-top: 14px;
-            padding-top: 14px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid var(--border);
             display: flex;
             flex-wrap: wrap;
@@ -352,20 +342,22 @@
             gap: 6px;
         }
         .flex-info span { display: inline-flex; align-items: center; gap: 4px; }
-        .success-screen { text-align: center; padding: 28px 0; }
-        .success-screen i { font-size: 72px; color: var(--primary); margin-bottom: 16px; }
-        .success-screen h2 { font-size: 24px; margin-bottom: 8px; }
+        
+        .success-screen { text-align: center; padding: 24px 0; }
+        .success-screen i { font-size: 64px; color: var(--primary); margin-bottom: 14px; }
+        .success-screen h2 { font-size: 22px; margin-bottom: 6px; }
+        
         .toast {
             position: fixed;
-            bottom: 24px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--text);
             color: #fff;
-            padding: 14px 28px;
+            padding: 12px 24px;
             border-radius: 40px;
             font-weight: 500;
-            font-size: 15px;
+            font-size: 14px;
             box-shadow: 0 12px 32px rgba(0,0,0,0.2);
             opacity: 0;
             transition: .4s;
@@ -378,13 +370,13 @@
         .requisitos-box {
             background: var(--bg);
             border-radius: var(--radius-sm);
-            padding: 16px;
-            margin-top: 10px;
+            padding: 14px;
+            margin-top: 8px;
             border-left: 4px solid var(--primary);
             color: white;
         }
         .requisitos-box h5 {
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 10px;
             color: var(--primary);
         }
@@ -394,21 +386,20 @@
             gap: 10px;
             margin-bottom: 8px;
             color: white;
+            font-size: 13px;
         }
         .requisitos-box .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             accent-color: var(--primary);
             cursor: pointer;
         }
 
         @media (max-width: 480px) {
-            .app-container { padding: 16px; }
+            .app-container { padding: 16px 14px 20px; }
             .row-2 { grid-template-columns: 1fr; }
-            .row-3 { grid-template-columns: 1fr 1fr; }
-            .header h1 { font-size: 19px; }
-            .consent-screen h2 { font-size: 20px; }
-            .flex-info { font-size: 11px; gap: 4px; }
+            .header h1 { font-size: 18px; }
+            .consent-screen h2 { font-size: 18px; }
         }
 
         body.dark {
@@ -419,28 +410,12 @@
             --border: #1A2D42;
             --primary-light: #2A1F0A;
             --shadow: 0 12px 40px rgba(0,0,0,0.6);
-            --shadow-hover: 0 20px 60px rgba(0,0,0,0.8);
         }
-        body.dark .form-control {
-            background: #0A1628;
-            color: #FFFFFF;
-            border-color: #1A2D42;
-        }
-        body.dark .form-control:focus {
-            background: #0A1628;
-            color: #FFFFFF;
-            border-color: var(--primary);
-        }
-        body.dark .btn-secondary {
-            background: #0A1628;
-            color: #E6EDF2;
-        }
+        body.dark .form-control { background: #0A1628; color: #FFFFFF; border-color: #1A2D42; }
+        body.dark .form-control:focus { background: #0A1628; color: #FFFFFF; border-color: var(--primary); }
+        body.dark .btn-secondary { background: #0A1628; color: #E6EDF2; }
         body.dark .btn-secondary:hover { background: #1A2D42; }
-        body.dark .theme-toggle {
-            background: #0A1628;
-            border-color: #1A2D42;
-            color: white;
-        }
+        body.dark .theme-toggle { background: #0A1628; border-color: #1A2D42; color: white; }
         .theme-toggle .fa-moon { display: inline; }
         .theme-toggle .fa-sun { display: none; }
         body.dark .theme-toggle .fa-moon { display: none; }
@@ -450,7 +425,6 @@
         body.dark .badge-clientes { background: var(--primary); color: #0A1628; }
         body.dark .cuota-box { background: #1A2D42; border-color: var(--primary); }
         body.dark .cuota-box .value { color: var(--primary); }
-        body.dark .logo-container { background: transparent; }
         body.dark .requisitos-box { background: #0A1628; }
         body.dark .requisitos-box .checkbox-item { color: #E6EDF2; }
     </style>
@@ -460,7 +434,7 @@
 <div class="app-container" id="app">
 
     <div id="consentScreen" class="consent-screen">
-        <div class="header" style="border-bottom: none; margin-bottom: 6px;">
+        <div class="header" style="border-bottom: none; margin-bottom: 4px;">
             <div class="logo-container" id="logoContainer">
                 <img src="logo.png?v=9" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
@@ -470,30 +444,26 @@
 
         <div class="hero-icon"><i class="fas fa-handshake"></i></div>
         <h2>Simulador de Crédito</h2>
-        <p>En Solución Flex te ayudamos a encontrar la mejor opción de préstamo. Simulá tu cuota en minutos y recibí atención personalizada.</p>
+        <p>Encontrá la mejor opción de préstamo. Simulá en minutos y recibí atención personalizada.</p>
         <div class="badge-clientes">🌟 +150 clientes satisfechos</div>
 
-        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; margin-bottom:18px; text-align:left; font-size:14px; color:var(--text-light); display:flex; flex-direction:column; gap:6px;">
-            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Simulación sin compromiso</span>
-            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Atención por asesor</span>
-            <span><i class="fas fa-check-circle" style="color:var(--primary); width:20px;"></i> Proceso simple y seguro</span>
+        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:10px 14px; text-align:left; font-size:12px; color:var(--text-light); display:flex; flex-direction:column; gap:6px;">
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:18px;"></i> Simulación sin compromiso</span>
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:18px;"></i> Atención por asesor</span>
+            <span><i class="fas fa-check-circle" style="color:var(--primary); width:18px;"></i> Proceso simple y seguro</span>
         </div>
 
-        <hr style="border:1px solid var(--border); margin:18px 0;">
-
-        <div style="text-align:left; font-weight:600; font-size:15px; margin-bottom:12px; color:var(--text);">
-            <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:6px;"></i> Autorización y declaración
-        </div>
         <div class="consent-checkbox-group">
-            <label><input type="checkbox" id="chk1"> Declaro que la información que proporcionaré es 100% real y comprobable.</label>
-            <label><input type="checkbox" id="chk2"> Autorizo voluntariamente a Solución Flex a utilizar mis datos personales para la gestión de mi presolicitud.</label>
-            <label><input type="checkbox" id="chk3"> Autorizo voluntariamente la verificación de mi estado crediticio en las entidades correspondientes.</label>
+            <label>
+                <input type="checkbox" id="chkConsent"> 
+                Declaro que mis datos son reales y autorizo voluntariamente a Solución Flex a utilizarlos para la gestión y verificación de mi estado crediticio.
+            </label>
         </div>
 
-        <div class="alert alert-error" id="consentError" style="display:none;">Debes aceptar todas las condiciones para continuar.</div>
+        <div class="alert alert-error" id="consentError" style="display:none; margin-bottom:10px;">Debes aceptar la declaración para continuar.</div>
         <button class="btn btn-primary" id="btnConsent">Comenzar simulación →</button>
 
-        <div class="flex-info" style="margin-top:20px;">
+        <div class="flex-info">
             <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
             <span>·</span>
             <span><i class="fas fa-phone"></i> +595 992 271 485</span>
@@ -502,8 +472,8 @@
 
     <div id="formScreen" style="display:none;">
 
-        <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
-            <div class="logo-container" style="width:40px; height:40px; background:transparent;">
+        <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 14px;">
+            <div class="logo-container" style="width:38px; height:38px;">
                 <img src="logo.png?v=9" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
@@ -555,8 +525,8 @@
                 <div class="row-2">
                     <div class="form-group">
                         <label>Fecha de Nacimiento *</label>
-                        <input class="form-control" type="text" id="fechaNac" placeholder="Ej: 5 5 1981" required oninput="allowDateChars(this)" onblur="autoFormatDate(this)" inputmode="numeric">
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Escribe día, mes y año separados por un espacio</div>
+                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="smartDateMask(event)" onblur="fixYear(this)" inputmode="numeric" maxlength="10">
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Las barras se colocan solas</div>
                     </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
@@ -652,9 +622,9 @@
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
                 <div id="requisitosContainer" class="requisitos-box" style="display:none;">
-                    <h5>📋 Documentos requeridos</h5>
+                    <h5>📋 Marca los documentos que posees actualmente:</h5>
+                    <div style="font-size:11px; margin-bottom:10px; color:#cbd5e1;">(No es obligatorio tener todos para simular)</div>
                     <div id="requisitosList"></div>
-                    <div class="alert alert-error" id="errorRequisitos" style="display:none; margin-top:8px;">Debes marcar todos los documentos requeridos.</div>
                 </div>
 
                 <div class="checkbox-group">
@@ -677,7 +647,7 @@
                     ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Recuerda que tus datos serán verificados.
                 </div>
                 <div class="alert alert-error" id="errorStep2"></div>
-                <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
+                <div class="button-group" style="display:flex; gap:12px; margin-top:14px;">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
                     <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
                 </div>
@@ -691,10 +661,10 @@
                     <div class="step-line"></div>
                 </div>
 
-                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:14px; margin-bottom:14px; color:white;"></div>
+                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:13px; margin-bottom:14px; color:white;"></div>
 
                 <div class="alert alert-error" id="errorStep3"></div>
-                <div class="button-group" style="display:flex; gap:12px; margin-top:18px;">
+                <div class="button-group" style="display:flex; gap:12px;">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
                     <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
                 </div>
@@ -708,19 +678,9 @@
                 <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente y el asesor me guió en cada paso."</div>
                 <div class="autor">— Carlos M., Asunción</div>
             </div>
-            <div class="testimonio-item">
-                <div class="stars">★★★★★</div>
-                <div class="comentario">"Nunca había tenido una asesoría tan clara. Recomiendo 100% a Solución Flex para cualquier tipo de crédito."</div>
-                <div class="autor">— Laura G., CDE</div>
-            </div>
-            <div class="testimonio-item">
-                <div class="stars">★★★★★</div>
-                <div class="comentario">"Me ayudaron a encontrar la mejor opción para mi negocio. El proceso fue simple, rápido y seguro."</div>
-                <div class="autor">— Roberto D., Encarnación</div>
-            </div>
         </div>
 
-        <div class="flex-info" style="margin-top:16px;">
+        <div class="flex-info">
             <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
             <span>·</span>
             <span><i class="fas fa-phone"></i> +595 992 271 485</span>
@@ -730,8 +690,8 @@
     <div id="successScreen" class="success-screen" style="display:none;">
         <i class="fas fa-check-circle"></i>
         <h2>¡Gracias por tu presolicitud!</h2>
-        <p>Nuestro equipo analizará tu perfil y te contactará a la brevedad para continuar con el proceso.</p>
-        <button class="btn btn-primary" style="margin-top:20px;" onclick="location.reload()">Nueva simulación</button>
+        <p style="color:var(--text-light); font-size:14px; max-width: 400px; margin: 0 auto;">Nuestro equipo analizará tu perfil y los documentos indicados. Te contactaremos a la brevedad para continuar con el proceso.</p>
+        <button class="btn btn-primary" style="margin-top:20px; max-width: 250px;" onclick="location.reload()">Nueva simulación</button>
     </div>
 
     <div id="toast" class="toast">✅ Enviado</div>
@@ -739,36 +699,57 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA INTELIGENTE (ESPACIOS)
+    //  0. MÁSCARA DE FECHA INTELIGENTE (ESTILO BANCARIO)
     // ================================================================
+    function smartDateMask(e) {
+        let input = e.target;
+        if (e.inputType === 'deleteContentBackward') return;
 
-    // 1. Mientras el cliente escribe, solo permitimos números y espacios
-    function allowDateChars(input) {
-        input.value = input.value.replace(/[^0-9 ]/g, '');
+        let v = input.value.replace(/[^0-9/ ]/g, '');
+        v = v.replace(/^(\d)[/ ]/, '0$1/');       
+        v = v.replace(/^(\d{2})\/(\d)[/ ]/, '$1/0$2/'); 
+        v = v.replace(/\D/g, '');
+
+        let day = v.substring(0, 2);
+        let month = v.substring(2, 4);
+        let year = v.substring(4, 8);
+
+        if (day.length === 1 && parseInt(day) > 3) {
+            day = '0' + day;
+        }
+        if (day.length === 2) {
+            if (parseInt(day) > 31) day = '31';
+            if (parseInt(day) === 0) day = '01';
+        }
+
+        if (month.length === 1 && parseInt(month) > 1) {
+            month = '0' + month;
+        }
+        if (month.length === 2) {
+            if (parseInt(month) > 12) month = '12';
+            if (parseInt(month) === 0) month = '01';
+        }
+
+        let finalValue = day;
+        if (day.length === 2 && v.length >= 2) {
+            finalValue += '/';
+            finalValue += month;
+        }
+        if (month.length === 2 && v.length >= 4) {
+            finalValue += '/';
+            finalValue += year;
+        }
+
+        input.value = finalValue;
     }
 
-    // 2. Cuando el cliente sale del campo (toca otra cosa), hacemos la magia
-    function autoFormatDate(input) {
-        // Reemplazamos todos los espacios por barras '/'
-        // y evitamos que se dupliquen si puso espacios de más
-        let val = input.value.trim().replace(/ +/g, '/');
-        
+    function fixYear(input) {
+        let val = input.value;
         let parts = val.split('/');
-        
-        // Si el sistema detecta 3 bloques de números (día, mes, año)
-        if (parts.length === 3) {
-            // padStart agrega el '0' automáticamente si el número tiene un solo dígito
-            let d = parts[0].padStart(2, '0'); 
-            let m = parts[1].padStart(2, '0'); 
-            let y = parts[2];
-            
-            // Magia extra: si el cliente es tan perezoso que solo puso "81", lo convertimos a "1981"
-            if (y.length === 2) {
-                y = (parseInt(y) > 24 ? '19' : '20') + y;
-            }
-            
-            // Reemplazamos lo que escribió por el formato final perfecto
-            input.value = `${d}/${m}/${y}`;
+        if (parts.length === 3 && parts[2].length === 2) {
+            let y = parseInt(parts[2]);
+            parts[2] = (y > 24 ? '19' : '20') + parts[2];
+            input.value = parts.join('/');
         }
     }
 
@@ -969,7 +950,6 @@
         } else {
             reqContainer.style.display = 'none';
         }
-        document.getElementById('errorRequisitos').style.display = 'none';
     }
 
     // ================================================================
@@ -1054,12 +1034,10 @@
     document.getElementById('formScreen').style.display = 'none';
 
     document.getElementById('btnConsent').addEventListener('click', function() {
-        const chk1 = document.getElementById('chk1').checked;
-        const chk2 = document.getElementById('chk2').checked;
-        const chk3 = document.getElementById('chk3').checked;
+        const chkConsent = document.getElementById('chkConsent').checked;
         const err = document.getElementById('consentError');
 
-        if (chk1 && chk2 && chk3) {
+        if (chkConsent) {
             document.getElementById('consentScreen').style.display = 'none';
             document.getElementById('formScreen').style.display = 'block';
             err.style.display = 'none';
@@ -1103,9 +1081,6 @@
         const err = document.getElementById('errorStep1');
         err.style.display = 'none';
 
-        // Por si acaso no se ejecutó el onblur
-        autoFormatDate(document.getElementById('fechaNac'));
-
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
@@ -1135,8 +1110,8 @@
         }
 
         const fechaValida = parsearFecha(fechaStr);
-        if (!fechaValida) {
-            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA o separa con espacios (ej: 5 5 1981).');
+        if (!fechaValida || fechaStr.length < 10) {
+            showErrorStep(err, 'Fecha inválida. Ingresa el día, mes y año completo.');
             return false;
         }
         const edad = calcularEdad(fechaStr);
@@ -1238,19 +1213,7 @@
             }
         }
 
-        const chkRequisitos = document.querySelectorAll('.chk-requisito');
-        const errorRequisitos = document.getElementById('errorRequisitos');
-        let todosMarcados = true;
-        chkRequisitos.forEach(chk => {
-            if (!chk.checked) todosMarcados = false;
-        });
-        if (chkRequisitos.length > 0 && !todosMarcados) {
-            errorRequisitos.style.display = 'block';
-            return false;
-        } else {
-            errorRequisitos.style.display = 'none';
-        }
-
+        // Ya no exigimos que se marquen todos los requisitos
         return true;
     }
 
@@ -1286,10 +1249,18 @@
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
 
+        // Separar documentos que posee de los que le faltan
         const docsMarcados = [];
-        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
+        const docsFaltantes = [];
+        document.querySelectorAll('.chk-requisito').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
-            if (label) docsMarcados.push(label.textContent.trim());
+            if (label) {
+                if (chk.checked) {
+                    docsMarcados.push(label.textContent.trim());
+                } else {
+                    docsFaltantes.push(label.textContent.trim());
+                }
+            }
         });
 
         const informconf = document.getElementById('informconf').checked;
@@ -1319,21 +1290,29 @@
 
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
-            advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.</div>';
+            advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera.</div>';
+        }
+        
+        let reqHTML = `<p><strong>Posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>`;
+        if (docsFaltantes.length > 0) {
+            reqHTML += `<p style="color:#ef4444;"><strong>Le falta:</strong> ${docsFaltantes.join(', ')}</p>`;
         }
 
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
-            <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
+            <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
+            <p>Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
+            <hr style="border:1px solid #1A2D42; margin:8px 0;">
             <p>Perfil: ${perfilLabel}</p>
             ${config && config.camposEmpresa ? `<p>Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>` : ''}
             <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
             <p>${tiempoTexto}</p>
-            <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
+            <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
-            <p><strong>Documentos posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>
+            <hr style="border:1px solid #1A2D42; margin:8px 0;">
+            ${reqHTML}
             ${advertencia}
         `;
     }
@@ -1370,9 +1349,16 @@
         const telefonoLab = document.getElementById('telefonoLab').value;
 
         const docsMarcados = [];
-        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
+        const docsFaltantes = [];
+        document.querySelectorAll('.chk-requisito').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
-            if (label) docsMarcados.push(label.textContent.trim());
+            if (label) {
+                if (chk.checked) {
+                    docsMarcados.push(label.textContent.trim());
+                } else {
+                    docsFaltantes.push(label.textContent.trim());
+                }
+            }
         });
 
         const informconf = document.getElementById('informconf').checked;
@@ -1405,8 +1391,7 @@
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
         mensaje += `🎂 *Edad:* ${edad} años%0A`;
-        mensaje += `📍 *Departamento:* ${departamento}%0A`;
-        mensaje += `🏙️ *Ciudad:* ${ciudadFinal}%0A`;
+        mensaje += `📍 *Ubicación:* ${ciudadFinal}, ${departamento}%0A`;
         mensaje += `💰 *Monto:* ₲ ${formatearNumero(monto)}%0A`;
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
         mensaje += `💵 *Cuota ref.:* ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}%0A`;
@@ -1419,14 +1404,22 @@
         mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `📌 *${tiempoTexto}*%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
-        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A`;
-        mensaje += `📋 *Documentos que posee:*%0A`;
+        mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
+        
+        mensaje += `📋 *DOCUMENTOS QUE POSEE:*%0A`;
         if (docsMarcados.length > 0) {
             docsMarcados.forEach(doc => {
                 mensaje += `✅ ${doc}%0A`;
             });
         } else {
-            mensaje += `❌ Ninguno%0A`;
+            mensaje += `Ninguno marcado%0A`;
+        }
+
+        if (docsFaltantes.length > 0) {
+            mensaje += `%0A❌ *DOCUMENTOS FALTANTES:*%0A`;
+            docsFaltantes.forEach(doc => {
+                mensaje += `👉 ${doc}%0A`;
+            });
         }
 
         if (informconfModificado || carteraModificado) {
