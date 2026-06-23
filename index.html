@@ -4,14 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Solución Flex · Simulador de Crédito</title>
-
-    <!-- ===== FAVICON ===== -->
     <link rel="icon" href="logo.png" type="image/png" />
-
-    <!-- ===== META DESCRIPTION ===== -->
     <meta name="description" content="Simulá tu préstamo en minutos con Solución Flex. Sin compromiso, atención personalizada y más de 150 clientes satisfechos." />
-
-    <!-- ===== OPEN GRAPH (corregido con tu nueva URL) ===== -->
     <meta property="og:title" content="Solución Flex · Simulador de Crédito" />
     <meta property="og:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada." />
     <meta property="og:site_name" content="Solución Flex" />
@@ -20,412 +14,112 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://solucionflex.github.io/simulador-credito/" />
-
-    <!-- ===== TWITTER ===== -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Solución Flex · Simulador de Crédito" />
     <meta name="twitter:description" content="Simulá tu préstamo en minutos. Sin compromiso." />
     <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=1" />
-
-    <!-- Font Awesome y Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-
     <style>
-        /* ===== RESET Y VARIABLES ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
+        /* ===== RESET Y VARIABLES (mismo que antes) ===== */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',system-ui,sans-serif; }
         :root {
-            --bg: #f4f9fe;
-            --card-bg: #ffffff;
-            --text: #0a2a33;
-            --text-light: #4a6a7a;
-            --primary: #0f6f85;
-            --primary-dark: #08505e;
-            --primary-light: #d4eaf0;
-            --primary-gradient: linear-gradient(145deg, #0f6f85, #0a4b5c);
-            --border: #e2ecf2;
-            --shadow: 0 12px 40px rgba(10, 55, 70, 0.08);
-            --shadow-hover: 0 20px 60px rgba(10, 55, 70, 0.12);
-            --radius: 28px;
-            --radius-sm: 18px;
-            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --bg:#f4f9fe; --card-bg:#ffffff; --text:#0a2a33; --text-light:#4a6a7a;
+            --primary:#0f6f85; --primary-dark:#08505e; --primary-light:#d4eaf0;
+            --primary-gradient:linear-gradient(145deg,#0f6f85,#0a4b5c);
+            --border:#e2ecf2; --shadow:0 12px 40px rgba(10,55,70,0.08);
+            --shadow-hover:0 20px 60px rgba(10,55,70,0.12);
+            --radius:28px; --radius-sm:18px; --transition:0.3s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-        .app-container {
-            max-width: 580px;
-            width: 100%;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 24px 22px 32px;
-            transition: background 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.6s ease;
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        body { background:var(--bg); color:var(--text); padding:20px; min-height:100vh; display:flex; justify-content:center; align-items:center; font-weight:400; line-height:1.6; }
+        .app-container { max-width:580px; width:100%; background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px 22px 32px; transition:background .3s,box-shadow .3s; animation:fadeInUp .6s ease; }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 
-        /* ===== HEADER ===== */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
-            border-bottom: 1.5px solid var(--border);
-        }
-        .logo-container {
-            width: 50px;
-            height: 50px;
-            border-radius: 16px;
-            flex-shrink: 0;
-            overflow: hidden;
-            background: transparent;
-        }
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-        .header h1 {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.4px;
-            line-height: 1.2;
-        }
-        .header h1 small {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-light);
-            letter-spacing: 0.2px;
-            text-transform: uppercase;
-        }
-        .theme-toggle {
-            margin-left: auto;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 40px;
-            padding: 6px 14px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .theme-toggle:hover { background: var(--primary-light); }
+        .header { display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:14px; border-bottom:1.5px solid var(--border); }
+        .logo-container { width:50px; height:50px; border-radius:16px; flex-shrink:0; overflow:hidden; background:transparent; }
+        .logo-container img { width:100%; height:100%; object-fit:contain; display:block; }
+        .header h1 { font-size:22px; font-weight:700; letter-spacing:-0.4px; line-height:1.2; }
+        .header h1 small { display:block; font-size:12px; font-weight:500; color:var(--text-light); letter-spacing:0.2px; text-transform:uppercase; }
+        .theme-toggle { margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:40px; padding:6px 14px; font-size:18px; cursor:pointer; transition:var(--transition); }
+        .theme-toggle:hover { background:var(--primary-light); }
 
-        /* ===== FORM ===== */
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 4px;
-            letter-spacing: 0.2px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 15px;
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--bg);
-            transition: var(--transition);
-            color: var(--text);
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(15, 111, 133, 0.12);
-            background: var(--card-bg);
-        }
-        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 20px;
-            padding-top: 6px;
-            margin-bottom: 12px;
-        }
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 400;
-            font-size: 14px;
-            cursor: pointer;
-            color: var(--text);
-        }
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
+        .form-group { margin-bottom:16px; }
+        .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-light); margin-bottom:4px; letter-spacing:0.2px; }
+        .form-control { width:100%; padding:12px 16px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:var(--bg); transition:var(--transition); color:var(--text); }
+        .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(15,111,133,0.12); background:var(--card-bg); }
+        .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+        .checkbox-group { display:flex; flex-wrap:wrap; gap:8px 20px; padding-top:6px; margin-bottom:12px; }
+        .checkbox-group label { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14px; cursor:pointer; color:var(--text); }
+        .checkbox-group input[type="checkbox"] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
 
-        /* ===== BOTONES ===== */
-        .btn {
-            padding: 14px 24px;
-            border: none;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            letter-spacing: 0.2px;
-        }
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(15, 111, 133, 0.25);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(15, 111, 133, 0.35);
-        }
-        .btn-secondary {
-            background: var(--bg);
-            color: var(--text);
-            border: 1.5px solid var(--border);
-        }
-        .btn-secondary:hover { background: var(--border); }
-        .btn-success {
-            background: #1a7a4a;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(26, 122, 74, 0.25);
-        }
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(26, 122, 74, 0.35);
-        }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .btn { padding:14px 24px; border:none; border-radius:40px; font-weight:600; font-size:16px; cursor:pointer; transition:var(--transition); text-align:center; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; letter-spacing:0.2px; }
+        .btn-primary { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(15,111,133,0.25); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(15,111,133,0.35); }
+        .btn-secondary { background:var(--bg); color:var(--text); border:1.5px solid var(--border); }
+        .btn-secondary:hover { background:var(--border); }
+        .btn-success { background:#1a7a4a; color:#fff; box-shadow:0 4px 14px rgba(26,122,74,0.25); }
+        .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(26,122,74,0.35); }
+        .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none!important; }
 
-        /* ===== STEPS ===== */
-        .step-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 22px;
-            position: relative;
-        }
-        .step-dot {
-            flex: 1;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-light);
-            position: relative;
-            z-index: 2;
-        }
-        .step-dot .circle {
-            width: 36px;
-            height: 36px;
-            background: var(--border);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text-light);
-            transition: var(--transition);
-            margin-bottom: 4px;
-        }
-        .step-dot.active .circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 6px rgba(15,111,133,0.15); }
-        .step-dot.completed .circle { background: var(--primary-dark); color: #fff; }
-        .step-dot.active .step-label { color: var(--primary); font-weight: 600; }
-        .step-line {
-            position: absolute;
-            top: 18px;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: var(--border);
-            z-index: 1;
-        }
-        .form-step { display: none; animation: fadeStep 0.4s ease; }
-        .form-step.active-step { display: block; }
-        @keyframes fadeStep { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        .step-indicator { display:flex; justify-content:space-between; margin-bottom:22px; position:relative; }
+        .step-dot { flex:1; text-align:center; font-size:12px; font-weight:500; color:var(--text-light); position:relative; z-index:2; }
+        .step-dot .circle { width:36px; height:36px; background:var(--border); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:var(--text-light); transition:var(--transition); margin-bottom:4px; }
+        .step-dot.active .circle { background:var(--primary); color:#fff; box-shadow:0 0 0 6px rgba(15,111,133,0.15); }
+        .step-dot.completed .circle { background:var(--primary-dark); color:#fff; }
+        .step-dot.active .step-label { color:var(--primary); font-weight:600; }
+        .step-line { position:absolute; top:18px; left:10%; right:10%; height:2px; background:var(--border); z-index:1; }
+        .form-step { display:none; animation:fadeStep .4s ease; }
+        .form-step.active-step { display:block; }
+        @keyframes fadeStep { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 
-        /* ===== ALERTAS ===== */
-        .alert {
-            padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 14px;
-            font-size: 13px;
-            font-weight: 500;
-            display: none;
-        }
-        .alert-error { background: #fee9e9; color: #b91c1c; border-left: 4px solid #ef4444; }
-        .alert-success { background: #e3f5eb; color: #0b5e3a; border-left: 4px solid #10b981; }
-        .alert-warning { background: #fef5e7; color: #a16207; border-left: 4px solid #f59e0b; }
+        .alert { padding:12px 16px; border-radius:var(--radius-sm); margin-bottom:14px; font-size:13px; font-weight:500; display:none; }
+        .alert-error { background:#fee9e9; color:#b91c1c; border-left:4px solid #ef4444; }
+        .alert-success { background:#e3f5eb; color:#0b5e3a; border-left:4px solid #10b981; }
+        .alert-warning { background:#fef5e7; color:#a16207; border-left:4px solid #f59e0b; }
 
-        /* ===== TESTIMONIOS ===== */
-        .testimonios {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1.5px solid var(--border);
-        }
-        .testimonios h4 {
-            font-size: 15px;
-            text-align: center;
-            margin-bottom: 14px;
-            color: var(--text-light);
-            font-weight: 600;
-        }
-        .testimonio-item {
-            background: var(--bg);
-            border-radius: var(--radius-sm);
-            padding: 14px 18px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--primary);
-            transition: var(--transition);
-        }
-        .testimonio-item:hover { box-shadow: var(--shadow-hover); }
-        .testimonio-item .stars { color: #f5b342; font-size: 14px; margin-bottom: 4px; }
-        .testimonio-item .comentario { font-size: 14px; font-style: italic; color: var(--text); }
-        .testimonio-item .autor { font-size: 13px; font-weight: 600; color: var(--text-light); margin-top: 6px; }
+        .testimonios { margin-top:24px; padding-top:20px; border-top:1.5px solid var(--border); }
+        .testimonios h4 { font-size:15px; text-align:center; margin-bottom:14px; color:var(--text-light); font-weight:600; }
+        .testimonio-item { background:var(--bg); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:12px; border-left:4px solid var(--primary); transition:var(--transition); }
+        .testimonio-item:hover { box-shadow:var(--shadow-hover); }
+        .testimonio-item .stars { color:#f5b342; font-size:14px; margin-bottom:4px; }
+        .testimonio-item .comentario { font-size:14px; font-style:italic; color:var(--text); }
+        .testimonio-item .autor { font-size:13px; font-weight:600; color:var(--text-light); margin-top:6px; }
 
-        /* ===== CUOTA BOX ===== */
-        .cuota-box {
-            background: var(--primary-light);
-            border-radius: var(--radius-sm);
-            padding: 12px;
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .cuota-box .label { font-size: 12px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-        .cuota-box .value { font-size: 26px; font-weight: 800; color: var(--primary); }
+        .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin-bottom:18px; }
+        .cuota-box .label { font-size:12px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
+        .cuota-box .value { font-size:26px; font-weight:800; color:var(--primary); }
 
-        /* ===== CONSENT SCREEN ===== */
-        .consent-screen { text-align: center; }
-        .consent-screen .hero-icon { font-size: 52px; color: var(--primary); margin-bottom: 12px; }
-        .consent-screen h2 { font-size: 24px; margin-bottom: 6px; font-weight: 700; }
-        .consent-screen p { color: var(--text-light); font-size: 15px; margin-bottom: 16px; }
-        .consent-screen .badge-clientes {
-            display: inline-block;
-            background: var(--primary-light);
-            color: var(--primary-dark);
-            padding: 6px 20px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 18px;
-        }
-        .consent-checkbox-group {
-            text-align: left;
-            margin: 18px 0;
-        }
-        .consent-checkbox-group label {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 14px;
-            margin-bottom: 14px;
-            cursor: pointer;
-            color: var(--text);
-            line-height: 1.5;
-        }
-        .consent-checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-top: 2px;
-            accent-color: var(--primary);
-            flex-shrink: 0;
-        }
-        .flex-info {
-            font-size: 12px;
-            color: var(--text-light);
-            text-align: center;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-        }
-        .flex-info span {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .success-screen {
-            text-align: center;
-            padding: 28px 0;
-        }
-        .success-screen i { font-size: 72px; color: #10b981; margin-bottom: 16px; }
-        .success-screen h2 { font-size: 24px; margin-bottom: 8px; }
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--text);
-            color: #fff;
-            padding: 14px 28px;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 15px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: 0.4s;
-            pointer-events: none;
-            z-index: 999;
-        }
-        .toast.show { opacity: 1; }
-        .hidden { display: none !important; }
+        .consent-screen { text-align:center; }
+        .consent-screen .hero-icon { font-size:52px; color:var(--primary); margin-bottom:12px; }
+        .consent-screen h2 { font-size:24px; margin-bottom:6px; font-weight:700; }
+        .consent-screen p { color:var(--text-light); font-size:15px; margin-bottom:16px; }
+        .consent-screen .badge-clientes { display:inline-block; background:var(--primary-light); color:var(--primary-dark); padding:6px 20px; border-radius:40px; font-weight:700; font-size:14px; margin-bottom:18px; }
+        .consent-checkbox-group { text-align:left; margin:18px 0; }
+        .consent-checkbox-group label { display:flex; align-items:flex-start; gap:12px; font-size:14px; margin-bottom:14px; cursor:pointer; color:var(--text); line-height:1.5; }
+        .consent-checkbox-group input[type="checkbox"] { width:20px; height:20px; margin-top:2px; accent-color:var(--primary); flex-shrink:0; }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .app-container { padding: 16px; }
-            .row-2 { grid-template-columns: 1fr; }
-            .header h1 { font-size: 19px; }
-            .consent-screen h2 { font-size: 20px; }
-            .flex-info { font-size: 11px; gap: 4px; }
-        }
-        /* ===== MODO OSCURO ===== */
-        body.dark {
-            --bg: #0f1e26;
-            --card-bg: #1a2c36;
-            --text: #e6edf2;
-            --text-light: #9bb3c0;
-            --border: #2a4050;
-            --primary-light: #1f4050;
-            --shadow: 0 12px 40px rgba(0,0,0,0.4);
-        }
-        body.dark .form-control { background: #1f2f3a; color: #e6edf2; }
-        body.dark .btn-secondary { background: #1f2f3a; color: #e6edf2; }
-        body.dark .btn-secondary:hover { background: #2a4050; }
-        body.dark .theme-toggle { background: #1f2f3a; border-color: #2a4050; }
-        .theme-toggle .fa-moon { display: inline; }
-        .theme-toggle .fa-sun { display: none; }
-        body.dark .theme-toggle .fa-moon { display: none; }
-        body.dark .theme-toggle .fa-sun { display: inline; }
-        body.dark .testimonio-item { background: #1f2f3a; }
-        body.dark .consent-checkbox-group label { color: #e6edf2; }
+        .flex-info { font-size:12px; color:var(--text-light); text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; justify-content:center; gap:6px; }
+        .flex-info span { display:inline-flex; align-items:center; gap:4px; }
+        .success-screen { text-align:center; padding:28px 0; }
+        .success-screen i { font-size:72px; color:#10b981; margin-bottom:16px; }
+        .success-screen h2 { font-size:24px; margin-bottom:8px; }
+        .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--text); color:#fff; padding:14px 28px; border-radius:40px; font-weight:500; font-size:15px; box-shadow:0 12px 32px rgba(0,0,0,0.2); opacity:0; transition:.4s; pointer-events:none; z-index:999; }
+        .toast.show { opacity:1; }
+        .hidden { display:none!important; }
+
+        @media (max-width:480px) { .app-container{padding:16px} .row-2{grid-template-columns:1fr} .header h1{font-size:19px} .consent-screen h2{font-size:20px} .flex-info{font-size:11px;gap:4px} }
+
+        body.dark { --bg:#0f1e26; --card-bg:#1a2c36; --text:#e6edf2; --text-light:#9bb3c0; --border:#2a4050; --primary-light:#1f4050; --shadow:0 12px 40px rgba(0,0,0,0.4); }
+        body.dark .form-control { background:#1f2f3a; color:#e6edf2; }
+        body.dark .btn-secondary { background:#1f2f3a; color:#e6edf2; }
+        body.dark .btn-secondary:hover { background:#2a4050; }
+        body.dark .theme-toggle { background:#1f2f3a; border-color:#2a4050; }
+        .theme-toggle .fa-moon { display:inline; }
+        .theme-toggle .fa-sun { display:none; }
+        body.dark .theme-toggle .fa-moon { display:none; }
+        body.dark .theme-toggle .fa-sun { display:inline; }
+        body.dark .testimonio-item { background:#1f2f3a; }
+        body.dark .consent-checkbox-group label { color:#e6edf2; }
     </style>
 </head>
 <body>
@@ -469,7 +163,6 @@
         <div class="alert alert-error" id="consentError" style="display:none;">Debes aceptar todas las condiciones para continuar.</div>
         <button class="btn btn-primary" id="btnConsent">Comenzar simulación →</button>
 
-        <!-- Pie de página -->
         <div class="flex-info" style="margin-top:20px;">
             <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
             <span>·</span>
@@ -534,7 +227,11 @@
                     <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
                 </div>
                 <div class="row-2">
-                    <div class="form-group"><label>Fecha de Nacimiento *</label><input class="form-control" type="date" id="fechaNac" required></div>
+                    <div class="form-group"><label>Fecha de Nacimiento *</label>
+                        <!-- CAMBIADO: ahora es texto con placeholder y formato -->
+                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required>
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 15/08/1990</div>
+                    </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
                             <option value="">Seleccionar</option>
@@ -595,8 +292,14 @@
                 </div>
 
                 <div class="row-2">
-                    <div class="form-group"><label>Antigüedad (años) *</label><input class="form-control" type="number" id="antiguedad_anios" placeholder="0" min="0" step="1" required></div>
-                    <div class="form-group"><label>Antigüedad (meses) *</label><input class="form-control" type="number" id="antiguedad_meses" placeholder="0" min="0" max="11" step="1" required></div>
+                    <div class="form-group">
+                        <label>Antigüedad laboral (años) *</label>
+                        <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Antigüedad laboral (meses) *</label>
+                        <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
@@ -604,6 +307,7 @@
                     <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
                 </div>
 
+                <!-- Contenedor dinámico para campos de tiempo (IPS/IVA/Patente) -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
                 <div class="checkbox-group">
@@ -671,7 +375,6 @@
             </div>
         </div>
 
-        <!-- Pie de página -->
         <div class="flex-info" style="margin-top:16px;">
             <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
             <span>·</span>
@@ -729,13 +432,24 @@
     // ================================================================
     //  2. FUNCIONES AUXILIARES
     // ================================================================
-    function calcularEdad(fechaNac) {
-        if (!fechaNac) return 0;
+    function parsearFecha(fechaStr) {
+        // Espera formato DD/MM/AAAA
+        const partes = fechaStr.split('/');
+        if (partes.length !== 3) return null;
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10) - 1; // meses 0-11
+        const anio = parseInt(partes[2], 10);
+        if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
+        return new Date(anio, mes, dia);
+    }
+
+    function calcularEdad(fechaStr) {
+        const fechaNac = parsearFecha(fechaStr);
+        if (!fechaNac) return null;
         const hoy = new Date();
-        const nac = new Date(fechaNac);
-        let edad = hoy.getFullYear() - nac.getFullYear();
-        const m = hoy.getMonth() - nac.getMonth();
-        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+        let edad = hoy.getFullYear() - fechaNac.getFullYear();
+        const m = hoy.getMonth() - fechaNac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < fechaNac.getDate())) edad--;
         return edad;
     }
 
@@ -788,10 +502,10 @@
             const div = document.createElement('div');
             div.className = 'form-group';
             div.innerHTML = `
-                <label>${label} (años * / meses *)</label>
+                <label>${label} (años de aporte * / meses de aporte *)</label>
                 <div class="row-2" style="gap:8px;">
-                    <input class="form-control" type="number" id="${id}_anios" placeholder="0" min="0" step="1" required>
-                    <input class="form-control" type="number" id="${id}_meses" placeholder="0" min="0" max="11" step="1" required>
+                    <input class="form-control" type="number" id="${id}_anios" placeholder="Ej: 2" min="0" step="1" required>
+                    <input class="form-control" type="number" id="${id}_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
                 </div>
             `;
             return div;
@@ -940,7 +654,7 @@
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
-        const fecha = document.getElementById('fechaNac').value;
+        const fechaStr = document.getElementById('fechaNac').value.trim();
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -963,15 +677,19 @@
             showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
             return false;
         }
-        if (!fecha) {
-            showErrorStep(err, 'Fecha de nacimiento requerida.');
+
+        // Validación de fecha (DD/MM/AAAA)
+        const fechaValida = parsearFecha(fechaStr);
+        if (!fechaValida) {
+            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 15/08/1990).');
             return false;
         }
-        const edad = calcularEdad(fecha);
-        if (edad < 18 || edad > 74) {
+        const edad = calcularEdad(fechaStr);
+        if (edad === null || edad < 18 || edad > 74) {
             showErrorStep(err, 'Edad entre 18 y 74 años.');
             return false;
         }
+
         if (!departamento) {
             showErrorStep(err, 'Selecciona un departamento.');
             return false;
@@ -1007,11 +725,11 @@
             return false;
         }
         if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
-            showErrorStep(err, 'Ingresa antigüedad en años (número válido).');
+            showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
             return false;
         }
         if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
-            showErrorStep(err, 'Ingresa antigüedad en meses (0 a 11).');
+            showErrorStep(err, 'Ingresa antigüedad laboral (meses) de 0 a 11.');
             return false;
         }
         if (isNaN(ingreso) || ingreso < 1800000) {
@@ -1060,7 +778,7 @@
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value;
         const celular = document.getElementById('celular').value;
-        const fecha = document.getElementById('fechaNac').value;
+        const fechaStr = document.getElementById('fechaNac').value.trim();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -1069,7 +787,7 @@
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edad = calcularEdad(fecha);
+        const edad = calcularEdad(fechaStr);
         const cuota = obtenerCuota(monto, plazo);
 
         const perfilesConTiempo = {
@@ -1102,7 +820,7 @@
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
             <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)} · Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
             <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
-            <p>Antigüedad: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
+            <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
             <p>${key ? key.toUpperCase() + ': ' + tiempoTexto : ''}</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ (tiene deudas)' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
@@ -1125,7 +843,7 @@
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
-        const fecha = document.getElementById('fechaNac').value;
+        const fechaStr = document.getElementById('fechaNac').value.trim();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -1134,7 +852,7 @@
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edad = calcularEdad(fecha);
+        const edad = calcularEdad(fechaStr);
         const cuota = obtenerCuota(monto, plazo);
 
         const informconf = document.getElementById('informconf').checked;
@@ -1180,7 +898,7 @@
         mensaje += `💵 *Cuota ref.:* ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
         mensaje += `📊 *Perfil:* ${perfilTexto[actividad] || actividad}%0A`;
-        mensaje += `🕒 *Antigüedad:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         if (key) {
             mensaje += `📌 *${key.toUpperCase()}:* ${tiempoTexto}%0A`;
         }
