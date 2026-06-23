@@ -459,9 +459,6 @@
 
 <div class="app-container" id="app">
 
-    <!-- ========================================================= -->
-    <!-- PANTALLA 1: CONSENTIMIENTO + PRESENTACIÓN               -->
-    <!-- ========================================================= -->
     <div id="consentScreen" class="consent-screen">
         <div class="header" style="border-bottom: none; margin-bottom: 6px;">
             <div class="logo-container" id="logoContainer">
@@ -503,9 +500,6 @@
         </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- PANTALLA 2: FORMULARIO (3 pasos)                         -->
-    <!-- ========================================================= -->
     <div id="formScreen" style="display:none;">
 
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 16px;">
@@ -517,7 +511,6 @@
         </div>
 
         <form id="formProspecto" autocomplete="off">
-            <!-- PASO 1 -->
             <div class="form-step active-step" id="step1">
                 <div class="step-indicator">
                     <div class="step-dot active"><span class="circle">1</span><div class="step-label">Datos</div></div>
@@ -563,7 +556,7 @@
                     <div class="form-group">
                         <label>Fecha de Nacimiento *</label>
                         <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="formatDateInput(this)" maxlength="10" inputmode="numeric">
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 5/5/1981 → 05/05/1981 (solo números)</div>
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 05051981 → 05/05/1981 (solo números)</div>
                     </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
@@ -589,7 +582,6 @@
                     </div>
                 </div>
 
-                <!-- CIUDAD CENTRADA -->
                 <div class="form-group" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
                     <label style="align-self:flex-start;">Ciudad *</label>
                     <select class="form-control" id="ciudad" required style="max-width:100%;">
@@ -602,7 +594,6 @@
                 <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
             </div>
 
-            <!-- PASO 2 -->
             <div class="form-step" id="step2">
                 <div class="step-indicator">
                     <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
@@ -627,7 +618,6 @@
                     </select>
                 </div>
 
-                <!-- ANTIGÜEDAD LABORAL -->
                 <div class="form-group">
                     <label style="display:block; margin-bottom:4px;">Antigüedad laboral *</label>
                     <div class="row-2" style="gap:8px;">
@@ -648,7 +638,6 @@
                     <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
                 </div>
 
-                <!-- CAMPOS DE EMPRESA Y TELÉFONO LABORAL (solo para asalariados) -->
                 <div id="camposEmpresa" style="display:none;">
                     <div class="form-group">
                         <label>Empresa / Institución *</label>
@@ -660,10 +649,8 @@
                     </div>
                 </div>
 
-                <!-- CONTENEDOR DINÁMICO PARA TIEMPO (IPS/IVA/PATENTE) -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
-                <!-- REQUISITOS (checkboxes por perfil) -->
                 <div id="requisitosContainer" class="requisitos-box" style="display:none;">
                     <h5>📋 Documentos requeridos</h5>
                     <div id="requisitosList"></div>
@@ -696,7 +683,6 @@
                 </div>
             </div>
 
-            <!-- PASO 3 -->
             <div class="form-step" id="step3">
                 <div class="step-indicator">
                     <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
@@ -715,7 +701,6 @@
             </div>
         </form>
 
-        <!-- TESTIMONIOS -->
         <div class="testimonios">
             <h4><i class="fas fa-star" style="color:var(--primary);"></i> Lo que dicen nuestros clientes</h4>
             <div class="testimonio-item">
@@ -742,9 +727,6 @@
         </div>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- PANTALLA DE ÉXITO                                        -->
-    <!-- ========================================================= -->
     <div id="successScreen" class="success-screen" style="display:none;">
         <i class="fas fa-check-circle"></i>
         <h2>¡Gracias por tu presolicitud!</h2>
@@ -757,20 +739,28 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA (CORREGIDA - FUNCIONA)
+    //  0. MÁSCARA DE FECHA (CORREGIDA)
     // ================================================================
     function formatDateInput(input) {
+        // 1. Eliminamos todo lo que no sea número
         let value = input.value.replace(/\D/g, '');
+        
+        // 2. Limitamos a un máximo de 8 números (DDMMAAAA)
         if (value.length > 8) value = value.slice(0, 8);
-        let day = value.slice(0, 2);
-        let month = value.slice(2, 4);
-        let year = value.slice(4, 8);
-        if (day.length === 1) day = '0' + day;
-        if (month.length === 1) month = '0' + month;
+        
+        // 3. Reconstruimos la fecha con las barras sin forzar ceros automáticos
         let formatted = '';
-        if (day) formatted += day;
-        if (month) formatted += '/' + month;
-        if (year) formatted += '/' + year;
+        if (value.length > 0) {
+            formatted += value.slice(0, 2); // Día
+        }
+        if (value.length >= 3) {
+            formatted += '/' + value.slice(2, 4); // Mes
+        }
+        if (value.length >= 5) {
+            formatted += '/' + value.slice(4, 8); // Año
+        }
+        
+        // 4. Asignamos el valor final al input
         input.value = formatted;
     }
 
