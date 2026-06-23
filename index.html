@@ -555,8 +555,8 @@
                 <div class="row-2">
                     <div class="form-group">
                         <label>Fecha de Nacimiento *</label>
-                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="formatDateInput(this)" maxlength="10" inputmode="numeric">
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 05051981 → 05/05/1981 (solo números)</div>
+                        <input class="form-control" type="text" id="fechaNac" placeholder="Ej: 5 5 1981" required oninput="allowDateChars(this)" onblur="autoFormatDate(this)" inputmode="numeric">
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Escribe día, mes y año separados por un espacio</div>
                     </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
@@ -739,29 +739,37 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA (CORREGIDA)
+    //  0. MÁSCARA DE FECHA INTELIGENTE (ESPACIOS)
     // ================================================================
-    function formatDateInput(input) {
-        // 1. Eliminamos todo lo que no sea número
-        let value = input.value.replace(/\D/g, '');
+
+    // 1. Mientras el cliente escribe, solo permitimos números y espacios
+    function allowDateChars(input) {
+        input.value = input.value.replace(/[^0-9 ]/g, '');
+    }
+
+    // 2. Cuando el cliente sale del campo (toca otra cosa), hacemos la magia
+    function autoFormatDate(input) {
+        // Reemplazamos todos los espacios por barras '/'
+        // y evitamos que se dupliquen si puso espacios de más
+        let val = input.value.trim().replace(/ +/g, '/');
         
-        // 2. Limitamos a un máximo de 8 números (DDMMAAAA)
-        if (value.length > 8) value = value.slice(0, 8);
+        let parts = val.split('/');
         
-        // 3. Reconstruimos la fecha con las barras sin forzar ceros automáticos
-        let formatted = '';
-        if (value.length > 0) {
-            formatted += value.slice(0, 2); // Día
+        // Si el sistema detecta 3 bloques de números (día, mes, año)
+        if (parts.length === 3) {
+            // padStart agrega el '0' automáticamente si el número tiene un solo dígito
+            let d = parts[0].padStart(2, '0'); 
+            let m = parts[1].padStart(2, '0'); 
+            let y = parts[2];
+            
+            // Magia extra: si el cliente es tan perezoso que solo puso "81", lo convertimos a "1981"
+            if (y.length === 2) {
+                y = (parseInt(y) > 24 ? '19' : '20') + y;
+            }
+            
+            // Reemplazamos lo que escribió por el formato final perfecto
+            input.value = `${d}/${m}/${y}`;
         }
-        if (value.length >= 3) {
-            formatted += '/' + value.slice(2, 4); // Mes
-        }
-        if (value.length >= 5) {
-            formatted += '/' + value.slice(4, 8); // Año
-        }
-        
-        // 4. Asignamos el valor final al input
-        input.value = formatted;
     }
 
     // ================================================================
@@ -1095,6 +1103,9 @@
         const err = document.getElementById('errorStep1');
         err.style.display = 'none';
 
+        // Por si acaso no se ejecutó el onblur
+        autoFormatDate(document.getElementById('fechaNac'));
+
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
@@ -1125,7 +1136,7 @@
 
         const fechaValida = parsearFecha(fechaStr);
         if (!fechaValida) {
-            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 14/05/1981).');
+            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA o separa con espacios (ej: 5 5 1981).');
             return false;
         }
         const edad = calcularEdad(fechaStr);
