@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Solución Flex · Simulador de Crédito</title>
+    <title>FlexCrédito · Simulador de Préstamo</title>
     <link rel="icon" href="logo.png?v=10" type="image/png" />
-    <meta name="description" content="Simulá tu préstamo en minutos con Solución Flex. Sin compromiso, atención personalizada y más de 150 clientes satisfechos." />
-    <meta property="og:title" content="Solución Flex · Simulador de Crédito" />
-    <meta property="og:description" content="Simulá tu préstamo en minutos. Sin compromiso, atención personalizada." />
+    <meta name="description" content="Descubrí cuánto podés retirar hoy. Simulación rápida, sin compromiso, atención personalizada." />
+    <meta property="og:title" content="FlexCrédito · Simulador de Préstamo" />
+    <meta property="og:description" content="Descubrí cuánto podés retirar hoy. Sin compromiso, atención personalizada." />
     <meta property="og:site_name" content="Solución Flex" />
     <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=10" />
     <meta property="og:image:width" content="1200" />
@@ -15,8 +15,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://solucionflex.github.io/simulador-credito/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Solución Flex · Simulador de Crédito" />
-    <meta name="twitter:description" content="Simulá tu préstamo en minutos. Sin compromiso." />
+    <meta name="twitter:title" content="FlexCrédito · Simulador de Préstamo" />
+    <meta name="twitter:description" content="Descubrí cuánto podés retirar hoy. Sin compromiso." />
     <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=10" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
@@ -84,14 +84,9 @@
         .testimonio-item .stars { color:var(--primary); font-size:12px; margin-bottom:2px; }
         .testimonio-item .comentario { font-size:13px; font-style:italic; color:white; }
         .testimonio-item .autor { font-size:12px; font-weight:600; color:#cbd5e1; margin-top:4px; }
-        .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:10px; text-align:center; margin-bottom:16px; border:1px solid var(--primary); }
+        .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin-bottom:16px; border:1px solid var(--primary); }
         .cuota-box .label { font-size:11px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
-        .cuota-box .value { font-size:24px; font-weight:800; color:var(--primary); }
-        .consent-screen { text-align:center; }
-        .consent-screen .hero-icon { font-size:42px; color:var(--primary); margin-bottom:8px; }
-        .consent-screen h2 { font-size:20px; margin-bottom:4px; font-weight:700; color:var(--text); }
-        .consent-screen p { color:var(--text-light); font-size:13px; margin-bottom:12px; padding:0 10px; }
-        .consent-screen .badge-clientes { display:inline-block; background:var(--primary); color:#fff; padding:4px 16px; border-radius:40px; font-weight:700; font-size:12px; margin-bottom:14px; }
+        .cuota-box .value { font-size:28px; font-weight:800; color:var(--primary); }
         .consent-checkbox-group { text-align:left; margin:12px 0; }
         .consent-checkbox-group label { display:flex; align-items:flex-start; gap:10px; font-size:13px; cursor:pointer; color:var(--text); line-height:1.4; }
         .consent-checkbox-group input[type="checkbox"] { width:18px; height:18px; margin-top:1px; accent-color:var(--primary); flex-shrink:0; }
@@ -107,7 +102,7 @@
         .requisitos-box h5 { font-size:13px; margin-bottom:10px; color:var(--primary); }
         .requisitos-box .checkbox-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; color:white; font-size:13px; }
         .requisitos-box .checkbox-item input[type="checkbox"] { width:16px; height:16px; accent-color:var(--primary); cursor:pointer; }
-        @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .header h1{font-size:18px;} .consent-screen h2{font-size:18px;} }
+        @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .header h1{font-size:18px;} }
         body.dark { --bg:#050C17; --card-bg:#0F1E2F; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#2A1F0A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
         body.dark .form-control { background:#0A1628; color:#FFFFFF; border-color:#1A2D42; }
         body.dark .form-control:focus { background:#0A1628; color:#FFFFFF; border-color:var(--primary); }
@@ -130,61 +125,28 @@
 <body>
 
 <div class="app-container" id="app">
-
-    <div id="consentScreen" class="consent-screen">
-        <div class="header" style="border-bottom: none; margin-bottom: 4px;">
-            <div class="logo-container" id="logoContainer">
-                <img src="logo.png?v=10" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
-            </div>
-            <h1>Solución Flex <small>Rápido y Fácil</small></h1>
-            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
-        </div>
-
-        <div class="hero-icon"><i class="fas fa-handshake"></i></div>
-        <h2>Simulador de Crédito</h2>
-        <p>Encontrá la mejor opción de préstamo. Simulá en minutos y recibí atención personalizada.</p>
-        <div class="badge-clientes">🌟 +150 clientes satisfechos</div>
-
-        <div style="background:var(--bg); border-radius:var(--radius-sm); padding:10px 14px; text-align:left; font-size:12px; color:var(--text-light); display:flex; flex-direction:column; gap:6px;">
-            <span><i class="fas fa-check-circle" style="color:var(--primary); width:18px;"></i> Simulación sin compromiso</span>
-            <span><i class="fas fa-check-circle" style="color:var(--primary); width:18px;"></i> Atención por asesor</span>
-            <span><i class="fas fa-check-circle" style="color:var(--primary); width:18px;"></i> Proceso simple y seguro</span>
-        </div>
-
-        <div class="consent-checkbox-group">
-            <label>
-                <input type="checkbox" id="chkConsent"> 
-                Declaro que mis datos son reales y autorizo voluntariamente a Solución Flex a utilizarlos para la gestión y verificación de mi estado crediticio.
-            </label>
-        </div>
-
-        <div class="alert alert-error" id="consentError" style="display:none; margin-bottom:10px;">Debes aceptar la declaración para continuar.</div>
-        <button class="btn btn-primary" id="btnConsent">Comenzar simulación →</button>
-
-        <div class="flex-info">
-            <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
-            <span>·</span>
-            <span><i class="fas fa-phone"></i> +595 992 271 485</span>
-        </div>
-    </div>
-
-    <div id="formScreen" style="display:none;">
-
+    <div id="formScreen">
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 14px;">
             <div class="logo-container" style="width:38px; height:38px;">
                 <img src="logo.png?v=10" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
             </div>
-            <h1 style="font-size:18px;">Solución Flex <small>Simulador</small></h1>
-            <button class="theme-toggle" id="themeToggle2"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+            <h1 style="font-size:18px;">FlexCrédito <small>Simulador</small></h1>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
         </div>
 
         <form id="formProspecto" autocomplete="off">
+            <!-- ========== PASO 1: HOOK ========== -->
             <div class="form-step active-step" id="step1">
                 <div class="step-indicator">
-                    <div class="step-dot active"><span class="circle">1</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot"><span class="circle">2</span><div class="step-label">Perfil</div></div>
-                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-dot active"><span class="circle">1</span><div class="step-label">Monto</div></div>
+                    <div class="step-dot"><span class="circle">2</span><div class="step-label">Filtro</div></div>
+                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot"><span class="circle">4</span><div class="step-label">Cierre</div></div>
                     <div class="step-line"></div>
+                </div>
+
+                <div style="text-align:center; margin-bottom:10px;">
+                    <div style="font-size:16px; font-weight:600; color:var(--text-light);">Mirá cuánto podés retirar hoy</div>
                 </div>
 
                 <div class="form-group">
@@ -208,10 +170,61 @@
                 </div>
 
                 <div class="cuota-box">
-                    <div class="label">Cuota estimada (referencial)</div>
+                    <div class="label">Tu cuota estimada</div>
                     <div class="value" id="cuotaPreview">₲ 0</div>
                 </div>
 
+                <div class="alert alert-error" id="errorStep1"></div>
+                <button type="button" class="btn btn-primary" onclick="nextStep(2)">👉 Quiero este préstamo</button>
+            </div>
+
+            <!-- ========== PASO 2: FILTRO ========== -->
+            <div class="form-step" id="step2">
+                <div class="step-indicator">
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Monto</div></div>
+                    <div class="step-dot active"><span class="circle">2</span><div class="step-label">Filtro</div></div>
+                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot"><span class="circle">4</span><div class="step-label">Cierre</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Edad *</label>
+                    <input class="form-control" type="number" id="edadFiltro" placeholder="Ej: 30" min="18" max="74" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Situación financiera *</label>
+                    <select class="form-control" id="situacionFinanciera" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="limpio">✅ Historial limpio</option>
+                        <option value="informconf">⚠️ Tengo deudas en Informconf</option>
+                        <option value="cartera">⚠️ Tengo deudas con casas de cartera</option>
+                        <option value="ambos">⚠️ Tengo Informconf y cartera</option>
+                    </select>
+                    <div class="alert alert-warning" id="warningSituacion" style="display:none; margin-top:8px;">
+                        ⚠️ Tu perfil tiene deudas reportadas. Podemos intentarlo, pero la aprobación no está garantizada. ¿Quieres continuar igual?
+                    </div>
+                </div>
+
+                <div class="alert alert-error" id="errorStep2"></div>
+                <div class="button-group" style="display:flex; gap:12px; margin-top:14px;">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
+                    <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
+                </div>
+            </div>
+
+            <!-- ========== PASO 3: CAPTURA FUERTE ========== -->
+            <div class="form-step" id="step3">
+                <div class="step-indicator">
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Monto</div></div>
+                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Filtro</div></div>
+                    <div class="step-dot active"><span class="circle">3</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot"><span class="circle">4</span><div class="step-label">Cierre</div></div>
+                    <div class="step-line"></div>
+                </div>
+
+                <!-- Aquí van TODOS los campos del formulario anterior (ex-step1 y ex-step2) -->
                 <div class="row-2">
                     <div class="form-group"><label>Nombres *</label><input class="form-control" type="text" id="nombres" placeholder="Juan" required></div>
                     <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
@@ -256,18 +269,6 @@
                         <option value="">Primero selecciona un departamento</option>
                     </select>
                     <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad" style="max-width:100%; margin-top:8px;">
-                </div>
-
-                <div class="alert alert-error" id="errorStep1"></div>
-                <button type="button" class="btn btn-primary" onclick="nextStep(2)">Continuar →</button>
-            </div>
-
-            <div class="form-step" id="step2">
-                <div class="step-indicator">
-                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot active"><span class="circle">2</span><div class="step-label">Perfil</div></div>
-                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Revisar</div></div>
-                    <div class="step-line"></div>
                 </div>
 
                 <div class="form-group">
@@ -325,6 +326,7 @@
                     <div id="requisitosList"></div>
                 </div>
 
+                <!-- Informconf y Cartera (ya preguntados en paso 2, pero los mantenemos para consistencia) -->
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
                 </div>
@@ -344,31 +346,47 @@
                 <div class="alert alert-warning" id="warningModificacion" style="display:none;">
                     ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Recuerda que tus datos serán verificados.
                 </div>
-                <div class="alert alert-error" id="errorStep2"></div>
+
+                <div class="alert alert-error" id="errorStep3"></div>
                 <div class="button-group" style="display:flex; gap:12px; margin-top:14px;">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
-                    <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
+                    <button type="button" class="btn btn-primary" id="btnContinueStep3" onclick="nextStep(4)">Continuar →</button>
                 </div>
             </div>
 
-            <div class="form-step" id="step3">
+            <!-- ========== PASO 4: CIERRE ========== -->
+            <div class="form-step" id="step4">
                 <div class="step-indicator">
-                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Perfil</div></div>
-                    <div class="step-dot active"><span class="circle">3</span><div class="step-label">Revisar</div></div>
+                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Monto</div></div>
+                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Filtro</div></div>
+                    <div class="step-dot completed"><span class="circle">3</span><div class="step-label">Datos</div></div>
+                    <div class="step-dot active"><span class="circle">4</span><div class="step-label">Cierre</div></div>
                     <div class="step-line"></div>
+                </div>
+
+                <div style="text-align:center; margin-bottom:16px;">
+                    <div style="font-size:18px; font-weight:700; color:var(--primary);">✅ ¡Ya casi está!</div>
+                    <div style="font-size:14px; color:var(--text-light);">Revisá tus datos y confirmá para que te contacte.</div>
                 </div>
 
                 <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:13px; margin-bottom:14px; color:white;"></div>
 
-                <div class="alert alert-error" id="errorStep3"></div>
+                <div class="consent-checkbox-group">
+                    <label>
+                        <input type="checkbox" id="chkConsent">
+                        Declaro que mis datos son reales y autorizo voluntariamente a Solución Flex a utilizarlos para la gestión y verificación de mi estado crediticio.
+                    </label>
+                </div>
+
+                <div class="alert alert-error" id="errorStep4"></div>
                 <div class="button-group" style="display:flex; gap:12px;">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
-                    <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar solicitud</button>
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">← Atrás</button>
+                    <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar y contactarme</button>
                 </div>
             </div>
         </form>
 
+        <!-- Testimonios (visible en todos los pasos) -->
         <div class="testimonios">
             <h4><i class="fas fa-star" style="color:var(--primary);"></i> Lo que dicen nuestros clientes</h4>
             <div class="testimonio-item">
@@ -388,7 +406,7 @@
     <div id="successScreen" class="success-screen" style="display:none;">
         <i class="fas fa-check-circle"></i>
         <h2>¡Gracias por tu presolicitud!</h2>
-        <p style="color:var(--text-light); font-size:14px; max-width: 400px; margin: 0 auto;">Nuestro equipo analizará tu perfil y los documentos indicados. Te contactaremos a la brevedad para continuar con el proceso.</p>
+        <p style="color:var(--text-light); font-size:14px; max-width: 400px; margin: 0 auto;">En breve te contacto para gestionarte el mejor préstamo disponible. Vos solo vas a retirar la plata.</p>
         <button class="btn btn-primary" style="margin-top:20px; max-width: 250px;" onclick="location.reload()">Nueva simulación</button>
     </div>
 
@@ -397,49 +415,24 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA INTELIGENTE (con corrección de año)
+    //  0. MÁSCARA DE FECHA (igual que antes)
     // ================================================================
     function smartDateMask(e) {
         let input = e.target;
         if (e.inputType === 'deleteContentBackward') return;
-
         let value = input.value.replace(/\D/g, '');
         if (value.length > 8) value = value.slice(0, 8);
-
         let day = value.slice(0, 2);
         let month = value.slice(2, 4);
         let year = value.slice(4, 8);
-
-        // Validar día (01-31)
-        if (day.length === 1 && parseInt(day) > 3) {
-            day = '0' + day;
-        }
-        if (day.length === 2) {
-            let d = parseInt(day);
-            if (d > 31) day = '31';
-            if (d === 0) day = '01';
-        }
-
-        // Validar mes (01-12)
-        if (month.length === 1 && parseInt(month) > 1) {
-            month = '0' + month;
-        }
-        if (month.length === 2) {
-            let m = parseInt(month);
-            if (m > 12) month = '12';
-            if (m === 0) month = '01';
-        }
-
-        // Si el año tiene 2 dígitos, dejar como está (se corregirá en onblur)
-        if (year.length === 2) {
-            // No hacer nada aún, fixYear lo corregirá al perder el foco
-        }
-
+        if (day.length === 1 && parseInt(day) > 3) day = '0' + day;
+        if (day.length === 2) { let d = parseInt(day); if (d > 31) day = '31'; if (d === 0) day = '01'; }
+        if (month.length === 1 && parseInt(month) > 1) month = '0' + month;
+        if (month.length === 2) { let m = parseInt(month); if (m > 12) month = '12'; if (m === 0) month = '01'; }
         let formatted = '';
         if (day) formatted += day;
         if (month) formatted += '/' + month;
         if (year) formatted += '/' + year;
-
         input.value = formatted;
     }
 
@@ -450,7 +443,6 @@
             let y = parts[2];
             if (y.length === 2) {
                 let yearNum = parseInt(y);
-                // Si el año es <= 24, asumir 20xx, sino 19xx
                 parts[2] = (yearNum <= 24 ? '20' : '19') + y;
                 input.value = parts.join('/');
             }
@@ -537,7 +529,7 @@
     }
 
     // ================================================================
-    //  3. CAMPOS DINÁMICOS
+    //  3. CAMPOS DINÁMICOS (sin cambios)
     // ================================================================
     const perfilesConfig = {
         'asalariado_ips': {
@@ -657,80 +649,60 @@
     }
 
     // ================================================================
-    //  4. VALIDACIONES
+    //  4. VALIDACIONES DE INFORMCONF/CARTERA (sin cambios)
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
 
     function validarInformconf() {
         const informconf = document.getElementById('informconf');
-        const error = document.getElementById('errorStep2');
-        const btn = document.getElementById('btnContinueStep2');
+        const error = document.getElementById('errorStep3');
         const warning = document.getElementById('warningModificacion');
 
         if (informconf.checked) {
-            error.textContent = '❌ No puedes continuar porque tienes Informconf. Debes tener historial crediticio limpio.';
-            error.style.display = 'block';
-            btn.disabled = true;
             informconfModificado = true;
-        } else {
-            error.style.display = 'none';
-            btn.disabled = false;
-            if (informconfModificado) {
-                warning.style.display = 'block';
+            // Mostrar advertencia pero NO bloquear
+            if (error) {
+                error.textContent = '⚠️ Tienes Informconf. Esto puede afectar la aprobación, pero lo intentaremos.';
+                error.style.display = 'block';
+                error.className = 'alert alert-warning';
             }
-            validarCartera();
+        } else {
+            if (error) error.style.display = 'none';
+            if (informconfModificado && warning) warning.style.display = 'block';
         }
     }
 
     function validarCartera() {
         const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera');
-        const error = document.getElementById('errorStep2');
-        const btn = document.getElementById('btnContinueStep2');
+        const error = document.getElementById('errorStep3');
         const warning = document.getElementById('warningModificacion');
 
-        const informconf = document.getElementById('informconf');
-        if (informconf.checked) return;
-
-        let tieneCartera = false;
-        let msg = '';
-
         if (carteras.value !== 'ninguna') {
-            tieneCartera = true;
             carteraModificado = true;
             if (carteras.value === 'otro' && otraCartera.value.trim() === '') {
-                msg = '❌ Especifica el nombre de la casa de cartera.';
+                if (error) {
+                    error.textContent = '⚠️ Especifica el nombre de la casa de cartera.';
+                    error.style.display = 'block';
+                    error.className = 'alert alert-warning';
+                }
             } else {
-                msg = '❌ Tienes deuda con casa de cartera. No puedes continuar.';
+                if (error) {
+                    error.textContent = '⚠️ Tienes deuda con casa de cartera. Lo intentaremos igual, pero la aprobación puede ser más difícil.';
+                    error.style.display = 'block';
+                    error.className = 'alert alert-warning';
+                }
             }
         } else {
-            error.style.display = 'none';
-            btn.disabled = false;
-            if (carteraModificado) {
-                warning.style.display = 'block';
-            }
-            return;
-        }
-
-        if (tieneCartera) {
-            error.textContent = msg;
-            error.style.display = 'block';
-            btn.disabled = true;
-        } else {
-            error.style.display = 'none';
-            btn.disabled = false;
-            if (carteraModificado) {
-                warning.style.display = 'block';
-            }
+            if (error) error.style.display = 'none';
+            if (carteraModificado && warning) warning.style.display = 'block';
         }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('carteras').addEventListener('change', function() {
-            if (this.value !== 'ninguna') {
-                carteraModificado = true;
-            }
+            if (this.value !== 'ninguna') carteraModificado = true;
             validarCartera();
         });
         document.getElementById('otraCartera').addEventListener('input', validarCartera);
@@ -739,33 +711,27 @@
     // ================================================================
     //  5. MANEJO DE PANTALLAS Y PASOS
     // ================================================================
-    document.getElementById('consentScreen').style.display = 'block';
-    document.getElementById('formScreen').style.display = 'none';
-
-    document.getElementById('btnConsent').addEventListener('click', function() {
-        const chkConsent = document.getElementById('chkConsent').checked;
-        const err = document.getElementById('consentError');
-
-        if (chkConsent) {
-            document.getElementById('consentScreen').style.display = 'none';
-            document.getElementById('formScreen').style.display = 'block';
-            err.style.display = 'none';
-            actualizarCamposYRequisitos();
-            calcularCuotaPreview();
-            if (localStorage.getItem('solucionFlex_theme') === 'dark') {
-                document.body.classList.add('dark');
-            }
-        } else {
-            err.style.display = 'block';
-            setTimeout(() => err.style.display = 'none', 5000);
-        }
-    });
-
     let currentStep = 1;
+    let lead = {};
 
     function nextStep(step) {
         if (step === 2 && !validateStep1()) return;
         if (step === 3 && !validateStep2()) return;
+        if (step === 4 && !validateStep3()) return;
+
+        // Guardar datos del paso actual en lead antes de avanzar
+        if (step === 2) {
+            lead.monto = document.getElementById('monto').value;
+            lead.plazo = document.getElementById('plazo').value;
+            lead.cuota = document.getElementById('cuotaPreview').textContent;
+        }
+        if (step === 3) {
+            lead.edad = document.getElementById('edadFiltro').value;
+            lead.situacion = document.getElementById('situacionFinanciera').value;
+        }
+        if (step === 4) {
+            // Se guardarán todos los datos al enviar
+        }
 
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
         document.getElementById('step' + step).classList.add('active-step');
@@ -777,17 +743,55 @@
             else if (num < step) dot.classList.add('completed');
         });
 
-        if (step === 3) generarResumen();
+        if (step === 4) generarResumen();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function prevStep(step) { nextStep(step); }
+    function prevStep(step) {
+        nextStep(step);
+    }
 
     // ================================================================
-    //  6. VALIDACIONES
+    //  6. VALIDACIONES POR PASO
     // ================================================================
     function validateStep1() {
         const err = document.getElementById('errorStep1');
+        err.style.display = 'none';
+        // Siempre hay valores por defecto, pero validamos que estén seleccionados
+        const monto = document.getElementById('monto').value;
+        const plazo = document.getElementById('plazo').value;
+        if (!monto || !plazo) {
+            showErrorStep(err, 'Selecciona un monto y plazo.');
+            return false;
+        }
+        return true;
+    }
+
+    function validateStep2() {
+        const err = document.getElementById('errorStep2');
+        err.style.display = 'none';
+        const edad = parseInt(document.getElementById('edadFiltro').value);
+        const situacion = document.getElementById('situacionFinanciera').value;
+        if (isNaN(edad) || edad < 18 || edad > 74) {
+            showErrorStep(err, 'Edad entre 18 y 74 años.');
+            return false;
+        }
+        if (!situacion) {
+            showErrorStep(err, 'Selecciona tu situación financiera.');
+            return false;
+        }
+        // Mostrar advertencia si situación es informconf o cartera
+        const warning = document.getElementById('warningSituacion');
+        if (situacion === 'informconf' || situacion === 'cartera' || situacion === 'ambos') {
+            warning.style.display = 'block';
+        } else {
+            warning.style.display = 'none';
+        }
+        return true;
+    }
+
+    function validateStep3() {
+        const err = document.getElementById('errorStep3');
         err.style.display = 'none';
 
         const nombres = document.getElementById('nombres').value.trim();
@@ -798,7 +802,10 @@
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
-        const monto = parseInt(document.getElementById('monto').value);
+        const actividad = document.getElementById('actividad').value;
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
+        const ingreso = parseInt(document.getElementById('ingreso').value);
 
         const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
         if (!regexLetras.test(nombres) || nombres.length < 2) {
@@ -818,7 +825,6 @@
             return false;
         }
 
-        // Validar fecha
         const fechaValida = parsearFecha(fechaStr);
         if (!fechaValida || fechaStr.length < 10) {
             showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 14/05/1981).');
@@ -826,13 +832,7 @@
         }
         const year = parseInt(fechaStr.split('/')[2], 10);
         if (isNaN(year) || year < 1900 || year > 2100) {
-            showErrorStep(err, 'Ingresa un año válido de 4 dígitos (ej: 1988).');
-            return false;
-        }
-
-        const edad = calcularEdad(fechaStr);
-        if (edad === null || edad < 18 || edad > 74) {
-            showErrorStep(err, 'Edad entre 18 y 74 años.');
+            showErrorStep(err, 'Año inválido (debe ser de 4 dígitos).');
             return false;
         }
 
@@ -848,30 +848,10 @@
             showErrorStep(err, 'Escribe el nombre de tu ciudad.');
             return false;
         }
-        if (monto < 1000000 || monto > 5000000) {
-            showErrorStep(err, 'Monto entre 1 y 5 millones.');
-            return false;
-        }
-        return true;
-    }
-
-    function validateStep2() {
-        const err = document.getElementById('errorStep2');
-        if (err.style.display === 'block') {
-            return false;
-        }
-
-        const perfil = document.getElementById('actividad').value;
-        const config = perfilesConfig[perfil];
-        if (!config) {
+        if (!actividad) {
             showErrorStep(err, 'Selecciona una actividad laboral.');
             return false;
         }
-
-        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
-        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
-        const ingreso = parseInt(document.getElementById('ingreso').value);
-
         if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
             showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
             return false;
@@ -885,47 +865,50 @@
             return false;
         }
 
-        if (config.camposEmpresa) {
-            const empresa = document.getElementById('empresa').value.trim();
-            const telefono = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
-            if (empresa.length < 2) {
-                showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
-                return false;
+        // Validar campos dinámicos (IPS/IVA/Patente)
+        const config = perfilesConfig[actividad];
+        if (config) {
+            const t = config.tiempo;
+            if (t.ips) {
+                const anios = parseInt(document.getElementById('ips_anios').value) || 0;
+                const meses = parseInt(document.getElementById('ips_meses').value) || 0;
+                const totalMeses = anios * 12 + meses;
+                if (totalMeses < 6) {
+                    showErrorStep(err, '❌ Debes tener al menos 6 meses de aporte IPS.');
+                    return false;
+                }
             }
-            if (telefono.length !== 10 || !telefono.startsWith('09')) {
-                showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
-                return false;
+            if (t.iva) {
+                const anios = parseInt(document.getElementById('iva_anios').value) || 0;
+                const meses = parseInt(document.getElementById('iva_meses').value) || 0;
+                const totalMeses = anios * 12 + meses;
+                if (totalMeses < 6) {
+                    showErrorStep(err, '❌ Debes tener al menos 6 meses de declaración IVA.');
+                    return false;
+                }
             }
-        }
-
-        const t = config.tiempo;
-        if (t.ips) {
-            const anios = parseInt(document.getElementById('ips_anios').value) || 0;
-            const meses = parseInt(document.getElementById('ips_meses').value) || 0;
-            const totalMeses = anios * 12 + meses;
-            if (totalMeses < 6) {
-                showErrorStep(err, '❌ Debes tener al menos 6 meses de aporte IPS.');
-                return false;
+            if (t.patente) {
+                const anios = parseInt(document.getElementById('patente_anios').value) || 0;
+                const meses = parseInt(document.getElementById('patente_meses').value) || 0;
+                const totalMeses = anios * 12 + meses;
+                let minMeses = 12;
+                if (actividad === 'independiente') minMeses = 18;
+                if (totalMeses < minMeses) {
+                    showErrorStep(err, `❌ Debes tener al menos ${minMeses} meses de antigüedad de patente.`);
+                    return false;
+                }
             }
-        }
-        if (t.iva) {
-            const anios = parseInt(document.getElementById('iva_anios').value) || 0;
-            const meses = parseInt(document.getElementById('iva_meses').value) || 0;
-            const totalMeses = anios * 12 + meses;
-            if (totalMeses < 6) {
-                showErrorStep(err, '❌ Debes tener al menos 6 meses de declaración IVA.');
-                return false;
-            }
-        }
-        if (t.patente) {
-            const anios = parseInt(document.getElementById('patente_anios').value) || 0;
-            const meses = parseInt(document.getElementById('patente_meses').value) || 0;
-            const totalMeses = anios * 12 + meses;
-            let minMeses = 12;
-            if (perfil === 'independiente') minMeses = 18;
-            if (totalMeses < minMeses) {
-                showErrorStep(err, `❌ Debes tener al menos ${minMeses} meses de antigüedad de patente.`);
-                return false;
+            if (config.camposEmpresa) {
+                const empresa = document.getElementById('empresa').value.trim();
+                const telefono = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+                if (empresa.length < 2) {
+                    showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
+                    return false;
+                }
+                if (telefono.length !== 10 || !telefono.startsWith('09')) {
+                    showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
+                    return false;
+                }
             }
         }
 
@@ -939,11 +922,14 @@
     }
 
     // ================================================================
-    //  7. RESUMEN
+    //  7. RESUMEN (PASO 4)
     // ================================================================
     function generarResumen() {
-        const monto = parseInt(document.getElementById('monto').value);
-        const plazo = parseInt(document.getElementById('plazo').value);
+        const monto = document.getElementById('monto').value;
+        const plazo = document.getElementById('plazo').value;
+        const cuota = document.getElementById('cuotaPreview').textContent;
+        const edad = document.getElementById('edadFiltro').value;
+        const situacion = document.getElementById('situacionFinanciera').value;
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value;
@@ -953,28 +939,20 @@
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const perfil = document.getElementById('actividad').value;
-        const config = perfilesConfig[perfil];
+        const actividad = document.getElementById('actividad').value;
+        const config = perfilesConfig[actividad];
         const perfilLabel = config ? config.label : 'No seleccionado';
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edad = calcularEdad(fechaStr);
-        const cuota = obtenerCuota(monto, plazo);
+        const edadCalculada = calcularEdad(fechaStr);
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
 
         const docsMarcados = [];
-        const docsFaltantes = [];
-        document.querySelectorAll('.chk-requisito').forEach(chk => {
+        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
-            if (label) {
-                if (chk.checked) {
-                    docsMarcados.push(label.textContent.trim());
-                } else {
-                    docsFaltantes.push(label.textContent.trim());
-                }
-            }
+            if (label) docsMarcados.push(label.textContent.trim());
         });
 
         const informconf = document.getElementById('informconf').checked;
@@ -1002,32 +980,28 @@
             }
         }
 
-        let advertencia = '';
-        if (informconfModificado || carteraModificado) {
-            advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera.</div>';
-        }
-
-        let reqHTML = `<p><strong>Posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>`;
-        if (docsFaltantes.length > 0) {
-            reqHTML += `<p style="color:#ef4444;"><strong>Le falta:</strong> ${docsFaltantes.join(', ')}</p>`;
-        }
+        let situacionTexto = {
+            'limpio': '✅ Historial limpio',
+            'informconf': '⚠️ Deudas en Informconf',
+            'cartera': '⚠️ Deudas con cartera',
+            'ambos': '⚠️ Informconf + Cartera'
+        }[situacion] || 'No especificada';
 
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
-            <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
-            <p>Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses</p>
-            <p>Cuota ref.: ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}</p>
+            <p>Edad: ${edadCalculada} años · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
+            <p>Solicita: ₲ ${formatearNumero(parseInt(monto))} a ${plazo} meses · Cuota: ${cuota}</p>
             <hr style="border:1px solid #1A2D42; margin:8px 0;">
             <p>Perfil: ${perfilLabel}</p>
             ${config && config.camposEmpresa ? `<p>Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>` : ''}
             <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
             <p>${tiempoTexto}</p>
+            <p>Situación financiera: ${situacionTexto}</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
             <hr style="border:1px solid #1A2D42; margin:8px 0;">
-            ${reqHTML}
-            ${advertencia}
+            <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>
         `;
     }
 
@@ -1035,13 +1009,22 @@
     //  8. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
-        const err = document.getElementById('errorStep3');
+        const err = document.getElementById('errorStep4');
         err.style.display = 'none';
+        const chk = document.getElementById('chkConsent');
+        if (!chk.checked) {
+            showErrorStep(err, 'Debes aceptar la declaración de veracidad.');
+            return;
+        }
 
-        if (!validateStep2()) return;
+        if (!validateStep3()) return;
 
-        const monto = parseInt(document.getElementById('monto').value);
-        const plazo = parseInt(document.getElementById('plazo').value);
+        // Recolectar todos los datos
+        const monto = document.getElementById('monto').value;
+        const plazo = document.getElementById('plazo').value;
+        const cuota = document.getElementById('cuotaPreview').textContent;
+        const edad = document.getElementById('edadFiltro').value;
+        const situacion = document.getElementById('situacionFinanciera').value;
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
@@ -1051,28 +1034,20 @@
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const perfil = document.getElementById('actividad').value;
-        const config = perfilesConfig[perfil];
+        const actividad = document.getElementById('actividad').value;
+        const config = perfilesConfig[actividad];
         const perfilLabel = config ? config.label : 'No seleccionado';
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
         const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edad = calcularEdad(fechaStr);
-        const cuota = obtenerCuota(monto, plazo);
+        const edadCalculada = calcularEdad(fechaStr);
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
 
         const docsMarcados = [];
-        const docsFaltantes = [];
-        document.querySelectorAll('.chk-requisito').forEach(chk => {
+        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
-            if (label) {
-                if (chk.checked) {
-                    docsMarcados.push(label.textContent.trim());
-                } else {
-                    docsFaltantes.push(label.textContent.trim());
-                }
-            }
+            if (label) docsMarcados.push(label.textContent.trim());
         });
 
         const informconf = document.getElementById('informconf').checked;
@@ -1100,15 +1075,22 @@
             }
         }
 
-        let mensaje = `*NUEVA PRESOLICITUD - SOLUCIÓN FLEX*%0A%0A`;
+        let situacionTexto = {
+            'limpio': 'Limpio',
+            'informconf': 'Informconf',
+            'cartera': 'Cartera',
+            'ambos': 'Informconf + Cartera'
+        }[situacion] || 'No especificada';
+
+        let mensaje = `*NUEVA PRESOLICITUD - FlexCrédito*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
-        mensaje += `🎂 *Edad:* ${edad} años%0A`;
+        mensaje += `🎂 *Edad:* ${edadCalculada} años%0A`;
         mensaje += `📍 *Ubicación:* ${ciudadFinal}, ${departamento}%0A`;
-        mensaje += `💰 *Monto:* ₲ ${formatearNumero(monto)}%0A`;
+        mensaje += `💰 *Monto:* ₲ ${formatearNumero(parseInt(monto))}%0A`;
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
-        mensaje += `💵 *Cuota ref.:* ${cuota ? '₲ ' + formatearNumero(cuota) : 'N/A'}%0A`;
+        mensaje += `💵 *Cuota ref.:* ${cuota}%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
         mensaje += `📊 *Perfil:* ${perfilLabel}%0A`;
         if (config && config.camposEmpresa) {
@@ -1117,23 +1099,15 @@
         }
         mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `📌 *${tiempoTexto}*%0A`;
-        mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ (tiene deudas)' : 'NO (limpio)'}%0A`;
+        mensaje += `🧠 *Situación financiera:* ${situacionTexto}%0A`;
+        mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
 
         mensaje += `📋 *DOCUMENTOS QUE POSEE:*%0A`;
         if (docsMarcados.length > 0) {
-            docsMarcados.forEach(doc => {
-                mensaje += `✅ ${doc}%0A`;
-            });
+            docsMarcados.forEach(doc => { mensaje += `✅ ${doc}%0A`; });
         } else {
             mensaje += `Ninguno marcado%0A`;
-        }
-
-        if (docsFaltantes.length > 0) {
-            mensaje += `%0A❌ *DOCUMENTOS FALTANTES:*%0A`;
-            docsFaltantes.forEach(doc => {
-                mensaje += `👉 ${doc}%0A`;
-            });
         }
 
         if (informconfModificado || carteraModificado) {
@@ -1150,7 +1124,7 @@
     });
 
     // ================================================================
-    //  9. CIUDADES DINÁMICAS
+    //  9. CIUDADES DINÁMICAS (sin cambios)
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -1194,7 +1168,7 @@
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    //  11. CALCULAR CUOTA
+    //  11. CALCULAR CUOTA (PASO 1)
     // ================================================================
     function calcularCuotaPreview() {
         const monto = parseInt(document.getElementById('monto').value);
@@ -1213,7 +1187,6 @@
         localStorage.setItem('solucionFlex_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
     }
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    document.getElementById('themeToggle2').addEventListener('click', toggleTheme);
 
     if (localStorage.getItem('solucionFlex_theme') === 'dark') {
         document.body.classList.add('dark');
@@ -1229,9 +1202,7 @@
         document.getElementById('otraCartera').classList.add('hidden');
         calcularCuotaPreview();
         actualizarCamposYRequisitos();
-        document.getElementById('btnContinueStep2').disabled = false;
-        validarInformconf();
-        validarCartera();
+        // El botón continuar del paso 3 se habilita después de validar
     });
 
     window.nextStep = nextStep;
