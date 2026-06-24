@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
-        /* ===== RESET Y VARIABLES (mismo que antes) ===== */
+        /* ===== RESET Y VARIABLES ===== */
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',system-ui,sans-serif; }
         :root {
             --bg: #0A1628;
@@ -51,8 +51,8 @@
         .theme-toggle:hover { background:var(--primary-dark); }
         .form-group { margin-bottom:14px; }
         .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-light); margin-bottom:4px; letter-spacing:0.2px; }
-        .form-control { width:100%; padding:10px 14px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:#FFFFFF; color:#0A1628; transition:var(--transition); }
-        .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(201,168,76,0.2); background:#FFFFFF; }
+        .form-control { width:100%; padding:10px 14px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:#FFFFFF !important; color:#0A1628 !important; transition:var(--transition); }
+        .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(201,168,76,0.2); background:#FFFFFF !important; }
         .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
         .checkbox-group { display:flex; flex-wrap:wrap; gap:8px 20px; padding-top:4px; margin-bottom:10px; }
         .checkbox-group label { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14px; cursor:pointer; color:var(--text); }
@@ -65,10 +65,12 @@
         .btn-success { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(201,168,76,0.35); }
         .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,0.45); }
         .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none!important; }
-        .step-indicator { display:flex; justify-content:space-between; margin-bottom:20px; position:relative; }
+        /* INDICADOR DE PASOS FIJO (STICKY) */
+        .step-wrapper { position:sticky; top:0; z-index:10; background:var(--card-bg); padding-top:4px; margin-bottom:8px; border-bottom:1px solid var(--border); }
+        .step-indicator { display:flex; justify-content:space-between; padding:0 4px 12px 4px; position:relative; }
         .step-dot { flex:1; text-align:center; font-size:11px; font-weight:500; color:var(--text-light); position:relative; z-index:2; }
         .step-dot .circle { width:32px; height:32px; background:var(--border); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:var(--text-light); transition:var(--transition); margin-bottom:4px; }
-        .step-dot.active .circle { background:var(--primary); color:#fff; box-shadow:0 0 0 6px rgba(201,168,76,0.2); }
+        .step-dot.active .circle { background:var(--primary); color:#fff; box-shadow:0 0 0 4px rgba(201,168,76,0.2); }
         .step-dot.completed .circle { background:var(--primary-dark); color:#fff; }
         .step-dot.active .step-label { color:var(--primary); font-weight:600; }
         .step-line { position:absolute; top:16px; left:10%; right:10%; height:2px; background:var(--border); z-index:1; }
@@ -84,7 +86,7 @@
         .testimonio-item .stars { color:var(--primary); font-size:12px; margin-bottom:2px; }
         .testimonio-item .comentario { font-size:13px; font-style:italic; color:white; }
         .testimonio-item .autor { font-size:12px; font-weight:600; color:#cbd5e1; margin-top:4px; }
-        .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin-bottom:16px; border:1px solid var(--primary); }
+        .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin:8px 0 16px 0; border:1px solid var(--primary); }
         .cuota-box .label { font-size:11px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
         .cuota-box .value { font-size:28px; font-weight:800; color:var(--primary); }
         .consent-checkbox-group { text-align:left; margin:12px 0; }
@@ -102,10 +104,11 @@
         .requisitos-box h5 { font-size:13px; margin-bottom:10px; color:var(--primary); }
         .requisitos-box .checkbox-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; color:white; font-size:13px; }
         .requisitos-box .checkbox-item input[type="checkbox"] { width:16px; height:16px; accent-color:var(--primary); cursor:pointer; }
+        .intro-text { font-size:14px; color:var(--text-light); text-align:center; margin-bottom:16px; line-height:1.6; }
+        .intro-text strong { color:var(--primary); }
+        .intro-text .bancos { font-size:12px; color:var(--text-light); margin-top:4px; }
         @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .header h1{font-size:18px;} }
         body.dark { --bg:#050C17; --card-bg:#0F1E2F; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#2A1F0A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
-        body.dark .form-control { background:#0A1628; color:#FFFFFF; border-color:#1A2D42; }
-        body.dark .form-control:focus { background:#0A1628; color:#FFFFFF; border-color:var(--primary); }
         body.dark .btn-secondary { background:#0A1628; color:#E6EDF2; }
         body.dark .btn-secondary:hover { background:#1A2D42; }
         body.dark .theme-toggle { background:#0A1628; border-color:#1A2D42; color:white; }
@@ -120,6 +123,8 @@
         body.dark .cuota-box .value { color:var(--primary); }
         body.dark .requisitos-box { background:#0A1628; }
         body.dark .requisitos-box .checkbox-item { color:#E6EDF2; }
+        body.dark .step-wrapper { background:#0F1E2F; border-bottom-color:#1A2D42; }
+        /* En modo oscuro los inputs siguen siendo blancos por !important */
     </style>
 </head>
 <body>
@@ -134,39 +139,60 @@
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
         </div>
 
+        <!-- CONTENEDOR DE PASOS (STICKY) -->
+        <div class="step-wrapper" id="stepWrapper">
+            <div class="step-indicator">
+                <div class="step-dot active" data-step="1"><span class="circle">1</span><div class="step-label">Simular</div></div>
+                <div class="step-dot" data-step="2"><span class="circle">2</span><div class="step-label">Datos</div></div>
+                <div class="step-dot" data-step="3"><span class="circle">3</span><div class="step-label">Cierre</div></div>
+                <div class="step-line"></div>
+            </div>
+        </div>
+
         <form id="formProspecto" autocomplete="off">
-            <!-- ========== PASO 1: HOOK ========== -->
+            <!-- ========== PASO 1: SIMULAR ========== -->
             <div class="form-step active-step" id="step1">
-                <div class="step-indicator">
-                    <div class="step-dot active"><span class="circle">1</span><div class="step-label">Monto</div></div>
-                    <div class="step-dot"><span class="circle">2</span><div class="step-label">Filtro</div></div>
-                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot"><span class="circle">4</span><div class="step-label">Cierre</div></div>
-                    <div class="step-line"></div>
+                <div class="intro-text">
+                    En <strong>Solución Flex</strong> te gestionamos el préstamo completo.<br>
+                    <span style="color:var(--primary); font-weight:600;">Vos solo vas a retirar la plata.</span>
+                    <div class="bancos">🤝 Trabajamos con: Tking Credit, Banco Solar, Tu Financiera, Paraguaya Japonesa, Capital Créditos.</div>
                 </div>
 
-                <div style="text-align:center; margin-bottom:10px;">
-                    <div style="font-size:16px; font-weight:600; color:var(--text-light);">Mirá cuánto podés retirar hoy</div>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Nombres *</label>
+                        <input class="form-control" type="text" id="nombres" placeholder="Juan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos *</label>
+                        <input class="form-control" type="text" id="apellidos" placeholder="Pérez" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Edad *</label>
+                    <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="18" max="74" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Monto a solicitar (Gs.) *</label>
-                    <select class="form-control" id="monto">
-                        <option value="1000000">1.000.000</option>
-                        <option value="2000000">2.000.000</option>
-                        <option value="3000000">3.000.000</option>
-                        <option value="4000000">4.000.000</option>
-                        <option value="5000000" selected>5.000.000</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Plazo (meses) *</label>
-                    <select class="form-control" id="plazo">
-                        <option value="6">6</option>
-                        <option value="12" selected>12</option>
-                        <option value="18">18</option>
-                        <option value="24">24</option>
-                    </select>
+                <div class="row-2" style="gap:12px;">
+                    <div class="form-group">
+                        <label>Monto (Gs.) *</label>
+                        <select class="form-control" id="monto">
+                            <option value="1000000">1.000.000</option>
+                            <option value="2000000">2.000.000</option>
+                            <option value="3000000">3.000.000</option>
+                            <option value="4000000">4.000.000</option>
+                            <option value="5000000" selected>5.000.000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Plazo (meses) *</label>
+                        <select class="form-control" id="plazo">
+                            <option value="6">6</option>
+                            <option value="12" selected>12</option>
+                            <option value="18">18</option>
+                            <option value="24">24</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="cuota-box">
@@ -178,57 +204,8 @@
                 <button type="button" class="btn btn-primary" onclick="nextStep(2)">👉 Quiero este préstamo</button>
             </div>
 
-            <!-- ========== PASO 2: FILTRO ========== -->
+            <!-- ========== PASO 2: DATOS ========== -->
             <div class="form-step" id="step2">
-                <div class="step-indicator">
-                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Monto</div></div>
-                    <div class="step-dot active"><span class="circle">2</span><div class="step-label">Filtro</div></div>
-                    <div class="step-dot"><span class="circle">3</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot"><span class="circle">4</span><div class="step-label">Cierre</div></div>
-                    <div class="step-line"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Edad *</label>
-                    <input class="form-control" type="number" id="edadFiltro" placeholder="Ej: 30" min="18" max="74" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Situación financiera *</label>
-                    <select class="form-control" id="situacionFinanciera" required>
-                        <option value="">Seleccionar...</option>
-                        <option value="limpio">✅ Historial limpio</option>
-                        <option value="informconf">⚠️ Tengo deudas en Informconf</option>
-                        <option value="cartera">⚠️ Tengo deudas con casas de cartera</option>
-                        <option value="ambos">⚠️ Tengo Informconf y cartera</option>
-                    </select>
-                    <div class="alert alert-warning" id="warningSituacion" style="display:none; margin-top:8px;">
-                        ⚠️ Tu perfil tiene deudas reportadas. Podemos intentarlo, pero la aprobación no está garantizada. ¿Quieres continuar igual?
-                    </div>
-                </div>
-
-                <div class="alert alert-error" id="errorStep2"></div>
-                <div class="button-group" style="display:flex; gap:12px; margin-top:14px;">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
-                    <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
-                </div>
-            </div>
-
-            <!-- ========== PASO 3: CAPTURA FUERTE ========== -->
-            <div class="form-step" id="step3">
-                <div class="step-indicator">
-                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Monto</div></div>
-                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Filtro</div></div>
-                    <div class="step-dot active"><span class="circle">3</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot"><span class="circle">4</span><div class="step-label">Cierre</div></div>
-                    <div class="step-line"></div>
-                </div>
-
-                <!-- Aquí van TODOS los campos del formulario anterior (ex-step1 y ex-step2) -->
-                <div class="row-2">
-                    <div class="form-group"><label>Nombres *</label><input class="form-control" type="text" id="nombres" placeholder="Juan" required></div>
-                    <div class="form-group"><label>Apellidos *</label><input class="form-control" type="text" id="apellidos" placeholder="Pérez" required></div>
-                </div>
                 <div class="row-2">
                     <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
                     <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
@@ -326,7 +303,7 @@
                     <div id="requisitosList"></div>
                 </div>
 
-                <!-- Informconf y Cartera (ya preguntados en paso 2, pero los mantenemos para consistencia) -->
+                <!-- Informconf y Cartera (con advertencia, sin bloqueo) -->
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
                 </div>
@@ -343,27 +320,26 @@
                     <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
                 </div>
 
+                <!-- Advertencias (se muestran cuando se modifican las respuestas) -->
+                <div class="alert alert-warning" id="warningInformconf" style="display:none;">
+                    ⚠️ Tienes deudas en Informconf. Esto puede afectar la aprobación, pero lo intentaremos.
+                </div>
+                <div class="alert alert-warning" id="warningCartera" style="display:none;">
+                    ⚠️ Tienes deudas con casas de cartera. Lo intentaremos igual, pero la aprobación puede ser más difícil.
+                </div>
                 <div class="alert alert-warning" id="warningModificacion" style="display:none;">
-                    ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Recuerda que tus datos serán verificados.
+                    ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.
                 </div>
 
-                <div class="alert alert-error" id="errorStep3"></div>
+                <div class="alert alert-error" id="errorStep2"></div>
                 <div class="button-group" style="display:flex; gap:12px; margin-top:14px;">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
-                    <button type="button" class="btn btn-primary" id="btnContinueStep3" onclick="nextStep(4)">Continuar →</button>
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
+                    <button type="button" class="btn btn-primary" id="btnContinueStep2" onclick="nextStep(3)">Continuar →</button>
                 </div>
             </div>
 
-            <!-- ========== PASO 4: CIERRE ========== -->
-            <div class="form-step" id="step4">
-                <div class="step-indicator">
-                    <div class="step-dot completed"><span class="circle">1</span><div class="step-label">Monto</div></div>
-                    <div class="step-dot completed"><span class="circle">2</span><div class="step-label">Filtro</div></div>
-                    <div class="step-dot completed"><span class="circle">3</span><div class="step-label">Datos</div></div>
-                    <div class="step-dot active"><span class="circle">4</span><div class="step-label">Cierre</div></div>
-                    <div class="step-line"></div>
-                </div>
-
+            <!-- ========== PASO 3: CIERRE ========== -->
+            <div class="form-step" id="step3">
                 <div style="text-align:center; margin-bottom:16px;">
                     <div style="font-size:18px; font-weight:700; color:var(--primary);">✅ ¡Ya casi está!</div>
                     <div style="font-size:14px; color:var(--text-light);">Revisá tus datos y confirmá para que te contacte.</div>
@@ -378,9 +354,9 @@
                     </label>
                 </div>
 
-                <div class="alert alert-error" id="errorStep4"></div>
+                <div class="alert alert-error" id="errorStep3"></div>
                 <div class="button-group" style="display:flex; gap:12px;">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)">← Atrás</button>
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Atrás</button>
                     <button type="button" class="btn btn-success" id="btnEnviar">📩 Enviar y contactarme</button>
                 </div>
             </div>
@@ -415,7 +391,7 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA (igual que antes)
+    //  0. MÁSCARA DE FECHA
     // ================================================================
     function smartDateMask(e) {
         let input = e.target;
@@ -529,7 +505,7 @@
     }
 
     // ================================================================
-    //  3. CAMPOS DINÁMICOS (sin cambios)
+    //  3. CAMPOS DINÁMICOS
     // ================================================================
     const perfilesConfig = {
         'asalariado_ips': {
@@ -649,54 +625,47 @@
     }
 
     // ================================================================
-    //  4. VALIDACIONES DE INFORMCONF/CARTERA (sin cambios)
+    //  4. VALIDACIONES DE INFORMCONF/CARTERA (con advertencias, sin bloqueo)
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
 
     function validarInformconf() {
         const informconf = document.getElementById('informconf');
-        const error = document.getElementById('errorStep3');
-        const warning = document.getElementById('warningModificacion');
+        const warningInformconf = document.getElementById('warningInformconf');
+        const warningModificacion = document.getElementById('warningModificacion');
 
         if (informconf.checked) {
+            warningInformconf.style.display = 'block';
             informconfModificado = true;
-            // Mostrar advertencia pero NO bloquear
-            if (error) {
-                error.textContent = '⚠️ Tienes Informconf. Esto puede afectar la aprobación, pero lo intentaremos.';
-                error.style.display = 'block';
-                error.className = 'alert alert-warning';
-            }
         } else {
-            if (error) error.style.display = 'none';
-            if (informconfModificado && warning) warning.style.display = 'block';
+            warningInformconf.style.display = 'none';
+            if (informconfModificado) {
+                warningModificacion.style.display = 'block';
+            }
         }
+        validarCartera(); // refrescar cartera
     }
 
     function validarCartera() {
         const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera');
-        const error = document.getElementById('errorStep3');
-        const warning = document.getElementById('warningModificacion');
+        const warningCartera = document.getElementById('warningCartera');
+        const warningModificacion = document.getElementById('warningModificacion');
 
         if (carteras.value !== 'ninguna') {
+            warningCartera.style.display = 'block';
             carteraModificado = true;
             if (carteras.value === 'otro' && otraCartera.value.trim() === '') {
-                if (error) {
-                    error.textContent = '⚠️ Especifica el nombre de la casa de cartera.';
-                    error.style.display = 'block';
-                    error.className = 'alert alert-warning';
-                }
+                warningCartera.textContent = '⚠️ Especifica el nombre de la casa de cartera.';
             } else {
-                if (error) {
-                    error.textContent = '⚠️ Tienes deuda con casa de cartera. Lo intentaremos igual, pero la aprobación puede ser más difícil.';
-                    error.style.display = 'block';
-                    error.className = 'alert alert-warning';
-                }
+                warningCartera.textContent = '⚠️ Tienes deudas con casas de cartera. Lo intentaremos igual, pero la aprobación puede ser más difícil.';
             }
         } else {
-            if (error) error.style.display = 'none';
-            if (carteraModificado && warning) warning.style.display = 'block';
+            warningCartera.style.display = 'none';
+            if (carteraModificado) {
+                warningModificacion.style.display = 'block';
+            }
         }
     }
 
@@ -712,38 +681,24 @@
     //  5. MANEJO DE PANTALLAS Y PASOS
     // ================================================================
     let currentStep = 1;
-    let lead = {};
 
     function nextStep(step) {
         if (step === 2 && !validateStep1()) return;
         if (step === 3 && !validateStep2()) return;
-        if (step === 4 && !validateStep3()) return;
 
-        // Guardar datos del paso actual en lead antes de avanzar
-        if (step === 2) {
-            lead.monto = document.getElementById('monto').value;
-            lead.plazo = document.getElementById('plazo').value;
-            lead.cuota = document.getElementById('cuotaPreview').textContent;
-        }
-        if (step === 3) {
-            lead.edad = document.getElementById('edadFiltro').value;
-            lead.situacion = document.getElementById('situacionFinanciera').value;
-        }
-        if (step === 4) {
-            // Se guardarán todos los datos al enviar
-        }
-
-        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
-        document.getElementById('step' + step).classList.add('active-step');
-
-        document.querySelectorAll('.step-dot').forEach((dot, idx) => {
-            const num = idx + 1;
+        // Actualizar indicador de pasos
+        document.querySelectorAll('.step-dot').forEach(dot => {
+            const num = parseInt(dot.dataset.step);
             dot.classList.remove('active', 'completed');
             if (num === step) dot.classList.add('active');
             else if (num < step) dot.classList.add('completed');
         });
 
-        if (step === 4) generarResumen();
+        // Mostrar paso
+        document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active-step'));
+        document.getElementById('step' + step).classList.add('active-step');
+
+        if (step === 3) generarResumen();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -757,9 +712,21 @@
     function validateStep1() {
         const err = document.getElementById('errorStep1');
         err.style.display = 'none';
-        // Siempre hay valores por defecto, pero validamos que estén seleccionados
+
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const edad = parseInt(document.getElementById('edad').value);
         const monto = document.getElementById('monto').value;
         const plazo = document.getElementById('plazo').value;
+
+        if (nombres.length < 2 || apellidos.length < 2) {
+            showErrorStep(err, 'Ingresa nombre y apellido completos (mínimo 2 caracteres).');
+            return false;
+        }
+        if (isNaN(edad) || edad < 18 || edad > 74) {
+            showErrorStep(err, 'Edad entre 18 y 74 años.');
+            return false;
+        }
         if (!monto || !plazo) {
             showErrorStep(err, 'Selecciona un monto y plazo.');
             return false;
@@ -769,29 +736,6 @@
 
     function validateStep2() {
         const err = document.getElementById('errorStep2');
-        err.style.display = 'none';
-        const edad = parseInt(document.getElementById('edadFiltro').value);
-        const situacion = document.getElementById('situacionFinanciera').value;
-        if (isNaN(edad) || edad < 18 || edad > 74) {
-            showErrorStep(err, 'Edad entre 18 y 74 años.');
-            return false;
-        }
-        if (!situacion) {
-            showErrorStep(err, 'Selecciona tu situación financiera.');
-            return false;
-        }
-        // Mostrar advertencia si situación es informconf o cartera
-        const warning = document.getElementById('warningSituacion');
-        if (situacion === 'informconf' || situacion === 'cartera' || situacion === 'ambos') {
-            warning.style.display = 'block';
-        } else {
-            warning.style.display = 'none';
-        }
-        return true;
-    }
-
-    function validateStep3() {
-        const err = document.getElementById('errorStep3');
         err.style.display = 'none';
 
         const nombres = document.getElementById('nombres').value.trim();
@@ -922,16 +866,15 @@
     }
 
     // ================================================================
-    //  7. RESUMEN (PASO 4)
+    //  7. RESUMEN (PASO 3)
     // ================================================================
     function generarResumen() {
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const edad = document.getElementById('edad').value;
         const monto = document.getElementById('monto').value;
         const plazo = document.getElementById('plazo').value;
         const cuota = document.getElementById('cuotaPreview').textContent;
-        const edad = document.getElementById('edadFiltro').value;
-        const situacion = document.getElementById('situacionFinanciera').value;
-        const nombres = document.getElementById('nombres').value.trim();
-        const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value;
         const celular = document.getElementById('celular').value;
         const fechaStr = document.getElementById('fechaNac').value.trim();
@@ -980,28 +923,27 @@
             }
         }
 
-        let situacionTexto = {
-            'limpio': '✅ Historial limpio',
-            'informconf': '⚠️ Deudas en Informconf',
-            'cartera': '⚠️ Deudas con cartera',
-            'ambos': '⚠️ Informconf + Cartera'
-        }[situacion] || 'No especificada';
+        // Advertencias por modificaciones
+        let advertencia = '';
+        if (informconfModificado || carteraModificado) {
+            advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.</div>';
+        }
 
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
-            <p>Edad: ${edadCalculada} años · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
+            <p>Edad: ${edad} años · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
             <p>Solicita: ₲ ${formatearNumero(parseInt(monto))} a ${plazo} meses · Cuota: ${cuota}</p>
             <hr style="border:1px solid #1A2D42; margin:8px 0;">
             <p>Perfil: ${perfilLabel}</p>
             ${config && config.camposEmpresa ? `<p>Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>` : ''}
             <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
             <p>${tiempoTexto}</p>
-            <p>Situación financiera: ${situacionTexto}</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
             <hr style="border:1px solid #1A2D42; margin:8px 0;">
             <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>
+            ${advertencia}
         `;
     }
 
@@ -1009,7 +951,7 @@
     //  8. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
-        const err = document.getElementById('errorStep4');
+        const err = document.getElementById('errorStep3');
         err.style.display = 'none';
         const chk = document.getElementById('chkConsent');
         if (!chk.checked) {
@@ -1017,16 +959,15 @@
             return;
         }
 
-        if (!validateStep3()) return;
+        if (!validateStep2()) return;
 
         // Recolectar todos los datos
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const edad = document.getElementById('edad').value;
         const monto = document.getElementById('monto').value;
         const plazo = document.getElementById('plazo').value;
         const cuota = document.getElementById('cuotaPreview').textContent;
-        const edad = document.getElementById('edadFiltro').value;
-        const situacion = document.getElementById('situacionFinanciera').value;
-        const nombres = document.getElementById('nombres').value.trim();
-        const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const fechaStr = document.getElementById('fechaNac').value.trim();
@@ -1075,18 +1016,11 @@
             }
         }
 
-        let situacionTexto = {
-            'limpio': 'Limpio',
-            'informconf': 'Informconf',
-            'cartera': 'Cartera',
-            'ambos': 'Informconf + Cartera'
-        }[situacion] || 'No especificada';
-
         let mensaje = `*NUEVA PRESOLICITUD - FlexCrédito*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
-        mensaje += `🎂 *Edad:* ${edadCalculada} años%0A`;
+        mensaje += `🎂 *Edad:* ${edad} años%0A`;
         mensaje += `📍 *Ubicación:* ${ciudadFinal}, ${departamento}%0A`;
         mensaje += `💰 *Monto:* ₲ ${formatearNumero(parseInt(monto))}%0A`;
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
@@ -1099,7 +1033,6 @@
         }
         mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `📌 *${tiempoTexto}*%0A`;
-        mensaje += `🧠 *Situación financiera:* ${situacionTexto}%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
 
@@ -1124,7 +1057,7 @@
     });
 
     // ================================================================
-    //  9. CIUDADES DINÁMICAS (sin cambios)
+    //  9. CIUDADES DINÁMICAS
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -1202,7 +1135,8 @@
         document.getElementById('otraCartera').classList.add('hidden');
         calcularCuotaPreview();
         actualizarCamposYRequisitos();
-        // El botón continuar del paso 3 se habilita después de validar
+        // Forzar actualización de pasos
+        nextStep(1);
     });
 
     window.nextStep = nextStep;
