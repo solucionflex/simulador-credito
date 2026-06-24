@@ -89,6 +89,7 @@
         .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin:8px 0 16px 0; border:1px solid var(--primary); }
         .cuota-box .label { font-size:11px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
         .cuota-box .value { font-size:28px; font-weight:800; color:var(--primary); }
+        .cuota-box .mensaje-datos { font-size:11px; color:var(--text-light); margin-top:4px; }
         .consent-checkbox-group { text-align:left; margin:12px 0; }
         .consent-checkbox-group label { display:flex; align-items:flex-start; gap:10px; font-size:13px; cursor:pointer; color:var(--text); line-height:1.4; }
         .consent-checkbox-group input[type="checkbox"] { width:18px; height:18px; margin-top:1px; accent-color:var(--primary); flex-shrink:0; }
@@ -124,7 +125,6 @@
         body.dark .requisitos-box { background:#0A1628; }
         body.dark .requisitos-box .checkbox-item { color:#E6EDF2; }
         body.dark .step-wrapper { background:#0F1E2F; border-bottom-color:#1A2D42; }
-        /* En modo oscuro los inputs siguen siendo blancos por !important */
     </style>
 </head>
 <body>
@@ -158,25 +158,27 @@
                     <div class="bancos">🤝 Trabajamos con: Tking Credit, Banco Solar, Tu Financiera, Paraguaya Japonesa, Capital Créditos.</div>
                 </div>
 
+                <!-- DATOS PERSONALES PRIMERO -->
                 <div class="row-2">
                     <div class="form-group">
                         <label>Nombres *</label>
-                        <input class="form-control" type="text" id="nombres" placeholder="Juan" required>
+                        <input class="form-control" type="text" id="nombres" placeholder="Juan" required oninput="verificarDatosCompletos()">
                     </div>
                     <div class="form-group">
                         <label>Apellidos *</label>
-                        <input class="form-control" type="text" id="apellidos" placeholder="Pérez" required>
+                        <input class="form-control" type="text" id="apellidos" placeholder="Pérez" required oninput="verificarDatosCompletos()">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Edad *</label>
-                    <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="18" max="74" required>
+                    <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="18" max="74" required oninput="verificarDatosCompletos()">
                 </div>
 
-                <div class="row-2" style="gap:12px;">
+                <!-- SIMULADOR (Monto + Plazo) -->
+                <div class="row-2" style="gap:12px; margin-top:8px;">
                     <div class="form-group">
                         <label>Monto (Gs.) *</label>
-                        <select class="form-control" id="monto">
+                        <select class="form-control" id="monto" onchange="calcularCuotaPreview()">
                             <option value="1000000">1.000.000</option>
                             <option value="2000000">2.000.000</option>
                             <option value="3000000">3.000.000</option>
@@ -186,7 +188,7 @@
                     </div>
                     <div class="form-group">
                         <label>Plazo (meses) *</label>
-                        <select class="form-control" id="plazo">
+                        <select class="form-control" id="plazo" onchange="calcularCuotaPreview()">
                             <option value="6">6</option>
                             <option value="12" selected>12</option>
                             <option value="18">18</option>
@@ -195,13 +197,17 @@
                     </div>
                 </div>
 
-                <div class="cuota-box">
+                <!-- CUOTA (se muestra solo si datos personales completos) -->
+                <div class="cuota-box" id="cuotaBox">
                     <div class="label">Tu cuota estimada</div>
-                    <div class="value" id="cuotaPreview">₲ 0</div>
+                    <div class="value" id="cuotaPreview">—</div>
+                    <div id="mensajeDatosFaltantes" class="mensaje-datos">
+                        Completá tus datos para ver tu cuota.
+                    </div>
                 </div>
 
                 <div class="alert alert-error" id="errorStep1"></div>
-                <button type="button" class="btn btn-primary" onclick="nextStep(2)">👉 Quiero este préstamo</button>
+                <button type="button" class="btn btn-primary" id="btnNextStep2" disabled onclick="nextStep(2)">👉 Quiero este préstamo</button>
             </div>
 
             <!-- ========== PASO 2: DATOS ========== -->
@@ -625,7 +631,29 @@
     }
 
     // ================================================================
-    //  4. VALIDACIONES DE INFORMCONF/CARTERA (con advertencias, sin bloqueo)
+    //  4. VERIFICAR DATOS PERSONALES (para habilitar simulación)
+    // ================================================================
+    function verificarDatosCompletos() {
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const edad = document.getElementById('edad').value.trim();
+        const btn = document.getElementById('btnNextStep2');
+        const mensaje = document.getElementById('mensajeDatosFaltantes');
+        const cuotaPreview = document.getElementById('cuotaPreview');
+
+        if (nombres.length >= 2 && apellidos.length >= 2 && edad !== '' && parseInt(edad) >= 18 && parseInt(edad) <= 74) {
+            btn.disabled = false;
+            mensaje.style.display = 'none';
+            calcularCuotaPreview(); // actualiza la cuota
+        } else {
+            btn.disabled = true;
+            mensaje.style.display = 'block';
+            cuotaPreview.textContent = '—';
+        }
+    }
+
+    // ================================================================
+    //  5. VALIDACIONES DE INFORMCONF/CARTERA (con advertencias, sin bloqueo)
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
@@ -678,7 +706,7 @@
     });
 
     // ================================================================
-    //  5. MANEJO DE PANTALLAS Y PASOS
+    //  6. MANEJO DE PANTALLAS Y PASOS
     // ================================================================
     let currentStep = 1;
 
@@ -707,7 +735,7 @@
     }
 
     // ================================================================
-    //  6. VALIDACIONES POR PASO
+    //  7. VALIDACIONES POR PASO
     // ================================================================
     function validateStep1() {
         const err = document.getElementById('errorStep1');
@@ -866,7 +894,25 @@
     }
 
     // ================================================================
-    //  7. RESUMEN (PASO 3)
+    //  8. CALCULAR CUOTA (solo si datos personales completos)
+    // ================================================================
+    function calcularCuotaPreview() {
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const edad = document.getElementById('edad').value.trim();
+        // Solo calcular si los datos personales están completos
+        if (nombres.length >= 2 && apellidos.length >= 2 && edad !== '' && parseInt(edad) >= 18 && parseInt(edad) <= 74) {
+            const monto = parseInt(document.getElementById('monto').value);
+            const plazo = parseInt(document.getElementById('plazo').value);
+            const cuota = obtenerCuota(monto, plazo);
+            document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
+        } else {
+            document.getElementById('cuotaPreview').textContent = '—';
+        }
+    }
+
+    // ================================================================
+    //  9. RESUMEN (PASO 3)
     // ================================================================
     function generarResumen() {
         const nombres = document.getElementById('nombres').value.trim();
@@ -923,7 +969,6 @@
             }
         }
 
-        // Advertencias por modificaciones
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
             advertencia = '<div class="alert alert-warning" style="display:block; margin-top:8px;">⚠️ El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.</div>';
@@ -948,7 +993,7 @@
     }
 
     // ================================================================
-    //  8. ENVÍO A WHATSAPP
+    //  10. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -1057,7 +1102,7 @@
     });
 
     // ================================================================
-    //  9. CIUDADES DINÁMICAS
+    //  11. CIUDADES DINÁMICAS
     // ================================================================
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
@@ -1094,26 +1139,14 @@
     });
 
     // ================================================================
-    //  10. VALIDACIONES INPUT
+    //  12. VALIDACIONES INPUT
     // ================================================================
     document.getElementById('nombres').addEventListener('input', soloLetras);
     document.getElementById('apellidos').addEventListener('input', soloLetras);
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    //  11. CALCULAR CUOTA (PASO 1)
-    // ================================================================
-    function calcularCuotaPreview() {
-        const monto = parseInt(document.getElementById('monto').value);
-        const plazo = parseInt(document.getElementById('plazo').value);
-        const cuota = obtenerCuota(monto, plazo);
-        document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-    }
-    document.getElementById('monto').addEventListener('change', calcularCuotaPreview);
-    document.getElementById('plazo').addEventListener('change', calcularCuotaPreview);
-
-    // ================================================================
-    //  12. TEMA OSCURO
+    //  13. TEMA OSCURO
     // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
@@ -1126,16 +1159,16 @@
     }
 
     // ================================================================
-    //  13. INICIALIZACIÓN
+    //  14. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         document.getElementById('departamento').value = '';
         document.getElementById('ciudad').disabled = true;
         document.getElementById('otraCiudad').classList.add('hidden');
         document.getElementById('otraCartera').classList.add('hidden');
-        calcularCuotaPreview();
         actualizarCamposYRequisitos();
-        // Forzar actualización de pasos
+        // Forzar actualización de pasos y verificar datos iniciales
+        verificarDatosCompletos();
         nextStep(1);
     });
 
@@ -1144,6 +1177,8 @@
     window.actualizarCamposYRequisitos = actualizarCamposYRequisitos;
     window.validarInformconf = validarInformconf;
     window.validarCartera = validarCartera;
+    window.verificarDatosCompletos = verificarDatosCompletos;
+    window.calcularCuotaPreview = calcularCuotaPreview;
 </script>
 </body>
 </html>
