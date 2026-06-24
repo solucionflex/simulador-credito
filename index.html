@@ -110,8 +110,8 @@
         .intro-text .bancos { font-size:12px; color:var(--text-light); margin-top:4px; }
         @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .header h1{font-size:18px;} }
         body.dark { --bg:#050C17; --card-bg:#0F1E2F; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#2A1F0A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
-        body.dark .btn-secondary { background:var(--border); color:var(--text); }
-        body.dark .btn-secondary:hover { background:var(--primary-light); }
+        body.dark .btn-secondary { background:var(--border); color:#FFFFFF; } /* <-- ajuste: texto blanco en modo oscuro */
+        body.dark .btn-secondary:hover { background:var(--primary-light); color:var(--text); }
         body.dark .theme-toggle { background:#0A1628; border-color:#1A2D42; color:white; }
         .theme-toggle .fa-moon { display:inline; }
         .theme-toggle .fa-sun { display:none; }
@@ -398,10 +398,11 @@
 
 <script>
     // ================================================================
-    //  0. VALIDACIÓN DE FECHA (sencilla, sin máscara)
+    //  0. VALIDACIÓN DE FECHA (sencilla)
     // ================================================================
     function validarFecha(fechaStr) {
         // Espera formato DD/MM/AAAA
+        if (fechaStr.length !== 10) return false;
         const partes = fechaStr.split('/');
         if (partes.length !== 3) return false;
         const dia = parseInt(partes[0], 10);
@@ -786,26 +787,8 @@
         const actividad = document.getElementById('actividad').value;
         const ingreso = parseInt(document.getElementById('ingreso').value);
 
-        const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-        if (!regexLetras.test(nombres) || nombres.length < 2) {
-            showErrorStep(err, 'Nombre: solo letras y mínimo 2 caracteres.');
-            return false;
-        }
-        if (!regexLetras.test(apellidos) || apellidos.length < 2) {
-            showErrorStep(err, 'Apellido: solo letras y mínimo 2 caracteres.');
-            return false;
-        }
-        if (cedula.length < 6 || cedula.length > 7) {
-            showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
-            return false;
-        }
-        if (celular.length !== 10 || !celular.startsWith('09')) {
-            showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
-            return false;
-        }
-
-        // Validar formato de fecha
-        if (!validarFecha(fechaStr) || fechaStr.length < 10) {
+        // Validación de formato de fecha (longitud y patrón)
+        if (fechaStr.length !== 10 || !validarFecha(fechaStr)) {
             showErrorStep(err, 'Fecha inválida. Usá el formato DD/MM/AAAA (ej: 14/05/1981).');
             return false;
         }
@@ -823,6 +806,24 @@
             return false;
         }
 
+        // Validación de campos obligatorios
+        const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+        if (!regexLetras.test(nombres) || nombres.length < 2) {
+            showErrorStep(err, 'Nombre: solo letras y mínimo 2 caracteres.');
+            return false;
+        }
+        if (!regexLetras.test(apellidos) || apellidos.length < 2) {
+            showErrorStep(err, 'Apellido: solo letras y mínimo 2 caracteres.');
+            return false;
+        }
+        if (cedula.length < 6 || cedula.length > 7) {
+            showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
+            return false;
+        }
+        if (celular.length !== 10 || !celular.startsWith('09')) {
+            showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
+            return false;
+        }
         if (!departamento) {
             showErrorStep(err, 'Selecciona un departamento.');
             return false;
