@@ -219,8 +219,8 @@
                 <div class="row-2">
                     <div class="form-group">
                         <label>Fecha de Nacimiento *</label>
-                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required oninput="smartDateMask(event)" onblur="fixYear(this)" inputmode="numeric" maxlength="10">
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Ej: 14/05/1981 (las barras se colocan solas)</div>
+                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required inputmode="numeric" maxlength="10">
+                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Escribí DD/MM/AAAA. Si el día o mes es menor a 10, poné un 0 adelante (ej: 05/05/1981).</div>
                     </div>
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
@@ -398,38 +398,38 @@
 
 <script>
     // ================================================================
-    //  0. MÁSCARA DE FECHA
+    //  0. VALIDACIÓN DE FECHA (sencilla, sin máscara)
     // ================================================================
-    function smartDateMask(e) {
-        let input = e.target;
-        if (e.inputType === 'deleteContentBackward') return;
-        let value = input.value.replace(/\D/g, '');
-        if (value.length > 8) value = value.slice(0, 8);
-        let day = value.slice(0, 2);
-        let month = value.slice(2, 4);
-        let year = value.slice(4, 8);
-        if (day.length === 1 && parseInt(day) > 3) day = '0' + day;
-        if (day.length === 2) { let d = parseInt(day); if (d > 31) day = '31'; if (d === 0) day = '01'; }
-        if (month.length === 1 && parseInt(month) > 1) month = '0' + month;
-        if (month.length === 2) { let m = parseInt(month); if (m > 12) month = '12'; if (m === 0) month = '01'; }
-        let formatted = '';
-        if (day) formatted += day;
-        if (month) formatted += '/' + month;
-        if (year) formatted += '/' + year;
-        input.value = formatted;
+    function validarFecha(fechaStr) {
+        // Espera formato DD/MM/AAAA
+        const partes = fechaStr.split('/');
+        if (partes.length !== 3) return false;
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10) - 1; // meses 0-11
+        const anio = parseInt(partes[2], 10);
+        if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return false;
+        const fecha = new Date(anio, mes, dia);
+        return fecha.getFullYear() === anio && fecha.getMonth() === mes && fecha.getDate() === dia;
     }
 
-    function fixYear(input) {
-        let val = input.value;
-        let parts = val.split('/');
-        if (parts.length === 3) {
-            let y = parts[2];
-            if (y.length === 2) {
-                let yearNum = parseInt(y);
-                parts[2] = (yearNum <= 24 ? '20' : '19') + y;
-                input.value = parts.join('/');
-            }
-        }
+    function parsearFecha(fechaStr) {
+        const partes = fechaStr.split('/');
+        if (partes.length !== 3) return null;
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10) - 1;
+        const anio = parseInt(partes[2], 10);
+        if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
+        return new Date(anio, mes, dia);
+    }
+
+    function calcularEdadDesdeFecha(fechaStr) {
+        const fechaNac = parsearFecha(fechaStr);
+        if (!fechaNac) return null;
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - fechaNac.getFullYear();
+        const m = hoy.getMonth() - fechaNac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < fechaNac.getDate())) edad--;
+        return edad;
     }
 
     // ================================================================
@@ -468,26 +468,6 @@
     // ================================================================
     //  2. FUNCIONES AUXILIARES
     // ================================================================
-    function parsearFecha(fechaStr) {
-        const partes = fechaStr.split('/');
-        if (partes.length !== 3) return null;
-        const dia = parseInt(partes[0], 10);
-        const mes = parseInt(partes[1], 10) - 1;
-        const anio = parseInt(partes[2], 10);
-        if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
-        return new Date(anio, mes, dia);
-    }
-
-    function calcularEdad(fechaStr) {
-        const fechaNac = parsearFecha(fechaStr);
-        if (!fechaNac) return null;
-        const hoy = new Date();
-        let edad = hoy.getFullYear() - fechaNac.getFullYear();
-        const m = hoy.getMonth() - fechaNac.getMonth();
-        if (m < 0 || (m === 0 && hoy.getDate() < fechaNac.getDate())) edad--;
-        return edad;
-    }
-
     function formatearNumero(n) {
         return n ? n.toLocaleString('es-PY') : '0';
     }
@@ -824,14 +804,22 @@
             return false;
         }
 
-        const fechaValida = parsearFecha(fechaStr);
-        if (!fechaValida || fechaStr.length < 10) {
-            showErrorStep(err, 'Fecha inválida. Usa el formato DD/MM/AAAA (ej: 14/05/1981).');
+        // Validar formato de fecha
+        if (!validarFecha(fechaStr) || fechaStr.length < 10) {
+            showErrorStep(err, 'Fecha inválida. Usá el formato DD/MM/AAAA (ej: 14/05/1981).');
             return false;
         }
         const year = parseInt(fechaStr.split('/')[2], 10);
         if (isNaN(year) || year < 1900 || year > 2100) {
             showErrorStep(err, 'Año inválido (debe ser de 4 dígitos).');
+            return false;
+        }
+
+        // **VALIDACIÓN DE EDAD VS FECHA DE NACIMIENTO**
+        const edadDeclarada = parseInt(document.getElementById('edad').value);
+        const edadCalculada = calcularEdadDesdeFecha(fechaStr);
+        if (edadCalculada !== null && edadCalculada !== edadDeclarada) {
+            showErrorStep(err, `⚠️ La edad declarada (${edadDeclarada} años) no coincide con la fecha de nacimiento (${edadCalculada} años). Revisá los datos.`);
             return false;
         }
 
@@ -972,7 +960,7 @@
         const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
         const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edadCalculada = calcularEdad(fechaStr);
+        const edadCalculada = calcularEdadDesdeFecha(fechaStr);
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
 
@@ -1066,7 +1054,7 @@
         const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
         const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edadCalculada = calcularEdad(fechaStr);
+        const edadCalculada = calcularEdadDesdeFecha(fechaStr);
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
 
