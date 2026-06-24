@@ -270,16 +270,19 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label style="display:block; margin-bottom:4px;">Antigüedad laboral *</label>
-                    <div class="row-2" style="gap:8px;">
-                        <div>
-                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
-                            <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
-                        </div>
-                        <div>
-                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
-                            <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                <!-- ANTIGÜEDAD LABORAL (OCULTA PARA JUBILADO) -->
+                <div id="campoAntiguedad">
+                    <div class="form-group">
+                        <label style="display:block; margin-bottom:4px;">Antigüedad laboral *</label>
+                        <div class="row-2" style="gap:8px;">
+                            <div>
+                                <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
+                                <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
+                            </div>
+                            <div>
+                                <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
+                                <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -301,6 +304,7 @@
                     </div>
                 </div>
 
+                <!-- TIEMPO DE APORTES (OCULTO PARA JUBILADO) -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
                 <div id="requisitosContainer" class="requisitos-box" style="display:none;">
@@ -309,10 +313,15 @@
                     <div id="requisitosList"></div>
                 </div>
 
-                <!-- Informconf y Cartera (con advertencia, sin bloqueo) -->
+                <!-- INFORMCONF (BLOQUEANTE) -->
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
                 </div>
+                <div id="errorInformconf" class="alert alert-error" style="display:none;">
+                    ❌ No podemos continuar porque tenés deudas en Informconf. Regularizá tu situación antes de solicitar un préstamo.
+                </div>
+
+                <!-- CARTERA (BLOQUEANTE) -->
                 <div class="form-group">
                     <label>¿Tiene deudas con casas de compra de carteras?</label>
                     <select class="form-control" id="carteras" onchange="validarCartera()">
@@ -325,16 +334,8 @@
                     </select>
                     <input class="form-control hidden" type="text" id="otraCartera" placeholder="Especifica el nombre">
                 </div>
-
-                <!-- Advertencias -->
-                <div class="alert alert-warning" id="warningInformconf" style="display:none;">
-                    ⚠️ Tienes deudas en Informconf. Esto puede afectar la aprobación, pero lo intentaremos.
-                </div>
-                <div class="alert alert-warning" id="warningCartera" style="display:none;">
-                    ⚠️ Tienes deudas con casas de cartera. Lo intentaremos igual, pero la aprobación puede ser más difícil.
-                </div>
-                <div class="alert alert-warning" id="warningModificacion" style="display:none;">
-                    ⚠️ Detectamos que modificaste tu respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.
+                <div id="errorCartera" class="alert alert-error" style="display:none;">
+                    ❌ No podemos continuar porque tenés deudas con casas de cartera. Regularizá tu situación antes de solicitar un préstamo.
                 </div>
 
                 <div class="alert alert-error" id="errorStep2"></div>
@@ -511,7 +512,7 @@
     }
 
     // ================================================================
-    //  3. CAMPOS DINÁMICOS
+    //  3. CAMPOS DINÁMICOS (con ajuste para Jubilado)
     // ================================================================
     const perfilesConfig = {
         'asalariado_ips': {
@@ -547,7 +548,7 @@
         'jubilado': {
             label: 'Jubilado',
             camposEmpresa: false,
-            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
+            tiempo: { ips: false, iva: false, patente: false },
             requisitos: ['Boleta de IPS o JUPE (2 cobros)', '3 referencias personales (1 familiar)']
         },
         'prof_independiente': {
@@ -574,6 +575,7 @@
         const perfil = document.getElementById('actividad').value;
         const config = perfilesConfig[perfil];
 
+        // Campos de empresa
         const camposEmpresa = document.getElementById('camposEmpresa');
         if (config && config.camposEmpresa) {
             camposEmpresa.style.display = 'block';
@@ -583,9 +585,20 @@
             document.getElementById('telefonoLab').value = '';
         }
 
+        // Antigüedad laboral (ocultar si es jubilado)
+        const campoAntiguedad = document.getElementById('campoAntiguedad');
+        if (perfil === 'jubilado') {
+            campoAntiguedad.style.display = 'none';
+            document.getElementById('antiguedad_anios').value = '';
+            document.getElementById('antiguedad_meses').value = '';
+        } else {
+            campoAntiguedad.style.display = 'block';
+        }
+
+        // Tiempo de aportes (IPS/IVA/Patente) - ocultar si es jubilado
         const container = document.getElementById('tiempoContainer');
         container.innerHTML = '';
-        if (config && config.tiempo) {
+        if (config && config.tiempo && perfil !== 'jubilado') {
             const t = config.tiempo;
             const createTimeField = (id, label) => {
                 const div = document.createElement('div');
@@ -611,6 +624,7 @@
             if (t.patente) container.appendChild(createTimeField('patente', t.labelPatente || 'Antigüedad de patente'));
         }
 
+        // Requisitos (checklist) - siempre se muestra si hay documentos definidos
         const reqContainer = document.getElementById('requisitosContainer');
         const reqList = document.getElementById('requisitosList');
         reqList.innerHTML = '';
@@ -653,46 +667,53 @@
     }
 
     // ================================================================
-    //  5. VALIDACIONES DE INFORMCONF/CARTERA (con advertencias, sin bloqueo)
+    //  5. VALIDACIONES DE INFORMCONF/CARTERA (BLOQUEANTES)
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
 
     function validarInformconf() {
         const informconf = document.getElementById('informconf');
-        const warningInformconf = document.getElementById('warningInformconf');
-        const warningModificacion = document.getElementById('warningModificacion');
+        const error = document.getElementById('errorInformconf');
+        const btn = document.getElementById('btnContinueStep2');
 
         if (informconf.checked) {
-            warningInformconf.style.display = 'block';
+            error.style.display = 'block';
+            btn.disabled = true;
             informconfModificado = true;
         } else {
-            warningInformconf.style.display = 'none';
-            if (informconfModificado) {
-                warningModificacion.style.display = 'block';
+            error.style.display = 'none';
+            // Si no hay error de cartera, habilitar botón
+            const carteraError = document.getElementById('errorCartera');
+            if (carteraError.style.display === 'none') {
+                btn.disabled = false;
             }
         }
-        validarCartera(); // refrescar cartera
+        // Refrescar estado de cartera también
+        validarCartera();
     }
 
     function validarCartera() {
         const carteras = document.getElementById('carteras');
         const otraCartera = document.getElementById('otraCartera');
-        const warningCartera = document.getElementById('warningCartera');
-        const warningModificacion = document.getElementById('warningModificacion');
+        const error = document.getElementById('errorCartera');
+        const btn = document.getElementById('btnContinueStep2');
 
         if (carteras.value !== 'ninguna') {
-            warningCartera.style.display = 'block';
+            error.style.display = 'block';
+            btn.disabled = true;
             carteraModificado = true;
             if (carteras.value === 'otro' && otraCartera.value.trim() === '') {
-                warningCartera.textContent = '⚠️ Especifica el nombre de la casa de cartera.';
+                error.textContent = '❌ Especificá el nombre de la casa de cartera.';
             } else {
-                warningCartera.textContent = '⚠️ Tienes deudas con casas de cartera. Lo intentaremos igual, pero la aprobación puede ser más difícil.';
+                error.textContent = '❌ No podemos continuar porque tenés deudas con casas de cartera. Regularizá tu situación antes de solicitar un préstamo.';
             }
         } else {
-            warningCartera.style.display = 'none';
-            if (carteraModificado) {
-                warningModificacion.style.display = 'block';
+            error.style.display = 'none';
+            // Si no hay error de Informconf, habilitar botón
+            const informconfError = document.getElementById('errorInformconf');
+            if (informconfError.style.display === 'none') {
+                btn.disabled = false;
             }
         }
     }
@@ -766,6 +787,14 @@
         const err = document.getElementById('errorStep2');
         err.style.display = 'none';
 
+        // Verificar bloqueos de Informconf y Cartera
+        const informconfError = document.getElementById('errorInformconf');
+        const carteraError = document.getElementById('errorCartera');
+        if (informconfError.style.display === 'block' || carteraError.style.display === 'block') {
+            showErrorStep(err, 'No podés continuar porque tenés deudas activas.');
+            return false;
+        }
+
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
@@ -775,8 +804,6 @@
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const actividad = document.getElementById('actividad').value;
-        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
-        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
         const ingreso = parseInt(document.getElementById('ingreso').value);
 
         const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
@@ -824,52 +851,63 @@
             showErrorStep(err, 'Selecciona una actividad laboral.');
             return false;
         }
-        if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
-            showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
-            return false;
-        }
-        if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
-            showErrorStep(err, 'Ingresa antigüedad laboral (meses) de 0 a 11.');
-            return false;
-        }
         if (isNaN(ingreso) || ingreso < 1800000) {
             showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.');
             return false;
         }
 
-        // Validar campos dinámicos (IPS/IVA/Patente)
+        // Validar empresa y campos laborales (excepto para jubilado)
         const config = perfilesConfig[actividad];
         if (config) {
-            const t = config.tiempo;
-            if (t.ips) {
-                const anios = parseInt(document.getElementById('ips_anios').value) || 0;
-                const meses = parseInt(document.getElementById('ips_meses').value) || 0;
-                const totalMeses = anios * 12 + meses;
-                if (totalMeses < 6) {
-                    showErrorStep(err, '❌ Debes tener al menos 6 meses de aporte IPS.');
+            // Antigüedad (solo si no es jubilado)
+            if (actividad !== 'jubilado') {
+                const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
+                const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
+                if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
+                    showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
+                    return false;
+                }
+                if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
+                    showErrorStep(err, 'Ingresa antigüedad laboral (meses) de 0 a 11.');
                     return false;
                 }
             }
-            if (t.iva) {
-                const anios = parseInt(document.getElementById('iva_anios').value) || 0;
-                const meses = parseInt(document.getElementById('iva_meses').value) || 0;
-                const totalMeses = anios * 12 + meses;
-                if (totalMeses < 6) {
-                    showErrorStep(err, '❌ Debes tener al menos 6 meses de declaración IVA.');
-                    return false;
+
+            // Tiempo de aportes (solo si no es jubilado)
+            if (actividad !== 'jubilado') {
+                const t = config.tiempo;
+                if (t.ips) {
+                    const anios = parseInt(document.getElementById('ips_anios').value) || 0;
+                    const meses = parseInt(document.getElementById('ips_meses').value) || 0;
+                    const totalMeses = anios * 12 + meses;
+                    if (totalMeses < 6) {
+                        showErrorStep(err, '❌ Debes tener al menos 6 meses de aporte IPS.');
+                        return false;
+                    }
+                }
+                if (t.iva) {
+                    const anios = parseInt(document.getElementById('iva_anios').value) || 0;
+                    const meses = parseInt(document.getElementById('iva_meses').value) || 0;
+                    const totalMeses = anios * 12 + meses;
+                    if (totalMeses < 6) {
+                        showErrorStep(err, '❌ Debes tener al menos 6 meses de declaración IVA.');
+                        return false;
+                    }
+                }
+                if (t.patente) {
+                    const anios = parseInt(document.getElementById('patente_anios').value) || 0;
+                    const meses = parseInt(document.getElementById('patente_meses').value) || 0;
+                    const totalMeses = anios * 12 + meses;
+                    let minMeses = 12;
+                    if (actividad === 'independiente') minMeses = 18;
+                    if (totalMeses < minMeses) {
+                        showErrorStep(err, `❌ Debes tener al menos ${minMeses} meses de antigüedad de patente.`);
+                        return false;
+                    }
                 }
             }
-            if (t.patente) {
-                const anios = parseInt(document.getElementById('patente_anios').value) || 0;
-                const meses = parseInt(document.getElementById('patente_meses').value) || 0;
-                const totalMeses = anios * 12 + meses;
-                let minMeses = 12;
-                if (actividad === 'independiente') minMeses = 18;
-                if (totalMeses < minMeses) {
-                    showErrorStep(err, `❌ Debes tener al menos ${minMeses} meses de antigüedad de patente.`);
-                    return false;
-                }
-            }
+
+            // Empresa (solo para asalariados)
             if (config.camposEmpresa) {
                 const empresa = document.getElementById('empresa').value.trim();
                 const telefono = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
@@ -931,8 +969,8 @@
         const actividad = document.getElementById('actividad').value;
         const config = perfilesConfig[actividad];
         const perfilLabel = config ? config.label : 'No seleccionado';
-        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
-        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+        const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
+        const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const edadCalculada = calcularEdad(fechaStr);
         const empresa = document.getElementById('empresa').value.trim();
@@ -950,7 +988,7 @@
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
         let tiempoTexto = '';
-        if (config) {
+        if (config && actividad !== 'jubilado') {
             const t = config.tiempo;
             if (t.ips) {
                 const anios = parseInt(document.getElementById('ips_anios').value) || 0;
@@ -967,6 +1005,8 @@
             } else {
                 tiempoTexto = 'No aplica';
             }
+        } else if (actividad === 'jubilado') {
+            tiempoTexto = 'No aplica (Jubilado)';
         }
 
         let advertencia = '';
@@ -982,7 +1022,7 @@
             <hr style="border:1px solid #1A2D42; margin:8px 0;">
             <p>Perfil: ${perfilLabel}</p>
             ${config && config.camposEmpresa ? `<p>Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>` : ''}
-            <p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
+            ${actividad !== 'jubilado' ? `<p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>` : ''}
             <p>${tiempoTexto}</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
@@ -1023,8 +1063,8 @@
         const actividad = document.getElementById('actividad').value;
         const config = perfilesConfig[actividad];
         const perfilLabel = config ? config.label : 'No seleccionado';
-        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
-        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+        const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
+        const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const edadCalculada = calcularEdad(fechaStr);
         const empresa = document.getElementById('empresa').value.trim();
@@ -1042,7 +1082,7 @@
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
         let tiempoTexto = '';
-        if (config) {
+        if (config && actividad !== 'jubilado') {
             const t = config.tiempo;
             if (t.ips) {
                 const anios = parseInt(document.getElementById('ips_anios').value) || 0;
@@ -1059,6 +1099,8 @@
             } else {
                 tiempoTexto = 'No aplica';
             }
+        } else if (actividad === 'jubilado') {
+            tiempoTexto = 'No aplica (Jubilado)';
         }
 
         let mensaje = `*NUEVA PRESOLICITUD - FlexCrédito*%0A%0A`;
@@ -1076,7 +1118,9 @@
             mensaje += `🏢 *Empresa:* ${empresa}%0A`;
             mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
         }
-        mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        if (actividad !== 'jubilado') {
+            mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        }
         mensaje += `📌 *${tiempoTexto}*%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
@@ -1169,6 +1213,9 @@
         actualizarCamposYRequisitos();
         // Forzar actualización de pasos y verificar datos iniciales
         verificarDatosCompletos();
+        // Asegurar que los bloqueos de Informconf/Cartera estén activos
+        validarInformconf();
+        validarCartera();
         nextStep(1);
     });
 
