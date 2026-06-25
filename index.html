@@ -54,6 +54,7 @@
         .form-control { width:100%; padding:10px 14px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:#FFFFFF !important; color:#0A1628 !important; transition:var(--transition); }
         .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(201,168,76,0.2); background:#FFFFFF !important; }
         .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
         .checkbox-group { display:flex; flex-wrap:wrap; gap:8px 20px; padding-top:4px; margin-bottom:10px; }
         .checkbox-group label { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14px; cursor:pointer; color:var(--text); }
         .checkbox-group input[type="checkbox"] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
@@ -65,7 +66,6 @@
         .btn-success { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(201,168,76,0.35); }
         .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,0.45); }
         .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none!important; }
-        /* INDICADOR DE PASOS FIJO (STICKY) */
         .step-wrapper { position:sticky; top:0; z-index:10; background:var(--card-bg); padding-top:4px; margin-bottom:8px; border-bottom:1px solid var(--border); }
         .step-indicator { display:flex; justify-content:space-between; padding:0 4px 12px 4px; position:relative; }
         .step-dot { flex:1; text-align:center; font-size:11px; font-weight:500; color:var(--text-light); position:relative; z-index:2; }
@@ -108,7 +108,7 @@
         .intro-text { font-size:14px; color:var(--text-light); text-align:center; margin-bottom:16px; line-height:1.6; }
         .intro-text strong { color:var(--primary); }
         .intro-text .bancos { font-size:12px; color:var(--text-light); margin-top:4px; }
-        @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .header h1{font-size:18px;} }
+        @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .row-3{grid-template-columns:1fr;} .header h1{font-size:18px;} }
         body.dark { --bg:#050C17; --card-bg:#0F1E2F; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#2A1F0A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
         body.dark .btn-secondary { background:var(--border); color:#FFFFFF; }
         body.dark .btn-secondary:hover { background:var(--primary-light); color:var(--text); }
@@ -125,6 +125,21 @@
         body.dark .requisitos-box { background:#0A1628; }
         body.dark .requisitos-box .checkbox-item { color:#E6EDF2; }
         body.dark .step-wrapper { background:#0F1E2F; border-bottom-color:#1A2D42; }
+        /* Selectores de fecha: estilo consistente */
+        select.form-control {
+            appearance: auto;
+            -webkit-appearance: auto;
+            cursor: pointer;
+        }
+        .fecha-select-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.5fr;
+            gap: 8px;
+        }
+        .fecha-select-group select {
+            padding: 10px 6px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -158,7 +173,6 @@
                     <div class="bancos">🤝 Trabajamos con: Tking Credit, Banco Solar, Tu Financiera, Paraguaya Japonesa, Capital Créditos.</div>
                 </div>
 
-                <!-- CUOTA (ARRIBA) -->
                 <div class="cuota-box" id="cuotaBox">
                     <div class="label">Tu cuota estimada</div>
                     <div class="value" id="cuotaPreview">—</div>
@@ -167,7 +181,6 @@
                     </div>
                 </div>
 
-                <!-- DATOS PERSONALES -->
                 <div class="row-2">
                     <div class="form-group">
                         <label>Nombres *</label>
@@ -183,7 +196,6 @@
                     <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="18" max="74" required oninput="verificarDatosCompletos()">
                 </div>
 
-                <!-- SIMULADOR (Monto + Plazo) -->
                 <div class="row-2" style="gap:12px; margin-top:8px;">
                     <div class="form-group">
                         <label>Monto (Gs.) *</label>
@@ -216,12 +228,27 @@
                     <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
                     <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
                 </div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>Fecha de Nacimiento *</label>
-                        <input class="form-control" type="text" id="fechaNac" placeholder="DD/MM/AAAA" required inputmode="numeric" maxlength="10">
-                        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Escribí DD/MM/AAAA. Si el día o mes es menor a 10, poné un 0 adelante (ej: 05/05/1981).</div>
+
+                <!-- FECHA DE NACIMIENTO CON SELECTORES -->
+                <div class="form-group">
+                    <label>Fecha de Nacimiento *</label>
+                    <div class="fecha-select-group">
+                        <select class="form-control" id="diaNac" required>
+                            <option value="">Día</option>
+                            <!-- generado con JS -->
+                        </select>
+                        <select class="form-control" id="mesNac" required>
+                            <option value="">Mes</option>
+                            <!-- generado con JS -->
+                        </select>
+                        <select class="form-control" id="anioNac" required>
+                            <option value="">Año</option>
+                            <!-- generado con JS -->
+                        </select>
                     </div>
+                </div>
+
+                <div class="row-2">
                     <div class="form-group"><label>Departamento *</label>
                         <select class="form-control" id="departamento" required>
                             <option value="">Seleccionar</option>
@@ -244,14 +271,13 @@
                             <option value="Alto Paraguay">Alto Paraguay</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="form-group" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
-                    <label style="align-self:flex-start;">Ciudad *</label>
-                    <select class="form-control" id="ciudad" required style="max-width:100%;">
-                        <option value="">Primero selecciona un departamento</option>
-                    </select>
-                    <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad" style="max-width:100%; margin-top:8px;">
+                    <div class="form-group" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+                        <label style="align-self:flex-start;">Ciudad *</label>
+                        <select class="form-control" id="ciudad" required style="max-width:100%;">
+                            <option value="">Primero selecciona un departamento</option>
+                        </select>
+                        <input class="form-control hidden" type="text" id="otraCiudad" placeholder="Escribe el nombre de tu ciudad" style="max-width:100%; margin-top:8px;">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -270,7 +296,6 @@
                     </select>
                 </div>
 
-                <!-- ANTIGÜEDAD LABORAL (OCULTA PARA JUBILADO) -->
                 <div id="campoAntiguedad">
                     <div class="form-group">
                         <label style="display:block; margin-bottom:4px;">Antigüedad laboral *</label>
@@ -304,7 +329,6 @@
                     </div>
                 </div>
 
-                <!-- TIEMPO DE APORTES (OCULTO PARA JUBILADO) -->
                 <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
 
                 <div id="requisitosContainer" class="requisitos-box" style="display:none;">
@@ -313,7 +337,6 @@
                     <div id="requisitosList"></div>
                 </div>
 
-                <!-- INFORMCONF (BLOQUEANTE) -->
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
                 </div>
@@ -321,7 +344,6 @@
                     ❌ No podemos continuar porque tenés deudas en Informconf. Regularizá tu situación antes de solicitar un préstamo.
                 </div>
 
-                <!-- CARTERA (BLOQUEANTE) -->
                 <div class="form-group">
                     <label>¿Tiene deudas con casas de compra de carteras?</label>
                     <select class="form-control" id="carteras" onchange="validarCartera()">
@@ -369,7 +391,6 @@
             </div>
         </form>
 
-        <!-- Testimonios -->
         <div class="testimonios">
             <h4><i class="fas fa-star" style="color:var(--primary);"></i> Lo que dicen nuestros clientes</h4>
             <div class="testimonio-item">
@@ -398,33 +419,56 @@
 
 <script>
     // ================================================================
-    //  0. VALIDACIÓN DE FECHA (sencilla)
+    //  0. GENERAR SELECTORES DE FECHA
     // ================================================================
-    function validarFecha(fechaStr) {
-        if (fechaStr.length !== 10) return false;
-        const partes = fechaStr.split('/');
-        if (partes.length !== 3) return false;
-        const dia = parseInt(partes[0], 10);
-        const mes = parseInt(partes[1], 10) - 1;
-        const anio = parseInt(partes[2], 10);
-        if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return false;
-        const fecha = new Date(anio, mes, dia);
-        return fecha.getFullYear() === anio && fecha.getMonth() === mes && fecha.getDate() === dia;
+    function generarSelectoresFecha() {
+        const diaSelect = document.getElementById('diaNac');
+        const mesSelect = document.getElementById('mesNac');
+        const anioSelect = document.getElementById('anioNac');
+
+        // Días (1-31)
+        for (let i = 1; i <= 31; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = String(i).padStart(2, '0');
+            diaSelect.appendChild(opt);
+        }
+
+        // Meses (1-12)
+        const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        for (let i = 0; i < 12; i++) {
+            const opt = document.createElement('option');
+            opt.value = i + 1;
+            opt.textContent = meses[i];
+            mesSelect.appendChild(opt);
+        }
+
+        // Años (1900 al año actual)
+        const anioActual = new Date().getFullYear();
+        for (let i = anioActual; i >= 1900; i--) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = i;
+            anioSelect.appendChild(opt);
+        }
     }
 
-    function parsearFecha(fechaStr) {
-        const partes = fechaStr.split('/');
-        if (partes.length !== 3) return null;
-        const dia = parseInt(partes[0], 10);
-        const mes = parseInt(partes[1], 10) - 1;
-        const anio = parseInt(partes[2], 10);
+    function obtenerFechaNacimiento() {
+        const dia = document.getElementById('diaNac').value;
+        const mes = document.getElementById('mesNac').value;
+        const anio = document.getElementById('anioNac').value;
+        if (dia && mes && anio) {
+            return `${String(dia).padStart(2,'0')}/${String(mes).padStart(2,'0')}/${anio}`;
+        }
+        return '';
+    }
+
+    function calcularEdadDesdeSelectores() {
+        const dia = parseInt(document.getElementById('diaNac').value);
+        const mes = parseInt(document.getElementById('mesNac').value) - 1;
+        const anio = parseInt(document.getElementById('anioNac').value);
         if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return null;
-        return new Date(anio, mes, dia);
-    }
-
-    function calcularEdadDesdeFecha(fechaStr) {
-        const fechaNac = parsearFecha(fechaStr);
-        if (!fechaNac) return null;
+        const fechaNac = new Date(anio, mes, dia);
         const hoy = new Date();
         let edad = hoy.getFullYear() - fechaNac.getFullYear();
         const m = hoy.getMonth() - fechaNac.getMonth();
@@ -492,7 +536,7 @@
     }
 
     // ================================================================
-    //  3. CAMPOS DINÁMICOS (con ajuste para Jubilado)
+    //  3. CAMPOS DINÁMICOS
     // ================================================================
     const perfilesConfig = {
         'asalariado_ips': {
@@ -621,7 +665,7 @@
     }
 
     // ================================================================
-    //  4. VERIFICAR DATOS PERSONALES (para habilitar simulación)
+    //  4. VERIFICAR DATOS PERSONALES
     // ================================================================
     function verificarDatosCompletos() {
         const nombres = document.getElementById('nombres').value.trim();
@@ -643,7 +687,7 @@
     }
 
     // ================================================================
-    //  5. VALIDACIONES DE INFORMCONF/CARTERA (BLOQUEANTES)
+    //  5. VALIDACIONES DE INFORMCONF/CARTERA
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
@@ -769,26 +813,28 @@
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
-        const fechaStr = document.getElementById('fechaNac').value.trim();
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const actividad = document.getElementById('actividad').value;
         const ingreso = parseInt(document.getElementById('ingreso').value);
 
-        if (fechaStr.length !== 10 || !validarFecha(fechaStr)) {
-            showErrorStep(err, 'Fecha inválida. Usá el formato DD/MM/AAAA (ej: 14/05/1981).');
+        // Validar fecha con selectores
+        const dia = document.getElementById('diaNac').value;
+        const mes = document.getElementById('mesNac').value;
+        const anio = document.getElementById('anioNac').value;
+        if (!dia || !mes || !anio) {
+            showErrorStep(err, 'Seleccioná tu fecha de nacimiento completa (día, mes y año).');
             return false;
         }
-        const year = parseInt(fechaStr.split('/')[2], 10);
-        if (isNaN(year) || year < 1900 || year > 2100) {
-            showErrorStep(err, 'Año inválido (debe ser de 4 dígitos).');
+        const edadCalculada = calcularEdadDesdeSelectores();
+        if (edadCalculada === null || edadCalculada < 18 || edadCalculada > 74) {
+            showErrorStep(err, 'La edad calculada a partir de la fecha de nacimiento debe ser entre 18 y 74 años.');
             return false;
         }
-
+        // Validar que coincida con la edad declarada
         const edadDeclarada = parseInt(document.getElementById('edad').value);
-        const edadCalculada = calcularEdadDesdeFecha(fechaStr);
-        if (edadCalculada !== null && edadCalculada !== edadDeclarada) {
+        if (edadCalculada !== edadDeclarada) {
             showErrorStep(err, `⚠️ La edad declarada (${edadDeclarada} años) no coincide con la fecha de nacimiento (${edadCalculada} años). Revisá los datos.`);
             return false;
         }
@@ -903,7 +949,7 @@
     }
 
     // ================================================================
-    //  8. CALCULAR CUOTA (solo si datos personales completos)
+    //  8. CALCULAR CUOTA
     // ================================================================
     function calcularCuotaPreview() {
         const nombres = document.getElementById('nombres').value.trim();
@@ -931,7 +977,7 @@
         const cuota = document.getElementById('cuotaPreview').textContent;
         const cedula = document.getElementById('cedula').value;
         const celular = document.getElementById('celular').value;
-        const fechaStr = document.getElementById('fechaNac').value.trim();
+        const fechaStr = obtenerFechaNacimiento();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -942,7 +988,7 @@
         const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
         const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edadCalculada = calcularEdadDesdeFecha(fechaStr);
+        const edadCalculada = calcularEdadDesdeSelectores();
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
 
@@ -1003,7 +1049,7 @@
     }
 
     // ================================================================
-    //  10. ENVÍO A WHATSAPP (con fecha de nacimiento incluida)
+    //  10. ENVÍO A WHATSAPP
     // ================================================================
     document.getElementById('btnEnviar').addEventListener('click', function() {
         const err = document.getElementById('errorStep3');
@@ -1016,7 +1062,6 @@
 
         if (!validateStep2()) return;
 
-        // Recolectar todos los datos
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const edad = document.getElementById('edad').value;
@@ -1025,7 +1070,7 @@
         const cuota = document.getElementById('cuotaPreview').textContent;
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
-        const fechaStr = document.getElementById('fechaNac').value.trim();
+        const fechaStr = obtenerFechaNacimiento();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -1176,6 +1221,7 @@
     //  14. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
+        generarSelectoresFecha();
         document.getElementById('departamento').value = '';
         document.getElementById('ciudad').disabled = true;
         document.getElementById('otraCiudad').classList.add('hidden');
