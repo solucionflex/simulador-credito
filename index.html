@@ -21,6 +21,7 @@
             --text: #0B3A7A;
             --text-light: #4A6A8F;
             --text-helper: #8AA0B8;
+            --placeholder-color: #B8C9E0; /* más claro */
             --primary: #1B66D1;
             --primary-dark: #0B3A7A;
             --primary-light: #D6E6FF;
@@ -46,6 +47,7 @@
         .form-group { margin-bottom:14px; }
         .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-light); margin-bottom:4px; letter-spacing:0.2px; }
         .form-control { width:100%; padding:10px 14px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:#FFFFFF !important; color:#0B3A7A !important; transition:var(--transition); }
+        .form-control::placeholder { color: var(--placeholder-color) !important; opacity: 0.7; font-weight:400; }
         .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(27,102,209,0.2); background:#FFFFFF !important; }
         .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
         .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
@@ -87,9 +89,10 @@
         .consent-checkbox-group { text-align:left; margin:12px 0; }
         .consent-checkbox-group label { display:flex; align-items:flex-start; gap:10px; font-size:13px; cursor:pointer; color:var(--text); line-height:1.4; }
         .consent-checkbox-group input[type="checkbox"] { width:18px; height:18px; margin-top:1px; accent-color:var(--primary); flex-shrink:0; }
-        .flex-info { font-size:11px; color:var(--text-light); text-align:center; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; justify-content:center; gap:6px; }
-        .flex-info span { display:inline-flex; align-items:center; gap:4px; }
-        .flex-info .vendedor { color:var(--primary-dark); font-weight:600; width:100%; margin-top:4px; }
+        .flex-info { font-size:12px; color:var(--text-light); text-align:center; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-direction:column; align-items:center; gap:2px; }
+        .flex-info .vendedor { color:var(--primary-dark); font-weight:600; }
+        .flex-info .contactos { display:flex; flex-wrap:wrap; justify-content:center; gap:6px; color:var(--text-light); }
+        .flex-info .contactos span { display:inline-flex; align-items:center; gap:4px; }
         .success-screen { text-align:center; padding:24px 0; }
         .success-screen i { font-size:64px; color:var(--primary); margin-bottom:14px; }
         .success-screen h2 { font-size:22px; margin-bottom:6px; }
@@ -111,7 +114,7 @@
         @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .row-3{grid-template-columns:1fr;} .header h1{font-size:18px; margin-right:0;} .header{flex-wrap:wrap; justify-content:center;} .logo-container{flex-shrink:0;} .theme-toggle{margin-left:0;} .fecha-select-group{grid-template-columns:1fr 1fr 1fr;} }
 
         /* Modo oscuro */
-        body.dark { --bg:#0A0F1A; --card-bg:#141C2B; --text:#E6EDF2; --text-light:#9BB0C5; --text-helper:#8899B0; --border:#1A2D42; --primary-light:#1A2A4A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
+        body.dark { --bg:#0A0F1A; --card-bg:#141C2B; --text:#E6EDF2; --text-light:#9BB0C5; --text-helper:#8899B0; --placeholder-color:#5A6F88; --border:#1A2D42; --primary-light:#1A2A4A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
         body.dark .btn-secondary { background:var(--border); color:#FFFFFF; }
         body.dark .btn-secondary:hover { background:var(--primary-light); color:var(--text); }
         body.dark .theme-toggle { background:#0A0F1A; border-color:#1A2D42; color:white; }
@@ -127,6 +130,7 @@
         body.dark .cuota-box .value { color:#58CFEA; }
         body.dark .step-wrapper { background:#141C2B; border-bottom-color:#1A2D42; }
         body.dark .form-control { background:#1A2A3A !important; color:#E6EDF2 !important; border-color:#2A4055; }
+        body.dark .form-control::placeholder { color: #5A6F88 !important; opacity: 0.6; }
         body.dark .form-control:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(27,102,209,0.2); }
         body.dark select.form-control option { background:#1A2A3A; color:#E6EDF2; }
         body.dark .header h1 { color:#E6EDF2; }
@@ -221,8 +225,8 @@
             <!-- PASO 2: DATOS -->
             <div class="form-step" id="step2">
                 <div class="row-2">
-                    <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
-                    <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991.111.222" required></div>
+                    <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1.234.567" required></div>
+                    <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991 123 456" required></div>
                 </div>
 
                 <div class="form-group">
@@ -286,7 +290,7 @@
 
                 <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
-                    <input class="form-control" type="number" id="ingreso" placeholder="1.750.000" min="1750000" required>
+                    <input class="form-control" type="text" id="ingreso" placeholder="1.750.000" required>
                     <div class="helper-text">Mínimo ₲ 1.750.000</div>
                 </div>
 
@@ -297,7 +301,7 @@
 
                 <div class="form-group" id="grupoTelefonoLab" style="display:none;">
                     <label>Teléfono laboral *</label>
-                    <input class="form-control" type="tel" id="telefonoLab" placeholder="0991.123.456">
+                    <input class="form-control" type="tel" id="telefonoLab" placeholder="0991 123 456">
                 </div>
 
                 <div class="form-group" id="grupoAntiguedad">
@@ -386,18 +390,15 @@
                 <div class="comentario">"Siempre pensé que pedir un préstamo era complicado, pero con Tking Credit fue rapidísimo y todo por WhatsApp."</div>
                 <div class="autor">— Ana P., San Lorenzo</div>
             </div>
-            <div class="testimonio-item">
-                <div class="stars">★★★★★</div>
-                <div class="comentario">"Recomiendo 100%. La asesora fue muy clara y el simulador me ayudó a elegir la mejor cuota para mi bolsillo."</div>
-                <div class="autor">— José M., Ciudad del Este</div>
-            </div>
         </div>
 
         <div class="flex-info">
-            <span><i class="fas fa-envelope"></i> tking.asesor@gmail.com</span>
-            <span>·</span>
-            <span><i class="fas fa-phone"></i> +595 992 271485</span>
-            <span class="vendedor"><i class="fas fa-user-check"></i> Isidro Cabrera - Vendedor Autorizado - 27812</span>
+            <div class="vendedor"><i class="fas fa-user-check"></i> Isidro Cabrera - Vendedor Autorizado - 27812</div>
+            <div class="contactos">
+                <span><i class="fas fa-envelope"></i> tking.asesor@gmail.com</span>
+                <span>·</span>
+                <span><i class="fas fa-phone"></i> +595 992 271485</span>
+            </div>
         </div>
     </div>
 
@@ -568,7 +569,7 @@
     }
 
     function formatearCedula(ced) {
-        // Formato: 1.234.567 (puntos de miles)
+        // Recibe solo dígitos y devuelve con puntos de miles
         const num = ced.replace(/[^0-9]/g, '');
         if (num.length === 0) return '';
         return parseInt(num, 10).toLocaleString('es-PY');
@@ -576,14 +577,54 @@
 
     function formatearWhatsApp(num) {
         const limpio = num.replace(/[^0-9]/g, '');
-        if (limpio.length !== 10) return limpio;
-        // 0991.111.222
-        return limpio.slice(0,4) + '.' + limpio.slice(4,7) + '.' + limpio.slice(7);
+        if (limpio.length === 0) return '';
+        if (limpio.length <= 4) return limpio;
+        if (limpio.length <= 7) return limpio.slice(0,4) + ' ' + limpio.slice(4);
+        return limpio.slice(0,4) + ' ' + limpio.slice(4,7) + ' ' + limpio.slice(7,10);
     }
 
     function obtenerCuota(monto, plazo) {
         if (!CUOTAS_FIJAS[monto]) return null;
         return CUOTAS_FIJAS[monto][plazo] || null;
+    }
+
+    // ================================================================
+    // FORMATO EN VIVO: Cédula, WhatsApp, Ingreso
+    // ================================================================
+    function formatearCedulaVivo(e) {
+        const input = e.target;
+        const cursorPos = input.selectionStart;
+        const raw = input.value.replace(/[^0-9]/g, '');
+        const formatted = formatearCedula(raw);
+        input.value = formatted;
+        // Reposicionar cursor
+        const newPos = formatted.length;
+        input.setSelectionRange(newPos, newPos);
+        // Guardar valor numérico en un atributo para validación
+        input.dataset.raw = raw;
+    }
+
+    function formatearWhatsAppVivo(e) {
+        const input = e.target;
+        const raw = input.value.replace(/[^0-9]/g, '');
+        const formatted = formatearWhatsApp(raw);
+        input.value = formatted;
+        input.dataset.raw = raw;
+    }
+
+    function formatearIngresoVivo(e) {
+        const input = e.target;
+        const raw = input.value.replace(/[^0-9]/g, '');
+        if (raw === '') {
+            input.value = '';
+            input.dataset.raw = '';
+            return;
+        }
+        const num = parseInt(raw, 10);
+        if (!isNaN(num)) {
+            input.value = num.toLocaleString('es-PY');
+        }
+        input.dataset.raw = raw;
     }
 
     // ================================================================
@@ -805,12 +846,14 @@
 
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
-        const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
-        const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
+        // Obtener valor numérico de cédula desde el atributo raw
+        const cedulaRaw = document.getElementById('cedula').dataset.raw || document.getElementById('cedula').value.replace(/[^0-9]/g, '');
+        const celularRaw = document.getElementById('celular').dataset.raw || document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
-        const ingreso = parseInt(document.getElementById('ingreso').value);
+        const ingresoRaw = document.getElementById('ingreso').dataset.raw || document.getElementById('ingreso').value.replace(/[^0-9]/g, '');
+        const ingreso = parseInt(ingresoRaw, 10);
         const perfilKey = document.getElementById('perfil').value;
         const config = PERFILES[perfilKey];
 
@@ -860,11 +903,11 @@
             showErrorStep(err, 'Apellido: solo letras y mínimo 3 caracteres.');
             return false;
         }
-        if (cedula.length < 6 || cedula.length > 7) {
+        if (cedulaRaw.length < 6 || cedulaRaw.length > 7) {
             showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
             return false;
         }
-        if (celular.length !== 10 || !celular.startsWith('09')) {
+        if (celularRaw.length !== 10 || !celularRaw.startsWith('09')) {
             showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
             return false;
         }
@@ -893,8 +936,8 @@
             }
         }
         if (config.requiereTelefonoLab) {
-            const telefonoLab = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
-            if (telefonoLab.length !== 10 || !telefonoLab.startsWith('09')) {
+            const telefonoLabRaw = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+            if (telefonoLabRaw.length !== 10 || !telefonoLabRaw.startsWith('09')) {
                 showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
                 return false;
             }
@@ -920,16 +963,17 @@
         const plazo = parseInt(document.getElementById('plazo').value);
         const cuota = obtenerCuota(monto, plazo);
         const cuotaFormateada = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        const cedulaRaw = document.getElementById('cedula').value;
+        const cedulaRaw = document.getElementById('cedula').dataset.raw || document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const cedulaFormateada = formatearCedula(cedulaRaw);
-        const celularRaw = document.getElementById('celular').value;
+        const celularRaw = document.getElementById('celular').dataset.raw || document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const celularFormateado = formatearWhatsApp(celularRaw);
         const fechaStr = obtenerFechaNacimiento();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const ingresoRaw = document.getElementById('ingreso').dataset.raw || document.getElementById('ingreso').value.replace(/[^0-9]/g, '');
+        const ingreso = parseInt(ingresoRaw, 10) || 0;
         const perfilKey = document.getElementById('perfil').value;
         const config = PERFILES[perfilKey];
         const perfilLabel = config ? config.etiqueta : 'No seleccionado';
@@ -995,16 +1039,17 @@
         const plazo = parseInt(document.getElementById('plazo').value);
         const cuota = obtenerCuota(monto, plazo);
         const cuotaFormateada = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        const cedulaRaw = document.getElementById('cedula').value;
+        const cedulaRaw = document.getElementById('cedula').dataset.raw || document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const cedulaFormateada = formatearCedula(cedulaRaw);
-        const celularRaw = document.getElementById('celular').value;
+        const celularRaw = document.getElementById('celular').dataset.raw || document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const celularFormateado = formatearWhatsApp(celularRaw);
         const fechaStr = obtenerFechaNacimiento();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const ingresoRaw = document.getElementById('ingreso').dataset.raw || document.getElementById('ingreso').value.replace(/[^0-9]/g, '');
+        const ingreso = parseInt(ingresoRaw, 10) || 0;
         const perfilKey = document.getElementById('perfil').value;
         const config = PERFILES[perfilKey];
         const perfilLabel = config ? config.etiqueta : 'No seleccionado';
@@ -1140,14 +1185,17 @@
     // ================================================================
     document.getElementById('nombres').addEventListener('input', soloLetras);
     document.getElementById('apellidos').addEventListener('input', soloLetras);
-    document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     function soloLetras(e) {
         e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     }
-    function soloNumeros(e) {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    }
+
+    // ================================================================
+    // FORMATO EN VIVO: Cédula, WhatsApp, Ingreso
+    // ================================================================
+    document.getElementById('cedula').addEventListener('input', formatearCedulaVivo);
+    document.getElementById('celular').addEventListener('input', formatearWhatsAppVivo);
+    document.getElementById('ingreso').addEventListener('input', formatearIngresoVivo);
 
     // ================================================================
     // TEMA OSCURO
@@ -1160,6 +1208,16 @@
 
     if (localStorage.getItem('tkingCredit_theme') === 'dark') {
         document.body.classList.add('dark');
+    }
+
+    // ================================================================
+    // TOAST
+    // ================================================================
+    function mostrarToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
     }
 
     // ================================================================
@@ -1179,6 +1237,7 @@
         nextStep(1);
     });
 
+    // Exponer funciones globales para eventos inline
     window.nextStep = nextStep;
     window.prevStep = prevStep;
     window.validarInformconf = validarInformconf;
