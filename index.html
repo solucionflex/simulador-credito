@@ -20,6 +20,7 @@
             --card-bg: #FFFFFF;
             --text: #0B3A7A;
             --text-light: #4A6A8F;
+            --text-helper: #8AA0B8;
             --primary: #1B66D1;
             --primary-dark: #0B3A7A;
             --primary-light: #D6E6FF;
@@ -82,12 +83,13 @@
         .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin:8px 0 16px 0; border:1px solid var(--primary); }
         .cuota-box .label { font-size:11px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
         .cuota-box .value { font-size:28px; font-weight:800; color:var(--primary-dark); }
-        .cuota-box .mensaje-datos { font-size:11px; color:var(--text-light); margin-top:4px; }
+        .cuota-box .mensaje-datos { font-size:11px; color:var(--text-helper); margin-top:4px; }
         .consent-checkbox-group { text-align:left; margin:12px 0; }
         .consent-checkbox-group label { display:flex; align-items:flex-start; gap:10px; font-size:13px; cursor:pointer; color:var(--text); line-height:1.4; }
         .consent-checkbox-group input[type="checkbox"] { width:18px; height:18px; margin-top:1px; accent-color:var(--primary); flex-shrink:0; }
         .flex-info { font-size:11px; color:var(--text-light); text-align:center; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; justify-content:center; gap:6px; }
         .flex-info span { display:inline-flex; align-items:center; gap:4px; }
+        .flex-info .vendedor { color:var(--primary-dark); font-weight:600; width:100%; margin-top:4px; }
         .success-screen { text-align:center; padding:24px 0; }
         .success-screen i { font-size:64px; color:var(--primary); margin-bottom:14px; }
         .success-screen h2 { font-size:22px; margin-bottom:6px; }
@@ -105,10 +107,11 @@
         .requisitos-box h5 { font-size:13px; margin-bottom:10px; color:var(--primary-dark); }
         .requisitos-box .checkbox-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; color:var(--text); font-size:13px; }
         .requisitos-box .checkbox-item input[type="checkbox"] { width:16px; height:16px; accent-color:var(--primary); cursor:pointer; }
+        .helper-text { color:var(--text-helper); font-size:11px; margin-top:4px; }
         @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .row-3{grid-template-columns:1fr;} .header h1{font-size:18px; margin-right:0;} .header{flex-wrap:wrap; justify-content:center;} .logo-container{flex-shrink:0;} .theme-toggle{margin-left:0;} .fecha-select-group{grid-template-columns:1fr 1fr 1fr;} }
 
         /* Modo oscuro */
-        body.dark { --bg:#0A0F1A; --card-bg:#141C2B; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#1A2A4A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
+        body.dark { --bg:#0A0F1A; --card-bg:#141C2B; --text:#E6EDF2; --text-light:#9BB0C5; --text-helper:#8899B0; --border:#1A2D42; --primary-light:#1A2A4A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
         body.dark .btn-secondary { background:var(--border); color:#FFFFFF; }
         body.dark .btn-secondary:hover { background:var(--primary-light); color:var(--text); }
         body.dark .theme-toggle { background:#0A0F1A; border-color:#1A2D42; color:white; }
@@ -131,6 +134,7 @@
         body.dark .perfil-info strong { color:#58CFEA; }
         body.dark .requisitos-box { background:#0A0F1A; }
         body.dark .requisitos-box .checkbox-item { color:#E6EDF2; }
+        body.dark .flex-info .vendedor { color:#58CFEA; }
     </style>
 </head>
 <body>
@@ -161,7 +165,7 @@
                 <div class="intro-text">
                     <span class="badge-tking">100% Digital</span>
                     <p style="margin-top:8px;">Simulá tu préstamo con <strong>Tking Credit</strong>. En menos de 5 minutos te decimos si contás con una preaprobación.</p>
-                    <div style="font-size:12px; color:var(--text-light); margin-top:4px;">✅ Sin papeleo · Sin filas · Atención personalizada</div>
+                    <div style="font-size:12px; color:var(--text-helper); margin-top:4px;">✅ Sin papeleo · Sin filas · Atención personalizada</div>
                 </div>
 
                 <div class="cuota-box" id="cuotaBox">
@@ -185,7 +189,7 @@
                 <div class="form-group">
                     <label>Edad *</label>
                     <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="20" max="70" required oninput="verificarDatosCompletos()">
-                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">De 20 a 70 años</div>
+                    <div class="helper-text">De 20 a 70 años</div>
                 </div>
 
                 <div class="row-2" style="gap:12px; margin-top:8px;">
@@ -218,7 +222,7 @@
             <div class="form-step" id="step2">
                 <div class="row-2">
                     <div class="form-group"><label>Cédula *</label><input class="form-control" type="text" id="cedula" placeholder="1234567" required></div>
-                    <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991123456" required></div>
+                    <div class="form-group"><label>WhatsApp *</label><input class="form-control" type="tel" id="celular" placeholder="0991.111.222" required></div>
                 </div>
 
                 <div class="form-group">
@@ -282,8 +286,8 @@
 
                 <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
-                    <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1750000" required>
-                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.750.000</div>
+                    <input class="form-control" type="number" id="ingreso" placeholder="1.750.000" min="1750000" required>
+                    <div class="helper-text">Mínimo ₲ 1.750.000</div>
                 </div>
 
                 <div class="form-group" id="grupoEmpresa" style="display:none;">
@@ -374,13 +378,18 @@
             <h4><i class="fas fa-star" style="color:var(--primary);"></i> Lo que dicen nuestros clientes</h4>
             <div class="testimonio-item">
                 <div class="stars">★★★★★</div>
-                <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente y el asesor me guió en cada paso."</div>
-                <div class="autor">— Carlos M., Asunción</div>
+                <div class="comentario">"El trato fue excelente, me explicaron cada detalle y en menos de 24 horas ya tenía el dinero en mi cuenta."</div>
+                <div class="autor">— Roberto D., Luque</div>
             </div>
             <div class="testimonio-item">
                 <div class="stars">★★★★★</div>
-                <div class="comentario">"100% digital, sin papeleo. En menos de 5 minutos ya tenía mi preaprobación."</div>
-                <div class="autor">— Laura G., Ciudad del Este</div>
+                <div class="comentario">"Siempre pensé que pedir un préstamo era complicado, pero con Tking Credit fue rapidísimo y todo por WhatsApp."</div>
+                <div class="autor">— Ana P., San Lorenzo</div>
+            </div>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"Recomiendo 100%. La asesora fue muy clara y el simulador me ayudó a elegir la mejor cuota para mi bolsillo."</div>
+                <div class="autor">— José M., Ciudad del Este</div>
             </div>
         </div>
 
@@ -388,6 +397,7 @@
             <span><i class="fas fa-envelope"></i> tking.asesor@gmail.com</span>
             <span>·</span>
             <span><i class="fas fa-phone"></i> +595 992 271485</span>
+            <span class="vendedor"><i class="fas fa-user-check"></i> Isidro Cabrera - Vendedor Autorizado - 27812</span>
         </div>
     </div>
 
@@ -426,7 +436,7 @@
         'asalariado_ips': {
             etiqueta: 'Asalariado con IPS',
             edadMin: 20, edadMax: 70,
-            antiguedadMinMeses: 6, // 6 aportes IPS
+            antiguedadMinMeses: 6,
             documentos: ['Boleta de IPS (6 últimos aportes)', 'Liquidación de salario', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
             requiereTelefonoLab: true
@@ -442,7 +452,7 @@
         'funcionario_permanente': {
             etiqueta: 'Funcionario Público PERMANENTE',
             edadMin: 20, edadMax: 70,
-            antiguedadMinMeses: 1, // 1 mes según PDF
+            antiguedadMinMeses: 1,
             documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false
@@ -450,15 +460,15 @@
         'funcionario_contratado': {
             etiqueta: 'Funcionario Público CONTRATADO',
             edadMin: 20, edadMax: 70,
-            antiguedadMinMeses: 15, // 15 meses según PDF
+            antiguedadMinMeses: 15,
             documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false
         },
         'jubilado': {
             etiqueta: 'Jubilado',
-            edadMin: 20, edadMax: 70, // según Excel
-            antiguedadMinMeses: 0, // no aplica
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 0,
             documentos: ['Boletas de IPS o JUPE (2 últimos cobros)', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false
@@ -557,18 +567,18 @@
         return n ? n.toLocaleString('es-PY') : '0';
     }
 
-    function mostrarToast(msg) {
-        const t = document.getElementById('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 3000);
+    function formatearCedula(ced) {
+        // Formato: 1.234.567 (puntos de miles)
+        const num = ced.replace(/[^0-9]/g, '');
+        if (num.length === 0) return '';
+        return parseInt(num, 10).toLocaleString('es-PY');
     }
 
-    function soloLetras(e) {
-        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-    }
-    function soloNumeros(e) {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    function formatearWhatsApp(num) {
+        const limpio = num.replace(/[^0-9]/g, '');
+        if (limpio.length !== 10) return limpio;
+        // 0991.111.222
+        return limpio.slice(0,4) + '.' + limpio.slice(4,7) + '.' + limpio.slice(7);
     }
 
     function obtenerCuota(monto, plazo) {
@@ -625,27 +635,21 @@
         const grupoTelefono = document.getElementById('grupoTelefonoLab');
         const grupoAntiguedad = document.getElementById('grupoAntiguedad');
 
-        // Ocultar todo primero
         infoDiv.style.display = 'none';
         reqContainer.style.display = 'none';
         grupoEmpresa.style.display = 'none';
         grupoTelefono.style.display = 'none';
-        grupoAntiguedad.style.display = 'block'; // por defecto visible
+        grupoAntiguedad.style.display = 'block';
 
         if (!config) return;
 
-        // Mostrar info del perfil
         infoDiv.style.display = 'block';
-        let edadMin = config.edadMin;
-        let edadMax = config.edadMax;
-        let antiguedadMin = config.antiguedadMinMeses;
-        let antiguedadTexto = antiguedadMin === 0 ? 'No aplica' : `${antiguedadMin} meses`;
+        let antiguedadTexto = config.antiguedadMinMeses === 0 ? 'No aplica' : `${config.antiguedadMinMeses} meses`;
         infoDiv.innerHTML = `
             <strong>${config.etiqueta}</strong><br>
-            <span>Edad: ${edadMin} a ${edadMax} años · Antigüedad mínima: ${antiguedadTexto}</span>
+            <span>Edad: ${config.edadMin} a ${config.edadMax} años · Antigüedad mínima: ${antiguedadTexto}</span>
         `;
 
-        // Mostrar requisitos (documentos)
         reqContainer.style.display = 'block';
         reqList.innerHTML = '';
         if (config.documentos && config.documentos.length > 0) {
@@ -660,7 +664,6 @@
             });
         }
 
-        // Mostrar/ocultar campos de empresa y teléfono laboral
         if (config.requiereEmpresa) {
             grupoEmpresa.style.display = 'block';
             document.getElementById('empresa').required = true;
@@ -676,7 +679,6 @@
             document.getElementById('telefonoLab').value = '';
         }
 
-        // Para jubilados, ocultar campo de antigüedad laboral
         if (perfilKey === 'jubilado') {
             grupoAntiguedad.style.display = 'none';
             document.getElementById('antiguedad_anios').value = '';
@@ -801,7 +803,6 @@
             return false;
         }
 
-        // Validar campos básicos
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
@@ -813,7 +814,6 @@
         const perfilKey = document.getElementById('perfil').value;
         const config = PERFILES[perfilKey];
 
-        // Fecha
         const dia = document.getElementById('diaNac').value;
         const mes = document.getElementById('mesNac').value;
         const anio = document.getElementById('anioNac').value;
@@ -832,19 +832,15 @@
             return false;
         }
 
-        // Validar perfil
         if (!config) {
             showErrorStep(err, 'Seleccioná un perfil válido.');
             return false;
         }
-
-        // Edad según perfil
         if (edadCalculada < config.edadMin || edadCalculada > config.edadMax) {
             showErrorStep(err, `Tu edad (${edadCalculada} años) no se ajusta al perfil seleccionado (rango ${config.edadMin}-${config.edadMax}).`);
             return false;
         }
 
-        // Antigüedad (excepto jubilado)
         if (perfilKey !== 'jubilado') {
             const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
             const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
@@ -855,7 +851,6 @@
             }
         }
 
-        // Validar campos según perfil
         const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
         if (!regexLetras.test(nombres) || nombres.length < 3) {
             showErrorStep(err, 'Nombre: solo letras y mínimo 3 caracteres.');
@@ -890,7 +885,6 @@
             return false;
         }
 
-        // Validar empresa y teléfono si el perfil lo requiere
         if (config.requiereEmpresa) {
             const empresa = document.getElementById('empresa').value.trim();
             if (empresa.length < 2) {
@@ -905,9 +899,6 @@
                 return false;
             }
         }
-
-        // Validar que al menos un documento esté marcado (opcional pero recomendado)
-        // No lo hacemos obligatorio, pero sí mostramos los requisitos.
 
         return true;
     }
@@ -929,8 +920,10 @@
         const plazo = parseInt(document.getElementById('plazo').value);
         const cuota = obtenerCuota(monto, plazo);
         const cuotaFormateada = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        const cedula = document.getElementById('cedula').value;
-        const celular = document.getElementById('celular').value;
+        const cedulaRaw = document.getElementById('cedula').value;
+        const cedulaFormateada = formatearCedula(cedulaRaw);
+        const celularRaw = document.getElementById('celular').value;
+        const celularFormateado = formatearWhatsApp(celularRaw);
         const fechaStr = obtenerFechaNacimiento();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
@@ -949,7 +942,6 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        // Documentos marcados
         const docsMarcados = [];
         document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
@@ -963,7 +955,7 @@
 
         const resumen = document.getElementById('resumenContainer');
         resumen.innerHTML = `
-            <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
+            <p><strong>${nombres} ${apellidos}</strong> · ${cedulaFormateada} · ${ciudadFinal}, ${departamento}</p>
             <p>📅 Fecha nac.: ${fechaStr} (${edad} años) · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
             <p>Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses · Cuota: ${cuotaFormateada}</p>
             <hr style="border:1px solid var(--border); margin:8px 0;">
@@ -973,6 +965,7 @@
             ${perfilKey !== 'jubilado' ? `<p>🕒 Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>` : ''}
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
+            <p><strong>WhatsApp:</strong> ${celularFormateado}</p>
             <hr style="border:1px solid var(--border); margin:8px 0;">
             <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno marcado'}</p>
             ${advertencia}
@@ -1002,8 +995,10 @@
         const plazo = parseInt(document.getElementById('plazo').value);
         const cuota = obtenerCuota(monto, plazo);
         const cuotaFormateada = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
-        const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
+        const cedulaRaw = document.getElementById('cedula').value;
+        const cedulaFormateada = formatearCedula(cedulaRaw);
+        const celularRaw = document.getElementById('celular').value;
+        const celularFormateado = formatearWhatsApp(celularRaw);
         const fechaStr = obtenerFechaNacimiento();
         const departamento = document.getElementById('departamento').value;
         const ciudadSel = document.getElementById('ciudad').value;
@@ -1022,7 +1017,6 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        // Documentos marcados
         const docsMarcados = [];
         document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
@@ -1031,8 +1025,8 @@
 
         let mensaje = `*NUEVA PRESOLICITUD - Tking Credit*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
-        mensaje += `📄 *CI:* ${cedula}%0A`;
-        mensaje += `📞 *WhatsApp:* ${celular}%0A`;
+        mensaje += `📄 *CI:* ${cedulaFormateada}%0A`;
+        mensaje += `📞 *WhatsApp:* ${celularFormateado}%0A`;
         mensaje += `📅 *Fecha de nacimiento:* ${fechaStr}%0A`;
         mensaje += `🎂 *Edad:* ${edad} años%0A`;
         mensaje += `📍 *Ubicación:* ${ciudadFinal}, ${departamento}%0A`;
@@ -1148,6 +1142,13 @@
     document.getElementById('apellidos').addEventListener('input', soloLetras);
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
+    function soloLetras(e) {
+        e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    }
+    function soloNumeros(e) {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    }
+
     // ================================================================
     // TEMA OSCURO
     // ================================================================
@@ -1170,7 +1171,6 @@
         document.getElementById('ciudad').disabled = true;
         document.getElementById('otraCiudad').classList.add('hidden');
         document.getElementById('otraCartera').classList.add('hidden');
-        // Ocultar campos de empresa y teléfono inicialmente
         document.getElementById('grupoEmpresa').style.display = 'none';
         document.getElementById('grupoTelefonoLab').style.display = 'none';
         verificarDatosCompletos();
