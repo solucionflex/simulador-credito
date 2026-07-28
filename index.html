@@ -38,7 +38,7 @@
         .header { display:flex; align-items:center; gap:12px; margin-bottom:16px; padding-bottom:12px; border-bottom:1.5px solid var(--border); }
         .logo-container { width:42px; height:42px; border-radius:12px; flex-shrink:0; overflow:hidden; background:transparent; }
         .logo-container img { width:100%; height:100%; object-fit:contain; display:block; }
-        .header h1 { flex:1; text-align:center; font-size:20px; font-weight:700; letter-spacing:-0.4px; line-height:1.2; color:var(--primary-dark); margin-right:42px; /* compensar el ancho del botón */ }
+        .header h1 { flex:1; text-align:center; font-size:20px; font-weight:700; letter-spacing:-0.4px; line-height:1.2; color:var(--primary-dark); margin-right:42px; }
         .header h1 small { display:block; font-size:11px; font-weight:500; color:var(--text-light); letter-spacing:0.2px; text-transform:uppercase; }
         .theme-toggle { margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:40px; padding:5px 12px; font-size:16px; cursor:pointer; transition:var(--transition); color:var(--text); flex-shrink:0; }
         .theme-toggle:hover { background:var(--gradient); color:white; border-color:transparent; }
@@ -99,9 +99,15 @@
         .badge-tking { display:inline-block; background:var(--gradient); color:white; font-size:10px; font-weight:600; padding:2px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px; }
         .fecha-select-group { display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:8px; }
         .fecha-select-group select { padding:10px 6px; font-size:14px; }
+        .perfil-info { background:var(--bg); border-radius:var(--radius-sm); padding:12px; margin-top:8px; border-left:4px solid var(--primary); font-size:13px; color:var(--text); }
+        .perfil-info strong { color:var(--primary-dark); }
+        .requisitos-box { background:var(--bg); border-radius:var(--radius-sm); padding:14px; margin-top:8px; border-left:4px solid var(--primary); }
+        .requisitos-box h5 { font-size:13px; margin-bottom:10px; color:var(--primary-dark); }
+        .requisitos-box .checkbox-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; color:var(--text); font-size:13px; }
+        .requisitos-box .checkbox-item input[type="checkbox"] { width:16px; height:16px; accent-color:var(--primary); cursor:pointer; }
         @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .row-3{grid-template-columns:1fr;} .header h1{font-size:18px; margin-right:0;} .header{flex-wrap:wrap; justify-content:center;} .logo-container{flex-shrink:0;} .theme-toggle{margin-left:0;} .fecha-select-group{grid-template-columns:1fr 1fr 1fr;} }
 
-        /* MODO OSCURO */
+        /* Modo oscuro */
         body.dark { --bg:#0A0F1A; --card-bg:#141C2B; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#1A2A4A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
         body.dark .btn-secondary { background:var(--border); color:#FFFFFF; }
         body.dark .btn-secondary:hover { background:var(--primary-light); color:var(--text); }
@@ -121,6 +127,10 @@
         body.dark .form-control:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(27,102,209,0.2); }
         body.dark select.form-control option { background:#1A2A3A; color:#E6EDF2; }
         body.dark .header h1 { color:#E6EDF2; }
+        body.dark .perfil-info { background:#0A0F1A; color:#E6EDF2; }
+        body.dark .perfil-info strong { color:#58CFEA; }
+        body.dark .requisitos-box { background:#0A0F1A; }
+        body.dark .requisitos-box .checkbox-item { color:#E6EDF2; }
     </style>
 </head>
 <body>
@@ -253,22 +263,40 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Perfil / Actividad *</label>
+                    <select class="form-control" id="perfil" required onchange="actualizarRequisitosPorPerfil()">
+                        <option value="">Seleccionar perfil...</option>
+                        <option value="asalariado_ips">Asalariado con IPS</option>
+                        <option value="asalariado_informal">Asalariado Informal (sin IVA ni IPS)</option>
+                        <option value="funcionario_permanente">Funcionario Público PERMANENTE</option>
+                        <option value="funcionario_contratado">Funcionario Público CONTRATADO</option>
+                        <option value="jubilado">Jubilado</option>
+                        <option value="asalariado_iva">Asalariado con IVA</option>
+                        <option value="prof_independiente">Profesional Independiente</option>
+                        <option value="independiente">Independiente</option>
+                        <option value="micro_comerciante">Micro / Comerciante</option>
+                    </select>
+                </div>
+
+                <div id="infoPerfil" class="perfil-info" style="display:none;"></div>
+
+                <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
-                    <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
-                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
+                    <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1750000" required>
+                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.750.000</div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="grupoEmpresa" style="display:none;">
                     <label>Empresa / Institución *</label>
-                    <input class="form-control" type="text" id="empresa" placeholder="Ej: ABC S.A." required>
+                    <input class="form-control" type="text" id="empresa" placeholder="Ej: ABC S.A.">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="grupoTelefonoLab" style="display:none;">
                     <label>Teléfono laboral *</label>
-                    <input class="form-control" type="tel" id="telefonoLab" placeholder="0991.123.456" required>
+                    <input class="form-control" type="tel" id="telefonoLab" placeholder="0991.123.456">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="grupoAntiguedad">
                     <label>Antigüedad laboral *</label>
                     <div class="row-2" style="gap:8px;">
                         <div>
@@ -280,6 +308,12 @@
                             <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
                         </div>
                     </div>
+                </div>
+
+                <!-- Contenedor de requisitos específicos del perfil -->
+                <div id="requisitosContainer" class="requisitos-box" style="display:none;">
+                    <h5>📋 Documentos requeridos para tu perfil:</h5>
+                    <div id="requisitosList"></div>
                 </div>
 
                 <div class="checkbox-group">
@@ -324,7 +358,7 @@
                 <div class="consent-checkbox-group">
                     <label>
                         <input type="checkbox" id="chkConsent">
-                        Declaro que mis datos son reales y autorizo voluntariamente a Tking Credit a utilizarlos para la gestión y verificación de mi estado crediticio.
+                        Declaro que mis datos son reales y autorizo voluntariamente a utilizarlos para la gestión y verificación de mi estado crediticio.
                     </label>
                 </div>
 
@@ -372,17 +406,95 @@
     // CONFIGURACIÓN
     // ================================================================
     const WHATSAPP_NUMBER = '595992271485';
-    const CODIGO_VENDEDOR = 'TK001';
+    const VENDEDOR = 'Isidro Cabrera - Vendedor Autorizado - 27812';
 
     // ================================================================
-    // CUOTERO OFICIAL (solo montos 1M,2M,3M,4M,5M y plazos 6,12,18,24)
+    // CUOTERO OFICIAL (montos 1M,2M,3M,4M,5M / plazos 6,12,18,24)
     // ================================================================
     const CUOTAS_FIJAS = {
-        1000000: { 6:235000, 12:127000, 18:101000, 24:89400 },   // 24 calculado con tasa implícita de 18 meses
-        2000000: { 6:465000, 12:254000, 18:201000, 24:178800 },
-        3000000: { 6:685000, 12:380000, 18:302000, 24:268200 },
-        4000000: { 6:900000, 12:507000, 18:402000, 24:357600 },
-        5000000: { 6:1150000, 12:633000, 18:503000, 24:447000 }
+        1000000: { 6:235000, 12:127000, 18:101000, 24:90000 },
+        2000000: { 6:465000, 12:254000, 18:201000, 24:177000 },
+        3000000: { 6:685000, 12:380000, 18:302000, 24:266000 },
+        4000000: { 6:900000, 12:507000, 18:402000, 24:354000 },
+        5000000: { 6:1150000, 12:633000, 18:503000, 24:443000 }
+    };
+
+    // ================================================================
+    // PERFILES Y REQUISITOS (según PDF y Excel, primando PDF)
+    // ================================================================
+    const PERFILES = {
+        'asalariado_ips': {
+            etiqueta: 'Asalariado con IPS',
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 6, // 6 aportes IPS
+            documentos: ['Boleta de IPS (6 últimos aportes)', 'Liquidación de salario', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: true,
+            requiereTelefonoLab: true
+        },
+        'asalariado_informal': {
+            etiqueta: 'Asalariado Informal (sin IVA ni IPS)',
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 6,
+            documentos: ['Certificado de trabajo (máx 60 días)', 'RUC de la empresa o patronal', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: true,
+            requiereTelefonoLab: true
+        },
+        'funcionario_permanente': {
+            etiqueta: 'Funcionario Público PERMANENTE',
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 1, // 1 mes según PDF
+            documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false
+        },
+        'funcionario_contratado': {
+            etiqueta: 'Funcionario Público CONTRATADO',
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 15, // 15 meses según PDF
+            documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false
+        },
+        'jubilado': {
+            etiqueta: 'Jubilado',
+            edadMin: 20, edadMax: 70, // según Excel
+            antiguedadMinMeses: 0, // no aplica
+            documentos: ['Boletas de IPS o JUPE (2 últimos cobros)', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false
+        },
+        'asalariado_iva': {
+            etiqueta: 'Asalariado con IVA',
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 6,
+            documentos: ['3 últimos IVAs', '6 últimas facturas emitidas a la empresa', 'RUC de la empresa', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: true,
+            requiereTelefonoLab: true
+        },
+        'prof_independiente': {
+            etiqueta: 'Profesional Independiente',
+            edadMin: 22, edadMax: 70,
+            antiguedadMinMeses: 12,
+            documentos: ['3 últimos IVAs', 'Título profesional o registro', 'Facturas emitidas a clientes (3 últimos meses)', 'RUC', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false
+        },
+        'independiente': {
+            etiqueta: 'Independiente',
+            edadMin: 23, edadMax: 65,
+            antiguedadMinMeses: 18,
+            documentos: ['Patente o RUC', '3 últimos IVAs o facturas de compra', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false
+        },
+        'micro_comerciante': {
+            etiqueta: 'Micro / Comerciante',
+            edadMin: 23, edadMax: 65,
+            antiguedadMinMeses: 12,
+            documentos: ['Patente o RUC (1 año)', '3 últimos IVAs', 'Fotos del local', 'Ubicación GPS para visita in situ', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false
+        }
     };
 
     // ================================================================
@@ -459,16 +571,13 @@
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
     }
 
-    // ================================================================
-    // OBTENER CUOTA DESDE TABLA
-    // ================================================================
     function obtenerCuota(monto, plazo) {
         if (!CUOTAS_FIJAS[monto]) return null;
         return CUOTAS_FIJAS[monto][plazo] || null;
     }
 
     // ================================================================
-    // VERIFICAR DATOS PERSONALES
+    // VERIFICAR DATOS PERSONALES (PASO 1)
     // ================================================================
     function verificarDatosCompletos() {
         const nombres = document.getElementById('nombres').value.trim();
@@ -489,9 +598,6 @@
         }
     }
 
-    // ================================================================
-    // CALCULAR CUOTA PREVIEW
-    // ================================================================
     function calcularCuotaPreview() {
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
@@ -503,6 +609,80 @@
             document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
         } else {
             document.getElementById('cuotaPreview').textContent = '—';
+        }
+    }
+
+    // ================================================================
+    // PERFIL - ACTUALIZAR REQUISITOS Y MOSTRAR INFO
+    // ================================================================
+    function actualizarRequisitosPorPerfil() {
+        const perfilKey = document.getElementById('perfil').value;
+        const config = PERFILES[perfilKey];
+        const infoDiv = document.getElementById('infoPerfil');
+        const reqContainer = document.getElementById('requisitosContainer');
+        const reqList = document.getElementById('requisitosList');
+        const grupoEmpresa = document.getElementById('grupoEmpresa');
+        const grupoTelefono = document.getElementById('grupoTelefonoLab');
+        const grupoAntiguedad = document.getElementById('grupoAntiguedad');
+
+        // Ocultar todo primero
+        infoDiv.style.display = 'none';
+        reqContainer.style.display = 'none';
+        grupoEmpresa.style.display = 'none';
+        grupoTelefono.style.display = 'none';
+        grupoAntiguedad.style.display = 'block'; // por defecto visible
+
+        if (!config) return;
+
+        // Mostrar info del perfil
+        infoDiv.style.display = 'block';
+        let edadMin = config.edadMin;
+        let edadMax = config.edadMax;
+        let antiguedadMin = config.antiguedadMinMeses;
+        let antiguedadTexto = antiguedadMin === 0 ? 'No aplica' : `${antiguedadMin} meses`;
+        infoDiv.innerHTML = `
+            <strong>${config.etiqueta}</strong><br>
+            <span>Edad: ${edadMin} a ${edadMax} años · Antigüedad mínima: ${antiguedadTexto}</span>
+        `;
+
+        // Mostrar requisitos (documentos)
+        reqContainer.style.display = 'block';
+        reqList.innerHTML = '';
+        if (config.documentos && config.documentos.length > 0) {
+            config.documentos.forEach((doc, idx) => {
+                const item = document.createElement('div');
+                item.className = 'checkbox-item';
+                item.innerHTML = `
+                    <input type="checkbox" class="chk-requisito" data-idx="${idx}">
+                    <label style="color:var(--text);">${doc}</label>
+                `;
+                reqList.appendChild(item);
+            });
+        }
+
+        // Mostrar/ocultar campos de empresa y teléfono laboral
+        if (config.requiereEmpresa) {
+            grupoEmpresa.style.display = 'block';
+            document.getElementById('empresa').required = true;
+        } else {
+            document.getElementById('empresa').required = false;
+            document.getElementById('empresa').value = '';
+        }
+        if (config.requiereTelefonoLab) {
+            grupoTelefono.style.display = 'block';
+            document.getElementById('telefonoLab').required = true;
+        } else {
+            document.getElementById('telefonoLab').required = false;
+            document.getElementById('telefonoLab').value = '';
+        }
+
+        // Para jubilados, ocultar campo de antigüedad laboral
+        if (perfilKey === 'jubilado') {
+            grupoAntiguedad.style.display = 'none';
+            document.getElementById('antiguedad_anios').value = '';
+            document.getElementById('antiguedad_meses').value = '';
+        } else {
+            grupoAntiguedad.style.display = 'block';
         }
     }
 
@@ -621,6 +801,7 @@
             return false;
         }
 
+        // Validar campos básicos
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
@@ -629,10 +810,8 @@
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ingreso = parseInt(document.getElementById('ingreso').value);
-        const empresa = document.getElementById('empresa').value.trim();
-        const telefonoLab = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
-        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
-        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
+        const perfilKey = document.getElementById('perfil').value;
+        const config = PERFILES[perfilKey];
 
         // Fecha
         const dia = document.getElementById('diaNac').value;
@@ -653,6 +832,30 @@
             return false;
         }
 
+        // Validar perfil
+        if (!config) {
+            showErrorStep(err, 'Seleccioná un perfil válido.');
+            return false;
+        }
+
+        // Edad según perfil
+        if (edadCalculada < config.edadMin || edadCalculada > config.edadMax) {
+            showErrorStep(err, `Tu edad (${edadCalculada} años) no se ajusta al perfil seleccionado (rango ${config.edadMin}-${config.edadMax}).`);
+            return false;
+        }
+
+        // Antigüedad (excepto jubilado)
+        if (perfilKey !== 'jubilado') {
+            const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+            const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
+            const totalMeses = antiguedadAnios * 12 + antiguedadMeses;
+            if (totalMeses < config.antiguedadMinMeses) {
+                showErrorStep(err, `Antigüedad mínima requerida: ${config.antiguedadMinMeses} meses. Actual: ${totalMeses} meses.`);
+                return false;
+            }
+        }
+
+        // Validar campos según perfil
         const regexLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
         if (!regexLetras.test(nombres) || nombres.length < 3) {
             showErrorStep(err, 'Nombre: solo letras y mínimo 3 caracteres.');
@@ -682,26 +885,29 @@
             showErrorStep(err, 'Escribe el nombre de tu ciudad.');
             return false;
         }
-        if (isNaN(ingreso) || ingreso < 1800000) {
-            showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.');
+        if (isNaN(ingreso) || ingreso < 1750000) {
+            showErrorStep(err, 'Ingreso mínimo ₲ 1.750.000.');
             return false;
         }
-        if (empresa.length < 2) {
-            showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
-            return false;
+
+        // Validar empresa y teléfono si el perfil lo requiere
+        if (config.requiereEmpresa) {
+            const empresa = document.getElementById('empresa').value.trim();
+            if (empresa.length < 2) {
+                showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
+                return false;
+            }
         }
-        if (telefonoLab.length !== 10 || !telefonoLab.startsWith('09')) {
-            showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
-            return false;
+        if (config.requiereTelefonoLab) {
+            const telefonoLab = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+            if (telefonoLab.length !== 10 || !telefonoLab.startsWith('09')) {
+                showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
+                return false;
+            }
         }
-        if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
-            showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
-            return false;
-        }
-        if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
-            showErrorStep(err, 'Ingresa antigüedad laboral (meses) de 0 a 11.');
-            return false;
-        }
+
+        // Validar que al menos un documento esté marcado (opcional pero recomendado)
+        // No lo hacemos obligatorio, pero sí mostramos los requisitos.
 
         return true;
     }
@@ -731,6 +937,9 @@
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const perfilKey = document.getElementById('perfil').value;
+        const config = PERFILES[perfilKey];
+        const perfilLabel = config ? config.etiqueta : 'No seleccionado';
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
@@ -739,6 +948,13 @@
         const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
+        // Documentos marcados
+        const docsMarcados = [];
+        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
+            const label = chk.parentElement.querySelector('label');
+            if (label) docsMarcados.push(label.textContent.trim());
+        });
 
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
@@ -751,13 +967,17 @@
             <p>📅 Fecha nac.: ${fechaStr} (${edad} años) · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
             <p>Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses · Cuota: ${cuotaFormateada}</p>
             <hr style="border:1px solid var(--border); margin:8px 0;">
-            <p>🏢 Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>
-            <p>🕒 Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
+            <p>Perfil: ${perfilLabel}</p>
+            ${config && config.requiereEmpresa ? `<p>🏢 Empresa: ${empresa}</p>` : ''}
+            ${config && config.requiereTelefonoLab ? `<p>📞 Teléfono laboral: ${telefonoLab}</p>` : ''}
+            ${perfilKey !== 'jubilado' ? `<p>🕒 Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>` : ''}
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
+            <hr style="border:1px solid var(--border); margin:8px 0;">
+            <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno marcado'}</p>
             ${advertencia}
             <hr style="border:1px solid var(--border); margin:8px 0;">
-            <p style="font-size:11px; color:var(--text-light);"><i class="fas fa-code"></i> Código vendedor: ${CODIGO_VENDEDOR}</p>
+            <p style="font-size:11px; color:var(--text-light);"><i class="fas fa-user-check"></i> ${VENDEDOR}</p>
         `;
     }
 
@@ -790,6 +1010,9 @@
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
+        const perfilKey = document.getElementById('perfil').value;
+        const config = PERFILES[perfilKey];
+        const perfilLabel = config ? config.etiqueta : 'No seleccionado';
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
         const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
@@ -798,6 +1021,13 @@
         const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
+
+        // Documentos marcados
+        const docsMarcados = [];
+        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
+            const label = chk.parentElement.querySelector('label');
+            if (label) docsMarcados.push(label.textContent.trim());
+        });
 
         let mensaje = `*NUEVA PRESOLICITUD - Tking Credit*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
@@ -810,18 +1040,26 @@
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
         mensaje += `💵 *Cuota estimada:* ${cuotaFormateada}%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
-        mensaje += `🏢 *Empresa:* ${empresa}%0A`;
-        mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
-        mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        mensaje += `📊 *Perfil:* ${perfilLabel}%0A`;
+        if (config && config.requiereEmpresa) mensaje += `🏢 *Empresa:* ${empresa}%0A`;
+        if (config && config.requiereTelefonoLab) mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
+        if (perfilKey !== 'jubilado') mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
 
-        if (informconfModificado || carteraModificado) {
-            mensaje += `*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A%0A`;
+        mensaje += `📋 *DOCUMENTOS QUE POSEE:*%0A`;
+        if (docsMarcados.length > 0) {
+            docsMarcados.forEach(doc => { mensaje += `✅ ${doc}%0A`; });
+        } else {
+            mensaje += `Ninguno marcado%0A`;
         }
 
-        mensaje += `🏷️ *Código vendedor:* ${CODIGO_VENDEDOR}%0A%0A`;
-        mensaje += `_✅ El cliente aceptó la declaración de veracidad y autorizó la verificación de datos._`;
+        if (informconfModificado || carteraModificado) {
+            mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
+        }
+
+        mensaje += `%0A🏷️ *Vendedor:* ${VENDEDOR}%0A%0A`;
+        mensaje += `_✅ El cliente aceptó la declaración de veracidad._`;
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
 
@@ -932,6 +1170,9 @@
         document.getElementById('ciudad').disabled = true;
         document.getElementById('otraCiudad').classList.add('hidden');
         document.getElementById('otraCartera').classList.add('hidden');
+        // Ocultar campos de empresa y teléfono inicialmente
+        document.getElementById('grupoEmpresa').style.display = 'none';
+        document.getElementById('grupoTelefonoLab').style.display = 'none';
         verificarDatosCompletos();
         validarInformconf();
         validarCartera();
@@ -944,6 +1185,7 @@
     window.validarCartera = validarCartera;
     window.verificarDatosCompletos = verificarDatosCompletos;
     window.calcularCuotaPreview = calcularCuotaPreview;
+    window.actualizarRequisitosPorPerfil = actualizarRequisitosPorPerfil;
 </script>
 </body>
 </html>
