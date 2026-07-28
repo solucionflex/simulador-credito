@@ -3,38 +3,32 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>FlexCrédito · Simulador de Préstamo</title>
-    <link rel="icon" href="logo.png?v=10" type="image/png" />
-    <meta name="description" content="Descubrí cuánto podés retirar hoy. Simulación rápida, sin compromiso, atención personalizada." />
-    <meta property="og:title" content="FlexCrédito · Simulador de Préstamo" />
-    <meta property="og:description" content="Descubrí cuánto podés retirar hoy. Sin compromiso, atención personalizada." />
-    <meta property="og:site_name" content="Solución Flex" />
-    <meta property="og:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=10" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <title>Tking Credit · Simulador de Préstamo</title>
+    <link rel="icon" href="https://www.tkingcredit.com/assets/images/tking_logo-01.png" type="image/png" />
+    <meta name="description" content="Simulá tu préstamo con Tking Credit. Rápido, 100% digital y sin papeleo." />
+    <meta property="og:title" content="Tking Credit · Simulador de Préstamo" />
+    <meta property="og:description" content="Simulá tu préstamo con Tking Credit. Rápido, 100% digital y sin papeleo." />
+    <meta property="og:image" content="https://www.tkingcredit.com/assets/images/tking_logo-01.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://solucionflex.github.io/simulador-credito/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FlexCrédito · Simulador de Préstamo" />
-    <meta name="twitter:description" content="Descubrí cuánto podés retirar hoy. Sin compromiso." />
-    <meta name="twitter:image" content="https://solucionflex.github.io/simulador-credito/logo.png?v=10" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         /* ===== RESET Y VARIABLES ===== */
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',system-ui,sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',system-ui,sans-serif; }
         :root {
-            --bg: #0A1628;
+            --bg: #F5F5F5;
             --card-bg: #FFFFFF;
-            --text: #0A1628;
-            --text-light: #5A6F88;
-            --primary: #C9A84C;
-            --primary-dark: #B3923E;
-            --primary-light: #F5ECD7;
-            --primary-gradient: linear-gradient(145deg, #C9A84C, #B3923E);
+            --text: #1A1A2E;
+            --text-light: #666B6D;
+            --primary: #9341D4;
+            --primary-dark: #271F4E;
+            --primary-light: #E8D5F5;
+            --accent: #f41976;
+            --primary-gradient: linear-gradient(145deg, #9341D4, #271F4E);
             --border: #E2E8F0;
-            --shadow: 0 12px 40px rgba(10, 22, 40, 0.15);
-            --shadow-hover: 0 20px 60px rgba(10, 22, 40, 0.22);
+            --shadow: 0 12px 40px rgba(39, 31, 78, 0.15);
+            --shadow-hover: 0 20px 60px rgba(39, 31, 78, 0.22);
             --radius: 24px;
             --radius-sm: 14px;
             --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -47,30 +41,30 @@
         .logo-container img { width:100%; height:100%; object-fit:contain; display:block; }
         .header h1 { font-size:20px; font-weight:700; letter-spacing:-0.4px; line-height:1.1; color:var(--text); }
         .header h1 small { display:block; font-size:11px; font-weight:500; color:var(--text-light); letter-spacing:0.2px; text-transform:uppercase; }
-        .theme-toggle { margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:40px; padding:5px 12px; font-size:16px; cursor:pointer; transition:var(--transition); color:white; }
-        .theme-toggle:hover { background:var(--primary-dark); }
+        .theme-toggle { margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:40px; padding:5px 12px; font-size:16px; cursor:pointer; transition:var(--transition); color:var(--text); }
+        .theme-toggle:hover { background:var(--primary); color:white; }
         .form-group { margin-bottom:14px; }
         .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-light); margin-bottom:4px; letter-spacing:0.2px; }
-        .form-control { width:100%; padding:10px 14px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:#FFFFFF !important; color:#0A1628 !important; transition:var(--transition); }
-        .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(201,168,76,0.2); background:#FFFFFF !important; }
+        .form-control { width:100%; padding:10px 14px; font-size:15px; border:1.5px solid var(--border); border-radius:var(--radius-sm); background:#FFFFFF !important; color:#1A1A2E !important; transition:var(--transition); }
+        .form-control:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 4px rgba(147,65,212,0.2); background:#FFFFFF !important; }
         .row-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
         .row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
         .checkbox-group { display:flex; flex-wrap:wrap; gap:8px 20px; padding-top:4px; margin-bottom:10px; }
         .checkbox-group label { display:flex; align-items:center; gap:8px; font-weight:400; font-size:14px; cursor:pointer; color:var(--text); }
         .checkbox-group input[type="checkbox"] { width:18px; height:18px; accent-color:var(--primary); cursor:pointer; }
         .btn { padding:12px 24px; border:none; border-radius:40px; font-weight:600; font-size:15px; cursor:pointer; transition:var(--transition); text-align:center; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; letter-spacing:0.2px; }
-        .btn-primary { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(201,168,76,0.35); }
-        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,0.45); }
+        .btn-primary { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(147,65,212,0.35); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(147,65,212,0.45); }
         .btn-secondary { background:var(--border); color:var(--text); border:1.5px solid var(--border); }
         .btn-secondary:hover { background:var(--primary-light); }
-        .btn-success { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(201,168,76,0.35); }
-        .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,0.45); }
+        .btn-success { background:var(--primary-gradient); color:#fff; box-shadow:0 4px 14px rgba(147,65,212,0.35); }
+        .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(147,65,212,0.45); }
         .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none!important; }
         .step-wrapper { position:sticky; top:0; z-index:10; background:var(--card-bg); padding-top:4px; margin-bottom:8px; border-bottom:1px solid var(--border); }
         .step-indicator { display:flex; justify-content:space-between; padding:0 4px 12px 4px; position:relative; }
         .step-dot { flex:1; text-align:center; font-size:11px; font-weight:500; color:var(--text-light); position:relative; z-index:2; }
         .step-dot .circle { width:32px; height:32px; background:var(--border); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color:var(--text-light); transition:var(--transition); margin-bottom:4px; }
-        .step-dot.active .circle { background:var(--primary); color:#fff; box-shadow:0 0 0 4px rgba(201,168,76,0.2); }
+        .step-dot.active .circle { background:var(--primary); color:#fff; box-shadow:0 0 0 4px rgba(147,65,212,0.2); }
         .step-dot.completed .circle { background:var(--primary-dark); color:#fff; }
         .step-dot.active .step-label { color:var(--primary); font-weight:600; }
         .step-line { position:absolute; top:16px; left:10%; right:10%; height:2px; background:var(--border); z-index:1; }
@@ -82,10 +76,10 @@
         .alert-warning { background:#fef5e7; color:#a16207; border-left:4px solid #f59e0b; }
         .testimonios { margin-top:20px; padding-top:16px; border-top:1.5px solid var(--border); }
         .testimonios h4 { font-size:14px; text-align:center; margin-bottom:12px; color:var(--text-light); font-weight:600; }
-        .testimonio-item { background:var(--bg); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:10px; border-left:4px solid var(--primary); color:white; }
+        .testimonio-item { background:var(--bg); border-radius:var(--radius-sm); padding:12px 16px; margin-bottom:10px; border-left:4px solid var(--primary); color:var(--text); }
         .testimonio-item .stars { color:var(--primary); font-size:12px; margin-bottom:2px; }
-        .testimonio-item .comentario { font-size:13px; font-style:italic; color:white; }
-        .testimonio-item .autor { font-size:12px; font-weight:600; color:#cbd5e1; margin-top:4px; }
+        .testimonio-item .comentario { font-size:13px; font-style:italic; color:var(--text); }
+        .testimonio-item .autor { font-size:12px; font-weight:600; color:var(--text-light); margin-top:4px; }
         .cuota-box { background:var(--primary-light); border-radius:var(--radius-sm); padding:12px; text-align:center; margin:8px 0 16px 0; border:1px solid var(--primary); }
         .cuota-box .label { font-size:11px; font-weight:500; color:var(--text-light); text-transform:uppercase; letter-spacing:0.5px; }
         .cuota-box .value { font-size:28px; font-weight:800; color:var(--primary); }
@@ -101,45 +95,32 @@
         .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--text); color:#fff; padding:12px 24px; border-radius:40px; font-weight:500; font-size:14px; box-shadow:0 12px 32px rgba(0,0,0,0.2); opacity:0; transition:.4s; pointer-events:none; z-index:999; }
         .toast.show { opacity:1; }
         .hidden { display:none!important; }
-        .requisitos-box { background:var(--bg); border-radius:var(--radius-sm); padding:14px; margin-top:8px; border-left:4px solid var(--primary); color:white; }
-        .requisitos-box h5 { font-size:13px; margin-bottom:10px; color:var(--primary); }
-        .requisitos-box .checkbox-item { display:flex; align-items:center; gap:10px; margin-bottom:8px; color:white; font-size:13px; }
-        .requisitos-box .checkbox-item input[type="checkbox"] { width:16px; height:16px; accent-color:var(--primary); cursor:pointer; }
         .intro-text { font-size:14px; color:var(--text-light); text-align:center; margin-bottom:16px; line-height:1.6; }
         .intro-text strong { color:var(--primary); }
-        .intro-text .bancos { font-size:12px; color:var(--text-light); margin-top:4px; }
-        @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .row-3{grid-template-columns:1fr;} .header h1{font-size:18px;} }
-        body.dark { --bg:#050C17; --card-bg:#0F1E2F; --text:#E6EDF2; --text-light:#9BB0C5; --border:#1A2D42; --primary-light:#2A1F0A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
+        .badge-tking { display:inline-block; background:var(--primary); color:white; font-size:10px; font-weight:600; padding:2px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px; }
+        .fecha-select-group { display:grid; grid-template-columns:1fr 1fr 1.5fr; gap:8px; }
+        .fecha-select-group select { padding:10px 6px; font-size:14px; }
+        @media (max-width:480px) { .app-container{padding:16px 14px 20px;} .row-2{grid-template-columns:1fr;} .row-3{grid-template-columns:1fr;} .header h1{font-size:18px;} .fecha-select-group{grid-template-columns:1fr 1fr 1fr;} }
+
+        /* ===== MODO OSCURO ===== */
+        body.dark { --bg:#0A0A1A; --card-bg:#141428; --text:#E6EDF2; --text-light:#9BB0C5; --border:#2A2A4A; --primary-light:#2A1A3A; --shadow:0 12px 40px rgba(0,0,0,0.6); }
         body.dark .btn-secondary { background:var(--border); color:#FFFFFF; }
         body.dark .btn-secondary:hover { background:var(--primary-light); color:var(--text); }
-        body.dark .theme-toggle { background:#0A1628; border-color:#1A2D42; color:white; }
+        body.dark .theme-toggle { background:#0A0A1A; border-color:#2A2A4A; color:white; }
         .theme-toggle .fa-moon { display:inline; }
         .theme-toggle .fa-sun { display:none; }
         body.dark .theme-toggle .fa-moon { display:none; }
         body.dark .theme-toggle .fa-sun { display:inline; }
-        body.dark .testimonio-item { background:#0A1628; }
+        body.dark .testimonio-item { background:#0A0A1A; color:#E6EDF2; }
+        body.dark .testimonio-item .comentario { color:#E6EDF2; }
+        body.dark .testimonio-item .autor { color:#9BB0C5; }
         body.dark .consent-checkbox-group label { color:#E6EDF2; }
-        body.dark .badge-clientes { background:var(--primary); color:#0A1628; }
-        body.dark .cuota-box { background:#1A2D42; border-color:var(--primary); }
+        body.dark .cuota-box { background:#2A1A3A; border-color:var(--primary); }
         body.dark .cuota-box .value { color:var(--primary); }
-        body.dark .requisitos-box { background:#0A1628; }
-        body.dark .requisitos-box .checkbox-item { color:#E6EDF2; }
-        body.dark .step-wrapper { background:#0F1E2F; border-bottom-color:#1A2D42; }
-        /* Selectores de fecha: estilo consistente */
-        select.form-control {
-            appearance: auto;
-            -webkit-appearance: auto;
-            cursor: pointer;
-        }
-        .fecha-select-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.5fr;
-            gap: 8px;
-        }
-        .fecha-select-group select {
-            padding: 10px 6px;
-            font-size: 14px;
-        }
+        body.dark .step-wrapper { background:#141428; border-bottom-color:#2A2A4A; }
+        body.dark .form-control { background:#1A1A35 !important; color:#E6EDF2 !important; border-color:#2A2A4A; }
+        body.dark .form-control:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(147,65,212,0.2); }
+        body.dark select.form-control option { background:#1A1A35; color:#E6EDF2; }
     </style>
 </head>
 <body>
@@ -148,13 +129,13 @@
     <div id="formScreen">
         <div class="header" style="border-bottom: 2px solid var(--border); margin-bottom: 14px;">
             <div class="logo-container" style="width:38px; height:38px;">
-                <img src="logo.png?v=10" alt="Solución Flex" style="width:100%; height:100%; object-fit:contain;">
+                <img src="https://www.tkingcredit.com/assets/images/tking_logo-01.png" alt="Tking Credit" style="width:100%; height:100%; object-fit:contain;">
             </div>
-            <h1 style="font-size:18px;">FlexCrédito <small>Simulador</small></h1>
+            <h1 style="font-size:18px;">Tking Credit <small>Simulador</small></h1>
             <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
         </div>
 
-        <!-- CONTENEDOR DE PASOS (STICKY) -->
+        <!-- STEP WRAPPER -->
         <div class="step-wrapper" id="stepWrapper">
             <div class="step-indicator">
                 <div class="step-dot active" data-step="1"><span class="circle">1</span><div class="step-label">Simular</div></div>
@@ -168,9 +149,9 @@
             <!-- ========== PASO 1: SIMULAR ========== -->
             <div class="form-step active-step" id="step1">
                 <div class="intro-text">
-                    En <strong>Solución Flex</strong> te gestionamos el préstamo completo.<br>
-                    <span style="color:var(--primary); font-weight:600;">Vos solo vas a retirar la plata.</span>
-                    <div class="bancos">🤝 Trabajamos con: Tking Credit, Banco Solar, Tu Financiera, Paraguaya Japonesa, Capital Créditos.</div>
+                    <span class="badge-tking">100% Digital</span>
+                    <p style="margin-top:8px;">Simulá tu préstamo con <strong>Tking Credit</strong>. En menos de 5 minutos te decimos si contás con una preaprobación.[reference:10]</p>
+                    <div style="font-size:12px; color:var(--text-light); margin-top:4px;">✅ Sin papeleo · Sin filas · Atención personalizada[reference:11]</div>
                 </div>
 
                 <div class="cuota-box" id="cuotaBox">
@@ -193,28 +174,35 @@
                 </div>
                 <div class="form-group">
                     <label>Edad *</label>
-                    <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="18" max="74" required oninput="verificarDatosCompletos()">
+                    <input class="form-control" type="number" id="edad" placeholder="Ej: 30" min="20" max="70" required oninput="verificarDatosCompletos()">
+                    <div style="font-size:11px; color:var(--text-light); margin-top:4px;">De 20 a 70 años[reference:12]</div>
                 </div>
 
                 <div class="row-2" style="gap:12px; margin-top:8px;">
                     <div class="form-group">
                         <label>Monto (Gs.) *</label>
                         <select class="form-control" id="monto" onchange="calcularCuotaPreview()">
+                            <option value="500000">500.000</option>
                             <option value="1000000">1.000.000</option>
                             <option value="2000000">2.000.000</option>
                             <option value="3000000">3.000.000</option>
-                            <option value="4000000">4.000.000</option>
                             <option value="5000000" selected>5.000.000</option>
+                            <option value="7000000">7.000.000</option>
+                            <option value="10000000">10.000.000</option>
+                            <option value="15000000">15.000.000</option>
                         </select>
+                        <div style="font-size:10px; color:var(--text-light); margin-top:2px;">Hasta Gs. 15.000.000 para clientes nuevos[reference:13]</div>
                     </div>
                     <div class="form-group">
                         <label>Plazo (meses) *</label>
                         <select class="form-control" id="plazo" onchange="calcularCuotaPreview()">
                             <option value="6">6</option>
+                            <option value="9">9</option>
                             <option value="12" selected>12</option>
                             <option value="18">18</option>
                             <option value="24">24</option>
                         </select>
+                        <div style="font-size:10px; color:var(--text-light); margin-top:2px;">De 6 a 24 meses[reference:14]</div>
                     </div>
                 </div>
 
@@ -235,15 +223,12 @@
                     <div class="fecha-select-group">
                         <select class="form-control" id="diaNac" required>
                             <option value="">Día</option>
-                            <!-- generado con JS -->
                         </select>
                         <select class="form-control" id="mesNac" required>
                             <option value="">Mes</option>
-                            <!-- generado con JS -->
                         </select>
                         <select class="form-control" id="anioNac" required>
                             <option value="">Año</option>
-                            <!-- generado con JS -->
                         </select>
                     </div>
                 </div>
@@ -281,67 +266,40 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Actividad Laboral *</label>
-                    <select class="form-control" id="actividad" required onchange="actualizarCamposYRequisitos()">
-                        <option value="">Seleccionar...</option>
-                        <option value="asalariado_ips">Asalariado con IPS</option>
-                        <option value="asalariado_iva">Asalariado con IVA</option>
-                        <option value="asalariado_informal">Asalariado Informal (sin IVA ni IPS)</option>
-                        <option value="funcionario_permanente">Funcionario Público PERMANENTE</option>
-                        <option value="funcionario_contratado">Funcionario Público CONTRATADO</option>
-                        <option value="jubilado">Jubilado</option>
-                        <option value="prof_independiente">Profesional Independiente</option>
-                        <option value="independiente">Independiente</option>
-                        <option value="micro_comerciante">Micro / Comerciante</option>
-                    </select>
-                </div>
-
-                <div id="campoAntiguedad">
-                    <div class="form-group">
-                        <label style="display:block; margin-bottom:4px;">Antigüedad laboral *</label>
-                        <div class="row-2" style="gap:8px;">
-                            <div>
-                                <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
-                                <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
-                            </div>
-                            <div>
-                                <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
-                                <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label>Ingreso mensual (Gs.) *</label>
                     <input class="form-control" type="number" id="ingreso" placeholder="1.800.000" min="1800000" required>
                     <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Mínimo ₲ 1.800.000</div>
                 </div>
 
-                <div id="camposEmpresa" style="display:none;">
-                    <div class="form-group">
-                        <label>Empresa / Institución *</label>
-                        <input class="form-control" type="text" id="empresa" placeholder="Ej: ABC S.A." required>
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono laboral *</label>
-                        <input class="form-control" type="tel" id="telefonoLab" placeholder="0991.123.456" required>
-                    </div>
+                <div class="form-group">
+                    <label>Empresa / Institución *</label>
+                    <input class="form-control" type="text" id="empresa" placeholder="Ej: ABC S.A." required>
                 </div>
 
-                <div id="tiempoContainer" class="row-2" style="margin-bottom:12px;"></div>
+                <div class="form-group">
+                    <label>Teléfono laboral *</label>
+                    <input class="form-control" type="tel" id="telefonoLab" placeholder="0991.123.456" required>
+                </div>
 
-                <div id="requisitosContainer" class="requisitos-box" style="display:none;">
-                    <h5>📋 Marca los documentos que posees actualmente:</h5>
-                    <div style="font-size:11px; margin-bottom:10px; color:#cbd5e1;">(No es obligatorio tener todos para simular)</div>
-                    <div id="requisitosList"></div>
+                <div class="form-group">
+                    <label>Antigüedad laboral *</label>
+                    <div class="row-2" style="gap:8px;">
+                        <div>
+                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
+                            <input class="form-control" type="number" id="antiguedad_anios" placeholder="Ej: 3" min="0" step="1" required>
+                        </div>
+                        <div>
+                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
+                            <input class="form-control" type="number" id="antiguedad_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="checkbox-group">
                     <label><input type="checkbox" id="informconf" onchange="validarInformconf()"> Tengo deudas en Informconf</label>
                 </div>
                 <div id="errorInformconf" class="alert alert-error" style="display:none;">
-                    ❌ No podemos continuar porque tenés deudas en Informconf. Regularizá tu situación antes de solicitar un préstamo.
+                    ❌ Uno de los requisitos fundamentales es contar con Informconf limpio. Si tenés deudas, ponete al día y luego procesamos tu solicitud.[reference:15]
                 </div>
 
                 <div class="form-group">
@@ -371,15 +329,15 @@
             <div class="form-step" id="step3">
                 <div style="text-align:center; margin-bottom:16px;">
                     <div style="font-size:18px; font-weight:700; color:var(--primary);">✅ ¡Ya casi está!</div>
-                    <div style="font-size:14px; color:var(--text-light);">Revisá tus datos y confirmá para que te contacte.</div>
+                    <div style="font-size:14px; color:var(--text-light);">Revisá tus datos y confirmá para que te contacte un asesor Tking Credit.</div>
                 </div>
 
-                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:13px; margin-bottom:14px; color:white;"></div>
+                <div id="resumenContainer" style="background:var(--bg); border-radius:var(--radius-sm); padding:16px; font-size:13px; margin-bottom:14px; color:var(--text);"></div>
 
                 <div class="consent-checkbox-group">
                     <label>
                         <input type="checkbox" id="chkConsent">
-                        Declaro que mis datos son reales y autorizo voluntariamente a Solución Flex a utilizarlos para la gestión y verificación de mi estado crediticio.
+                        Declaro que mis datos son reales y autorizo voluntariamente a Tking Credit a utilizarlos para la gestión y verificación de mi estado crediticio.
                     </label>
                 </div>
 
@@ -398,19 +356,24 @@
                 <div class="comentario">"Increíble lo rápido que recibí mi préstamo. Todo fue transparente y el asesor me guió en cada paso."</div>
                 <div class="autor">— Carlos M., Asunción</div>
             </div>
+            <div class="testimonio-item">
+                <div class="stars">★★★★★</div>
+                <div class="comentario">"100% digital, sin papeleo. En menos de 5 minutos ya tenía mi preaprobación."</div>
+                <div class="autor">— Laura G., Ciudad del Este</div>
+            </div>
         </div>
 
         <div class="flex-info">
-            <span><i class="fas fa-envelope"></i> info.solucionflex@gmail.com</span>
+            <span><i class="fas fa-envelope"></i> info@tkingcredit.com</span>
             <span>·</span>
-            <span><i class="fas fa-phone"></i> +595 992 271 485</span>
+            <span><i class="fas fa-globe"></i> www.tkingcredit.com</span>
         </div>
     </div>
 
     <div id="successScreen" class="success-screen" style="display:none;">
         <i class="fas fa-check-circle"></i>
         <h2>¡Gracias por tu presolicitud!</h2>
-        <p style="color:var(--text-light); font-size:14px; max-width: 400px; margin: 0 auto;">En breve te contacto para gestionarte el mejor préstamo disponible. Vos solo vas a retirar la plata.</p>
+        <p style="color:var(--text-light); font-size:14px; max-width: 400px; margin: 0 auto;">En breve un asesor de Tking Credit se pondrá en contacto contigo para gestionar tu préstamo.</p>
         <button class="btn btn-primary" style="margin-top:20px; max-width: 250px;" onclick="location.reload()">Nueva simulación</button>
     </div>
 
@@ -419,14 +382,23 @@
 
 <script>
     // ================================================================
-    //  0. GENERAR SELECTORES DE FECHA
+    //  0. CONFIGURACIÓN
+    // ================================================================
+    const WHATSAPP_NUMBER = '595992271485'; // <-- Cambiá por el número de Tking Credit
+    const CODIGO_VENDEDOR = 'TK001'; // <-- Tu código de vendedor
+
+    // TEA 30.69% anual → tasa mensual = (1 + 0.3069)^(1/12) - 1
+    const TEA = 0.3069;
+    const TASA_MENSUAL = Math.pow(1 + TEA, 1/12) - 1;
+
+    // ================================================================
+    //  1. GENERAR SELECTORES DE FECHA
     // ================================================================
     function generarSelectoresFecha() {
         const diaSelect = document.getElementById('diaNac');
         const mesSelect = document.getElementById('mesNac');
         const anioSelect = document.getElementById('anioNac');
 
-        // Días (1-31)
         for (let i = 1; i <= 31; i++) {
             const opt = document.createElement('option');
             opt.value = i;
@@ -434,7 +406,6 @@
             diaSelect.appendChild(opt);
         }
 
-        // Meses (1-12)
         const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
         for (let i = 0; i < 12; i++) {
             const opt = document.createElement('option');
@@ -443,7 +414,6 @@
             mesSelect.appendChild(opt);
         }
 
-        // Años (1900 al año actual)
         const anioActual = new Date().getFullYear();
         for (let i = anioActual; i >= 1900; i--) {
             const opt = document.createElement('option');
@@ -477,39 +447,6 @@
     }
 
     // ================================================================
-    //  1. CONFIGURACIÓN
-    // ================================================================
-    const WHATSAPP_NUMBER = '595992271485';
-
-    const cuotasReferencia = {
-        1000000: {6:235000, 12:127000, 18:101000, 24:90000},
-        2000000: {6:465000, 12:254000, 18:201000, 24:177000},
-        3000000: {6:685000, 12:380000, 18:302000, 24:266000},
-        4000000: {6:900000, 12:507000, 18:402000, 24:354000},
-        5000000: {6:1150000, 12:633000, 18:503000, 24:443000}
-    };
-
-    const ciudadesPorDepartamento = {
-        'Asunción': ['Asunción'],
-        'Central': ['San Lorenzo', 'Luque', 'Fernando de la Mora', 'Lambaré', 'Villa Elisa', 'Capiatá', 'Itauguá', 'Areguá', 'Ypacaraí', 'OTRA'],
-        'Alto Paraná': ['Ciudad del Este', 'Hernandarias', 'Minga Guazú', 'Presidente Franco', 'OTRA'],
-        'San Pedro': ['San Pedro', 'Villa del Rosario', 'Yrybucuá', 'Capiibary', 'OTRA'],
-        'Itapúa': ['Encarnación', 'Hohenau', 'Obligado', 'Bella Vista', 'San Juan del Paraná', 'OTRA'],
-        'Misiones': ['San Juan Bautista', 'Ayolas', 'Santiago', 'Villa Florida', 'OTRA'],
-        'Paraguarí': ['Paraguarí', 'Carapeguá', 'Acahay', 'Yaguarón', 'Pirayú', 'OTRA'],
-        'Cordillera': ['Caacupé', 'Piribebuy', 'Eusebio Ayala', 'Itacurubí de la Cordillera', 'Tobatí', 'OTRA'],
-        'Guairá': ['Villarrica', 'Mbocayaty', 'Yataity', 'Coronel Martínez', 'OTRA'],
-        'Concepción': ['Concepción', 'Belén', 'San Carlos', 'Horqueta', 'OTRA'],
-        'Ñeembucú': ['Pilar', 'Villa Franca', 'San Ignacio', 'Tacuary', 'OTRA'],
-        'Caazapá': ['Caazapá', 'Yuty', 'Abaí', 'San Juan Nepomuceno', 'OTRA'],
-        'Pdte. Hayes': ['Villa Hayes', 'Benjamín Aceval', 'Nanawa', 'OTRA'],
-        'Canindeyú': ['Salto del Guairá', 'Curuguaty', 'Villa Ygatimí', 'Ypejhú', 'OTRA'],
-        'Amambay': ['Pedro Juan Caballero', 'Bellavista', 'Capitán Bado', 'OTRA'],
-        'Boquerón': ['Filadelfia', 'Loma Plata', 'Neuland', 'OTRA'],
-        'Alto Paraguay': ['Fuerte Olimpo', 'Bahía Negra', 'OTRA']
-    };
-
-    // ================================================================
     //  2. FUNCIONES AUXILIARES
     // ================================================================
     function formatearNumero(n) {
@@ -530,138 +467,15 @@
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
     }
 
-    function obtenerCuota(monto, plazo) {
-        const fila = cuotasReferencia[monto];
-        return fila ? fila[plazo] || null : null;
-    }
-
     // ================================================================
-    //  3. CAMPOS DINÁMICOS
+    //  3. CÁLCULO DE CUOTA (Fórmula de interés compuesto)
     // ================================================================
-    const perfilesConfig = {
-        'asalariado_ips': {
-            label: 'Asalariado con IPS',
-            camposEmpresa: true,
-            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            requisitos: ['Boleta de IPS (6 aportes)', 'Liquidación de salario', '3 referencias personales (1 familiar)']
-        },
-        'asalariado_iva': {
-            label: 'Asalariado con IVA',
-            camposEmpresa: true,
-            tiempo: { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
-            requisitos: ['6 últimos IVAs', '6 facturas emitidas a la empresa', 'RUC de la empresa']
-        },
-        'asalariado_informal': {
-            label: 'Asalariado Informal (sin IVA ni IPS)',
-            camposEmpresa: true,
-            tiempo: { ips: false, iva: false, patente: false },
-            requisitos: ['Certificado de trabajo actualizado (máx 60 días)', 'RUC de la empresa o patronal', '3 referencias personales (1 familiar)']
-        },
-        'funcionario_permanente': {
-            label: 'Funcionario Público PERMANENTE',
-            camposEmpresa: false,
-            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            requisitos: ['Liquidación de salario', 'Certificado de trabajo', '3 referencias personales (1 familiar)']
-        },
-        'funcionario_contratado': {
-            label: 'Funcionario Público CONTRATADO',
-            camposEmpresa: false,
-            tiempo: { ips: true, iva: false, patente: false, labelIps: 'Aporte IPS' },
-            requisitos: ['Liquidación de salario', 'Certificado de trabajo', '3 referencias personales (1 familiar)']
-        },
-        'jubilado': {
-            label: 'Jubilado',
-            camposEmpresa: false,
-            tiempo: { ips: false, iva: false, patente: false },
-            requisitos: ['Boleta de IPS o JUPE (2 cobros)', '3 referencias personales (1 familiar)']
-        },
-        'prof_independiente': {
-            label: 'Profesional Independiente',
-            camposEmpresa: false,
-            tiempo: { ips: false, iva: true, patente: false, labelIva: 'Aporte IVA' },
-            requisitos: ['6 últimos IVAs', 'Título profesional o registro', 'Facturas emitidas a clientes (3 últimos meses)', 'RUC']
-        },
-        'independiente': {
-            label: 'Independiente',
-            camposEmpresa: false,
-            tiempo: { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' },
-            requisitos: ['Patente o RUC', '6 últimos IVAs o facturas de compra', '3 referencias personales (1 familiar)']
-        },
-        'micro_comerciante': {
-            label: 'Micro / Comerciante',
-            camposEmpresa: false,
-            tiempo: { ips: false, iva: false, patente: true, labelPatente: 'Antigüedad de patente' },
-            requisitos: ['Patente o RUC', '6 últimos IVAs', 'Fotos del local', 'Ubicación para visita in situ', '3 referencias personales (1 familiar)']
-        }
-    };
-
-    function actualizarCamposYRequisitos() {
-        const perfil = document.getElementById('actividad').value;
-        const config = perfilesConfig[perfil];
-
-        const camposEmpresa = document.getElementById('camposEmpresa');
-        if (config && config.camposEmpresa) {
-            camposEmpresa.style.display = 'block';
-        } else {
-            camposEmpresa.style.display = 'none';
-            document.getElementById('empresa').value = '';
-            document.getElementById('telefonoLab').value = '';
-        }
-
-        const campoAntiguedad = document.getElementById('campoAntiguedad');
-        if (perfil === 'jubilado') {
-            campoAntiguedad.style.display = 'none';
-            document.getElementById('antiguedad_anios').value = '';
-            document.getElementById('antiguedad_meses').value = '';
-        } else {
-            campoAntiguedad.style.display = 'block';
-        }
-
-        const container = document.getElementById('tiempoContainer');
-        container.innerHTML = '';
-        if (config && config.tiempo && perfil !== 'jubilado') {
-            const t = config.tiempo;
-            const createTimeField = (id, label) => {
-                const div = document.createElement('div');
-                div.className = 'form-group';
-                div.style.width = '100%';
-                div.innerHTML = `
-                    <label style="display:block; margin-bottom:4px;">${label} *</label>
-                    <div class="row-2" style="gap:8px;">
-                        <div>
-                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Años</label>
-                            <input class="form-control" type="number" id="${id}_anios" placeholder="Ej: 2" min="0" step="1" required>
-                        </div>
-                        <div>
-                            <label style="font-weight:400; font-size:12px; color:var(--text-light);">Meses</label>
-                            <input class="form-control" type="number" id="${id}_meses" placeholder="Ej: 6" min="0" max="11" step="1" required>
-                        </div>
-                    </div>
-                `;
-                return div;
-            };
-            if (t.ips) container.appendChild(createTimeField('ips', t.labelIps || 'Aporte IPS'));
-            if (t.iva) container.appendChild(createTimeField('iva', t.labelIva || 'Aporte IVA'));
-            if (t.patente) container.appendChild(createTimeField('patente', t.labelPatente || 'Antigüedad de patente'));
-        }
-
-        const reqContainer = document.getElementById('requisitosContainer');
-        const reqList = document.getElementById('requisitosList');
-        reqList.innerHTML = '';
-        if (config && config.requisitos && config.requisitos.length > 0) {
-            reqContainer.style.display = 'block';
-            config.requisitos.forEach((req, idx) => {
-                const item = document.createElement('div');
-                item.className = 'checkbox-item';
-                item.innerHTML = `
-                    <input type="checkbox" class="chk-requisito" data-idx="${idx}">
-                    <label style="color:white;">${req}</label>
-                `;
-                reqList.appendChild(item);
-            });
-        } else {
-            reqContainer.style.display = 'none';
-        }
+    function calcularCuota(monto, plazoMeses) {
+        if (!monto || !plazoMeses || plazoMeses <= 0) return null;
+        const i = TASA_MENSUAL;
+        const n = plazoMeses;
+        const cuota = monto * (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1);
+        return Math.round(cuota);
     }
 
     // ================================================================
@@ -675,7 +489,7 @@
         const mensaje = document.getElementById('mensajeDatosFaltantes');
         const cuotaPreview = document.getElementById('cuotaPreview');
 
-        if (nombres.length >= 3 && apellidos.length >= 3 && edad !== '' && parseInt(edad) >= 18 && parseInt(edad) <= 74) {
+        if (nombres.length >= 3 && apellidos.length >= 3 && edad !== '' && parseInt(edad) >= 20 && parseInt(edad) <= 70) {
             btn.disabled = false;
             mensaje.style.display = 'none';
             calcularCuotaPreview();
@@ -687,7 +501,24 @@
     }
 
     // ================================================================
-    //  5. VALIDACIONES DE INFORMCONF/CARTERA
+    //  5. CALCULAR CUOTA PREVIEW
+    // ================================================================
+    function calcularCuotaPreview() {
+        const nombres = document.getElementById('nombres').value.trim();
+        const apellidos = document.getElementById('apellidos').value.trim();
+        const edad = document.getElementById('edad').value.trim();
+        if (nombres.length >= 3 && apellidos.length >= 3 && edad !== '' && parseInt(edad) >= 20 && parseInt(edad) <= 70) {
+            const monto = parseInt(document.getElementById('monto').value);
+            const plazo = parseInt(document.getElementById('plazo').value);
+            const cuota = calcularCuota(monto, plazo);
+            document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
+        } else {
+            document.getElementById('cuotaPreview').textContent = '—';
+        }
+    }
+
+    // ================================================================
+    //  6. VALIDACIONES DE INFORMCONF/CARTERA
     // ================================================================
     let informconfModificado = false;
     let carteraModificado = false;
@@ -735,16 +566,8 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('carteras').addEventListener('change', function() {
-            if (this.value !== 'ninguna') carteraModificado = true;
-            validarCartera();
-        });
-        document.getElementById('otraCartera').addEventListener('input', validarCartera);
-    });
-
     // ================================================================
-    //  6. MANEJO DE PANTALLAS Y PASOS
+    //  7. MANEJO DE PANTALLAS Y PASOS
     // ================================================================
     let currentStep = 1;
 
@@ -771,7 +594,7 @@
     }
 
     // ================================================================
-    //  7. VALIDACIONES POR PASO
+    //  8. VALIDACIONES POR PASO
     // ================================================================
     function validateStep1() {
         const err = document.getElementById('errorStep1');
@@ -787,8 +610,8 @@
             showErrorStep(err, 'Ingresá nombre y apellido completos (mínimo 3 letras cada uno).');
             return false;
         }
-        if (isNaN(edad) || edad < 18 || edad > 74) {
-            showErrorStep(err, 'Edad entre 18 y 74 años.');
+        if (isNaN(edad) || edad < 20 || edad > 70) {
+            showErrorStep(err, 'Edad entre 20 y 70 años.');
             return false;
         }
         if (!monto || !plazo) {
@@ -816,10 +639,13 @@
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
-        const actividad = document.getElementById('actividad').value;
         const ingreso = parseInt(document.getElementById('ingreso').value);
+        const empresa = document.getElementById('empresa').value.trim();
+        const telefonoLab = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
 
-        // Validar fecha con selectores
+        // Validar fecha
         const dia = document.getElementById('diaNac').value;
         const mes = document.getElementById('mesNac').value;
         const anio = document.getElementById('anioNac').value;
@@ -828,11 +654,10 @@
             return false;
         }
         const edadCalculada = calcularEdadDesdeSelectores();
-        if (edadCalculada === null || edadCalculada < 18 || edadCalculada > 74) {
-            showErrorStep(err, 'La edad calculada a partir de la fecha de nacimiento debe ser entre 18 y 74 años.');
+        if (edadCalculada === null || edadCalculada < 20 || edadCalculada > 70) {
+            showErrorStep(err, 'La edad calculada a partir de la fecha de nacimiento debe ser entre 20 y 70 años.');
             return false;
         }
-        // Validar que coincida con la edad declarada
         const edadDeclarada = parseInt(document.getElementById('edad').value);
         if (edadCalculada !== edadDeclarada) {
             showErrorStep(err, `⚠️ La edad declarada (${edadDeclarada} años) no coincide con la fecha de nacimiento (${edadCalculada} años). Revisá los datos.`);
@@ -868,75 +693,25 @@
             showErrorStep(err, 'Escribe el nombre de tu ciudad.');
             return false;
         }
-        if (!actividad) {
-            showErrorStep(err, 'Selecciona una actividad laboral.');
-            return false;
-        }
         if (isNaN(ingreso) || ingreso < 1800000) {
             showErrorStep(err, 'Ingreso mínimo ₲ 1.800.000.');
             return false;
         }
-
-        const config = perfilesConfig[actividad];
-        if (config) {
-            if (actividad !== 'jubilado') {
-                const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value);
-                const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value);
-                if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
-                    showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
-                    return false;
-                }
-                if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
-                    showErrorStep(err, 'Ingresa antigüedad laboral (meses) de 0 a 11.');
-                    return false;
-                }
-            }
-
-            if (actividad !== 'jubilado') {
-                const t = config.tiempo;
-                if (t.ips) {
-                    const anios = parseInt(document.getElementById('ips_anios').value) || 0;
-                    const meses = parseInt(document.getElementById('ips_meses').value) || 0;
-                    const totalMeses = anios * 12 + meses;
-                    if (totalMeses < 6) {
-                        showErrorStep(err, '❌ Debes tener al menos 6 meses de aporte IPS.');
-                        return false;
-                    }
-                }
-                if (t.iva) {
-                    const anios = parseInt(document.getElementById('iva_anios').value) || 0;
-                    const meses = parseInt(document.getElementById('iva_meses').value) || 0;
-                    const totalMeses = anios * 12 + meses;
-                    if (totalMeses < 6) {
-                        showErrorStep(err, '❌ Debes tener al menos 6 meses de declaración IVA.');
-                        return false;
-                    }
-                }
-                if (t.patente) {
-                    const anios = parseInt(document.getElementById('patente_anios').value) || 0;
-                    const meses = parseInt(document.getElementById('patente_meses').value) || 0;
-                    const totalMeses = anios * 12 + meses;
-                    let minMeses = 12;
-                    if (actividad === 'independiente') minMeses = 18;
-                    if (totalMeses < minMeses) {
-                        showErrorStep(err, `❌ Debes tener al menos ${minMeses} meses de antigüedad de patente.`);
-                        return false;
-                    }
-                }
-            }
-
-            if (config.camposEmpresa) {
-                const empresa = document.getElementById('empresa').value.trim();
-                const telefono = document.getElementById('telefonoLab').value.replace(/[^0-9]/g, '');
-                if (empresa.length < 2) {
-                    showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
-                    return false;
-                }
-                if (telefono.length !== 10 || !telefono.startsWith('09')) {
-                    showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
-                    return false;
-                }
-            }
+        if (empresa.length < 2) {
+            showErrorStep(err, 'Ingresa el nombre de la empresa o institución.');
+            return false;
+        }
+        if (telefonoLab.length !== 10 || !telefonoLab.startsWith('09')) {
+            showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
+            return false;
+        }
+        if (isNaN(antiguedadAnios) || antiguedadAnios < 0) {
+            showErrorStep(err, 'Ingresa antigüedad laboral (años) válida.');
+            return false;
+        }
+        if (isNaN(antiguedadMeses) || antiguedadMeses < 0 || antiguedadMeses > 11) {
+            showErrorStep(err, 'Ingresa antigüedad laboral (meses) de 0 a 11.');
+            return false;
         }
 
         return true;
@@ -949,32 +724,16 @@
     }
 
     // ================================================================
-    //  8. CALCULAR CUOTA
-    // ================================================================
-    function calcularCuotaPreview() {
-        const nombres = document.getElementById('nombres').value.trim();
-        const apellidos = document.getElementById('apellidos').value.trim();
-        const edad = document.getElementById('edad').value.trim();
-        if (nombres.length >= 3 && apellidos.length >= 3 && edad !== '' && parseInt(edad) >= 18 && parseInt(edad) <= 74) {
-            const monto = parseInt(document.getElementById('monto').value);
-            const plazo = parseInt(document.getElementById('plazo').value);
-            const cuota = obtenerCuota(monto, plazo);
-            document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        } else {
-            document.getElementById('cuotaPreview').textContent = '—';
-        }
-    }
-
-    // ================================================================
     //  9. RESUMEN (PASO 3)
     // ================================================================
     function generarResumen() {
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const edad = document.getElementById('edad').value;
-        const monto = document.getElementById('monto').value;
-        const plazo = document.getElementById('plazo').value;
-        const cuota = document.getElementById('cuotaPreview').textContent;
+        const monto = parseInt(document.getElementById('monto').value);
+        const plazo = parseInt(document.getElementById('plazo').value);
+        const cuota = calcularCuota(monto, plazo);
+        const cuotaFormateada = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
         const cedula = document.getElementById('cedula').value;
         const celular = document.getElementById('celular').value;
         const fechaStr = obtenerFechaNacimiento();
@@ -982,48 +741,15 @@
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const actividad = document.getElementById('actividad').value;
-        const config = perfilesConfig[actividad];
-        const perfilLabel = config ? config.label : 'No seleccionado';
-        const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
-        const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
-        const edadCalculada = calcularEdadDesdeSelectores();
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
-
-        const docsMarcados = [];
-        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
-            const label = chk.parentElement.querySelector('label');
-            if (label) docsMarcados.push(label.textContent.trim());
-        });
-
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const informconf = document.getElementById('informconf').checked;
         const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
-
-        let tiempoTexto = '';
-        if (config && actividad !== 'jubilado') {
-            const t = config.tiempo;
-            if (t.ips) {
-                const anios = parseInt(document.getElementById('ips_anios').value) || 0;
-                const meses = parseInt(document.getElementById('ips_meses').value) || 0;
-                tiempoTexto = `Aporte IPS: ${anios} años ${meses} meses`;
-            } else if (t.iva) {
-                const anios = parseInt(document.getElementById('iva_anios').value) || 0;
-                const meses = parseInt(document.getElementById('iva_meses').value) || 0;
-                tiempoTexto = `Aporte IVA: ${anios} años ${meses} meses`;
-            } else if (t.patente) {
-                const anios = parseInt(document.getElementById('patente_anios').value) || 0;
-                const meses = parseInt(document.getElementById('patente_meses').value) || 0;
-                tiempoTexto = `Antigüedad de patente: ${anios} años ${meses} meses`;
-            } else {
-                tiempoTexto = 'No aplica';
-            }
-        } else if (actividad === 'jubilado') {
-            tiempoTexto = 'No aplica (Jubilado)';
-        }
 
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
@@ -1034,17 +760,15 @@
         resumen.innerHTML = `
             <p><strong>${nombres} ${apellidos}</strong> · ${cedula} · ${ciudadFinal}, ${departamento}</p>
             <p>📅 Fecha nac.: ${fechaStr} (${edad} años) · Ingreso: ₲ ${formatearNumero(ingreso)}</p>
-            <p>Solicita: ₲ ${formatearNumero(parseInt(monto))} a ${plazo} meses · Cuota: ${cuota}</p>
-            <hr style="border:1px solid #1A2D42; margin:8px 0;">
-            <p>Perfil: ${perfilLabel}</p>
-            ${config && config.camposEmpresa ? `<p>Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>` : ''}
-            ${actividad !== 'jubilado' ? `<p>Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>` : ''}
-            <p>${tiempoTexto}</p>
+            <p>Solicita: ₲ ${formatearNumero(monto)} a ${plazo} meses · Cuota: ${cuotaFormateada}</p>
+            <hr style="border:1px solid var(--border); margin:8px 0;">
+            <p>🏢 Empresa: ${empresa} · Teléfono: ${telefonoLab}</p>
+            <p>🕒 Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
-            <hr style="border:1px solid #1A2D42; margin:8px 0;">
-            <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno'}</p>
             ${advertencia}
+            <hr style="border:1px solid var(--border); margin:8px 0;">
+            <p style="font-size:11px; color:var(--text-light);"><i class="fas fa-code"></i> Código vendedor: ${CODIGO_VENDEDOR}</p>
         `;
     }
 
@@ -1065,9 +789,10 @@
         const nombres = document.getElementById('nombres').value.trim();
         const apellidos = document.getElementById('apellidos').value.trim();
         const edad = document.getElementById('edad').value;
-        const monto = document.getElementById('monto').value;
-        const plazo = document.getElementById('plazo').value;
-        const cuota = document.getElementById('cuotaPreview').textContent;
+        const monto = parseInt(document.getElementById('monto').value);
+        const plazo = parseInt(document.getElementById('plazo').value);
+        const cuota = calcularCuota(monto, plazo);
+        const cuotaFormateada = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
         const cedula = document.getElementById('cedula').value.replace(/[^0-9]/g, '');
         const celular = document.getElementById('celular').value.replace(/[^0-9]/g, '');
         const fechaStr = obtenerFechaNacimiento();
@@ -1075,83 +800,39 @@
         const ciudadSel = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
         const ciudadFinal = ciudadSel === 'OTRA' ? otraCiudad : ciudadSel;
-        const actividad = document.getElementById('actividad').value;
-        const config = perfilesConfig[actividad];
-        const perfilLabel = config ? config.label : 'No seleccionado';
-        const antiguedadAnios = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_anios').value) || 0) : 0;
-        const antiguedadMeses = (actividad !== 'jubilado') ? (parseInt(document.getElementById('antiguedad_meses').value) || 0) : 0;
         const ingreso = parseInt(document.getElementById('ingreso').value) || 0;
         const empresa = document.getElementById('empresa').value.trim();
         const telefonoLab = document.getElementById('telefonoLab').value;
-
-        const docsMarcados = [];
-        document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
-            const label = chk.parentElement.querySelector('label');
-            if (label) docsMarcados.push(label.textContent.trim());
-        });
-
+        const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
+        const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
         const informconf = document.getElementById('informconf').checked;
         const carteras = document.getElementById('carteras').value;
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        let tiempoTexto = '';
-        if (config && actividad !== 'jubilado') {
-            const t = config.tiempo;
-            if (t.ips) {
-                const anios = parseInt(document.getElementById('ips_anios').value) || 0;
-                const meses = parseInt(document.getElementById('ips_meses').value) || 0;
-                tiempoTexto = `Aporte IPS: ${anios} años ${meses} meses`;
-            } else if (t.iva) {
-                const anios = parseInt(document.getElementById('iva_anios').value) || 0;
-                const meses = parseInt(document.getElementById('iva_meses').value) || 0;
-                tiempoTexto = `Aporte IVA: ${anios} años ${meses} meses`;
-            } else if (t.patente) {
-                const anios = parseInt(document.getElementById('patente_anios').value) || 0;
-                const meses = parseInt(document.getElementById('patente_meses').value) || 0;
-                tiempoTexto = `Antigüedad de patente: ${anios} años ${meses} meses`;
-            } else {
-                tiempoTexto = 'No aplica';
-            }
-        } else if (actividad === 'jubilado') {
-            tiempoTexto = 'No aplica (Jubilado)';
-        }
-
-        let mensaje = `*NUEVA PRESOLICITUD - FlexCrédito*%0A%0A`;
+        let mensaje = `*NUEVA PRESOLICITUD - Tking Credit*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
         mensaje += `📄 *CI:* ${cedula}%0A`;
         mensaje += `📞 *WhatsApp:* ${celular}%0A`;
         mensaje += `📅 *Fecha de nacimiento:* ${fechaStr}%0A`;
         mensaje += `🎂 *Edad:* ${edad} años%0A`;
         mensaje += `📍 *Ubicación:* ${ciudadFinal}, ${departamento}%0A`;
-        mensaje += `💰 *Monto:* ₲ ${formatearNumero(parseInt(monto))}%0A`;
+        mensaje += `💰 *Monto:* ₲ ${formatearNumero(monto)}%0A`;
         mensaje += `📅 *Plazo:* ${plazo} meses%0A`;
-        mensaje += `💵 *Cuota ref.:* ${cuota}%0A`;
+        mensaje += `💵 *Cuota estimada:* ${cuotaFormateada}%0A`;
         mensaje += `💵 *Ingreso:* ₲ ${formatearNumero(ingreso)}%0A`;
-        mensaje += `📊 *Perfil:* ${perfilLabel}%0A`;
-        if (config && config.camposEmpresa) {
-            mensaje += `🏢 *Empresa:* ${empresa}%0A`;
-            mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
-        }
-        if (actividad !== 'jubilado') {
-            mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
-        }
-        mensaje += `📌 *${tiempoTexto}*%0A`;
+        mensaje += `🏢 *Empresa:* ${empresa}%0A`;
+        mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
+        mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
 
-        mensaje += `📋 *DOCUMENTOS QUE POSEE:*%0A`;
-        if (docsMarcados.length > 0) {
-            docsMarcados.forEach(doc => { mensaje += `✅ ${doc}%0A`; });
-        } else {
-            mensaje += `Ninguno marcado%0A`;
-        }
-
         if (informconfModificado || carteraModificado) {
-            mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
+            mensaje += `*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A%0A`;
         }
 
-        mensaje += `%0A_✅ El cliente aceptó la declaración de veracidad y autorizó la verificación de datos._`;
+        mensaje += `🏷️ *Código vendedor:* ${CODIGO_VENDEDOR}%0A%0A`;
+        mensaje += `_✅ El cliente aceptó la declaración de veracidad y autorizó la verificación de datos._`;
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
 
@@ -1163,6 +844,26 @@
     // ================================================================
     //  11. CIUDADES DINÁMICAS
     // ================================================================
+    const ciudadesPorDepartamento = {
+        'Asunción': ['Asunción'],
+        'Central': ['San Lorenzo', 'Luque', 'Fernando de la Mora', 'Lambaré', 'Villa Elisa', 'Capiatá', 'Itauguá', 'Areguá', 'Ypacaraí', 'OTRA'],
+        'Alto Paraná': ['Ciudad del Este', 'Hernandarias', 'Minga Guazú', 'Presidente Franco', 'OTRA'],
+        'San Pedro': ['San Pedro', 'Villa del Rosario', 'Yrybucuá', 'Capiibary', 'OTRA'],
+        'Itapúa': ['Encarnación', 'Hohenau', 'Obligado', 'Bella Vista', 'San Juan del Paraná', 'OTRA'],
+        'Misiones': ['San Juan Bautista', 'Ayolas', 'Santiago', 'Villa Florida', 'OTRA'],
+        'Paraguarí': ['Paraguarí', 'Carapeguá', 'Acahay', 'Yaguarón', 'Pirayú', 'OTRA'],
+        'Cordillera': ['Caacupé', 'Piribebuy', 'Eusebio Ayala', 'Itacurubí de la Cordillera', 'Tobatí', 'OTRA'],
+        'Guairá': ['Villarrica', 'Mbocayaty', 'Yataity', 'Coronel Martínez', 'OTRA'],
+        'Concepción': ['Concepción', 'Belén', 'San Carlos', 'Horqueta', 'OTRA'],
+        'Ñeembucú': ['Pilar', 'Villa Franca', 'San Ignacio', 'Tacuary', 'OTRA'],
+        'Caazapá': ['Caazapá', 'Yuty', 'Abaí', 'San Juan Nepomuceno', 'OTRA'],
+        'Pdte. Hayes': ['Villa Hayes', 'Benjamín Aceval', 'Nanawa', 'OTRA'],
+        'Canindeyú': ['Salto del Guairá', 'Curuguaty', 'Villa Ygatimí', 'Ypejhú', 'OTRA'],
+        'Amambay': ['Pedro Juan Caballero', 'Bellavista', 'Capitán Bado', 'OTRA'],
+        'Boquerón': ['Filadelfia', 'Loma Plata', 'Neuland', 'OTRA'],
+        'Alto Paraguay': ['Fuerte Olimpo', 'Bahía Negra', 'OTRA']
+    };
+
     document.getElementById('departamento').addEventListener('change', function() {
         const depto = this.value;
         const ciudadSelect = document.getElementById('ciudad');
@@ -1205,20 +906,36 @@
     document.getElementById('cedula').addEventListener('input', soloNumeros);
 
     // ================================================================
-    //  13. TEMA OSCURO
+    //  13. MOSTRAR/OCULTAR "OTRA CARTERA"
+    // ================================================================
+    document.getElementById('carteras').addEventListener('change', function() {
+        const otra = document.getElementById('otraCartera');
+        if (this.value === 'otro') {
+            otra.classList.remove('hidden');
+            otra.required = true;
+        } else {
+            otra.classList.add('hidden');
+            otra.required = false;
+            otra.value = '';
+        }
+        validarCartera();
+    });
+
+    // ================================================================
+    //  14. TEMA OSCURO
     // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
-        localStorage.setItem('solucionFlex_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        localStorage.setItem('tkingCredit_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
     }
     document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
-    if (localStorage.getItem('solucionFlex_theme') === 'dark') {
+    if (localStorage.getItem('tkingCredit_theme') === 'dark') {
         document.body.classList.add('dark');
     }
 
     // ================================================================
-    //  14. INICIALIZACIÓN
+    //  15. INICIALIZACIÓN
     // ================================================================
     window.addEventListener('DOMContentLoaded', function() {
         generarSelectoresFecha();
@@ -1226,7 +943,6 @@
         document.getElementById('ciudad').disabled = true;
         document.getElementById('otraCiudad').classList.add('hidden');
         document.getElementById('otraCartera').classList.add('hidden');
-        actualizarCamposYRequisitos();
         verificarDatosCompletos();
         validarInformconf();
         validarCartera();
@@ -1235,7 +951,6 @@
 
     window.nextStep = nextStep;
     window.prevStep = prevStep;
-    window.actualizarCamposYRequisitos = actualizarCamposYRequisitos;
     window.validarInformconf = validarInformconf;
     window.validarCartera = validarCartera;
     window.verificarDatosCompletos = verificarDatosCompletos;
