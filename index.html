@@ -287,9 +287,8 @@
         </div>
 
         <form id="formProspecto" autocomplete="off">
-            <!-- PASO 1: SIMULACIÓN Y PERFIL -->
+            <!-- PASO 1: SOLO SIMULACIÓN -->
             <div class="form-step active-step" id="step1">
-                <!-- Monto y Plazo juntos arriba -->
                 <div class="row-2" style="gap:12px;">
                     <div class="form-group">
                         <label>Monto (Gs.) *</label>
@@ -314,19 +313,21 @@
                     </div>
                 </div>
 
-                <!-- Cuota estimada debajo -->
                 <div class="cuota-box" id="cuotaBox">
                     <div class="label">Tu cuota estimada</div>
-                    <div class="value" id="cuotaPreview">—</div>
-                    <div id="mensajeDatosFaltantes" class="mensaje-datos">
-                        Seleccioná un perfil para ver tu cuota.
-                    </div>
+                    <div class="value" id="cuotaPreview">₲ 644.000</div>
+                    <div class="mensaje-datos">Simulación sin compromiso</div>
                 </div>
 
-                <!-- Perfil debajo de la cuota -->
+                <button type="button" class="btn btn-primary" id="btnNextStep2" onclick="nextStep(2)">Continuar →</button>
+            </div>
+
+            <!-- PASO 2: DATOS PERSONALES Y FINANCIEROS (incluye perfil y check) -->
+            <div class="form-step" id="step2">
+                <!-- Perfil ahora en el paso 2 -->
                 <div class="form-group">
                     <label>Perfil / Actividad *</label>
-                    <select class="form-control" id="perfil" required onchange="actualizarRequisitosPorPerfil(); verificarChecksPerfil();">
+                    <select class="form-control" id="perfil" required onchange="actualizarRequisitosPorPerfil(); verificarChecksPaso2();">
                         <option value="">Seleccionar perfil...</option>
                         <option value="asalariado_ips">Asalariado con IPS</option>
                         <option value="asalariado_informal">Asalariado Informal</option>
@@ -352,20 +353,7 @@
 
                 <div id="infoPerfil" class="perfil-info" style="display:none;"></div>
 
-                <!-- CHECKS OBLIGATORIOS (UN SOLO CHECK CORTITO) -->
-                <div class="consent-checkbox-group">
-                    <label>
-                        <input type="checkbox" id="chkCompromiso" onchange="verificarChecksPerfil()">
-                        Acepto proporcionar la información completa requerida (domicilio, ubicación, documentos y datos laborales) si mi presolicitud es aprobada.
-                    </label>
-                </div>
-
-                <div class="alert alert-error" id="errorStep1"></div>
-                <button type="button" class="btn btn-primary" id="btnNextStep2" disabled onclick="nextStep(2)">Continuar →</button>
-            </div>
-
-            <!-- PASO 2: DATOS PERSONALES Y FINANCIEROS -->
-            <div class="form-step" id="step2">
+                <!-- Fecha de nacimiento -->
                 <div class="form-group">
                     <label>Fecha de Nacimiento *</label>
                     <div class="fecha-select-group">
@@ -468,6 +456,14 @@
                     ❌ No podemos continuar porque tenés deudas con casas de cartera. Regularizá tu situación antes de solicitar un préstamo.
                 </div>
 
+                <!-- CHECK DE COMPROMISO (único) -->
+                <div class="consent-checkbox-group">
+                    <label>
+                        <input type="checkbox" id="chkCompromiso" onchange="verificarChecksPaso2()">
+                        Acepto proporcionar la información completa requerida (domicilio, ubicación, documentos y datos laborales) si mi presolicitud es aprobada.
+                    </label>
+                </div>
+
                 <div class="alert alert-error" id="errorStep2"></div>
                 <div class="button-group" style="display:flex; gap:12px; margin-top:14px;">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Atrás</button>
@@ -543,7 +539,7 @@
     const VENDEDOR = 'Isidro Cabrera - Vendedor Autorizado - 27812';
 
     // ================================================================
-    // NUEVO CUOTERO (montos 1M,2M,3M,4M,5M / plazos 6,8,10,12,15,18)
+    // CUOTERO (montos 1M,2M,3M,4M,5M / plazos 6,8,10,12,15,18)
     // ================================================================
     const CUOTAS_FIJAS = {
         1000000: { 6:235000, 8:182000, 10:149000, 12:127000, 15:112000, 18:101000 },
@@ -554,7 +550,7 @@
     };
 
     // ================================================================
-    // PERFILES (10 perfiles, con sus configuraciones)
+    // PERFILES (10 perfiles)
     // ================================================================
     const PERFILES = {
         'asalariado_ips': {
@@ -576,7 +572,7 @@
         'funcionario_publico': {
             etiqueta: 'Funcionario Público',
             edadMin: 20, edadMax: 70,
-            antiguedadMinMeses: 1, // se ajusta según tipo (1 o 15)
+            antiguedadMinMeses: 1, // se ajusta según tipo
             documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false,
@@ -698,7 +694,6 @@
         input.dataset.raw = raw;
     }
 
-    // Aplicar a los campos de la bienvenida
     document.getElementById('welcomeCedula').addEventListener('input', formatearCedulaVivo);
     document.getElementById('welcomeCelular').addEventListener('input', formatearWhatsAppVivo);
 
@@ -771,7 +766,6 @@
         const email = document.getElementById('welcomeEmail').value.trim();
         const consent = document.getElementById('welcomeConsent').checked;
 
-        // Validaciones
         if (nombres.length < 3 || apellidos.length < 3) {
             showErrorStep(err, 'Ingresá nombre y apellido completos (mínimo 3 letras cada uno).');
             return;
@@ -793,7 +787,6 @@
             return;
         }
 
-        // Guardar datos iniciales
         datosIniciales = {
             nombres,
             apellidos,
@@ -802,16 +795,14 @@
             email
         };
 
-        // Ocultar bienvenida y mostrar simulador
         document.getElementById('welcomeScreen').style.display = 'none';
         document.getElementById('simulatorScreen').style.display = 'block';
 
-        // Inicializar el simulador en el paso 1
+        // Inicializar en paso 1
         nextStep(1);
-        // Calcular cuota inicial
         calcularCuotaPreview();
         actualizarRequisitosPorPerfil();
-        verificarChecksPerfil();
+        verificarChecksPaso2();
     });
 
     function showErrorStep(el, msg) {
@@ -843,7 +834,6 @@
 
         if (!config) return;
 
-        // Mostrar sub-tipo para funcionario público
         if (config.esFuncionario) {
             subTipoDiv.style.display = 'block';
             const tipo = document.getElementById('tipoFuncionario').value;
@@ -905,26 +895,18 @@
             grupoAntiguedad.style.display = 'block';
         }
 
-        calcularCuotaPreview();
-        verificarChecksPerfil();
+        verificarChecksPaso2();
     }
 
     // ================================================================
-    // CHECKS DEL PASO 1 (un solo check)
+    // CHECKS DEL PASO 2 (único check)
     // ================================================================
-    function verificarChecksPerfil() {
+    function verificarChecksPaso2() {
         const chk = document.getElementById('chkCompromiso');
-        const btn = document.getElementById('btnNextStep2');
-        const mensaje = document.getElementById('mensajeDatosFaltantes');
-
-        if (chk.checked) {
-            btn.disabled = false;
-            mensaje.style.display = 'none';
-        } else {
-            btn.disabled = true;
-            mensaje.style.display = 'block';
-            mensaje.textContent = 'Aceptá el compromiso para continuar.';
-        }
+        const btn = document.getElementById('btnContinueStep2');
+        // No deshabilitamos el botón aquí, la validación se hace en nextStep
+        // Solo mostramos mensaje opcional
+        // El botón se habilita o deshabilita en validateStep2()
     }
 
     // ================================================================
@@ -982,8 +964,13 @@
     let currentStep = 1;
 
     function nextStep(step) {
-        if (step === 2 && !validateStep1()) return;
-        if (step === 3 && !validateStep2()) return;
+        if (step === 2) {
+            // Paso 1 → Paso 2 no requiere validación (solo simulación)
+            // Avanzar sin validar
+        }
+        if (step === 3 && !validateStep2()) {
+            return;
+        }
 
         document.querySelectorAll('.step-dot').forEach(dot => {
             const num = parseInt(dot.dataset.step);
@@ -1004,40 +991,28 @@
     }
 
     // ================================================================
-    // VALIDACIÓN PASO 1
+    // VALIDACIÓN PASO 2 (para ir al paso 3)
     // ================================================================
-    function validateStep1() {
-        const err = document.getElementById('errorStep1');
+    function validateStep2() {
+        const err = document.getElementById('errorStep2');
         err.style.display = 'none';
 
+        // Check de compromiso
+        if (!document.getElementById('chkCompromiso').checked) {
+            showErrorStep(err, 'Debés aceptar el compromiso de proporcionar la información requerida.');
+            return false;
+        }
+
+        // Perfil
         const perfilKey = document.getElementById('perfil').value;
         if (!perfilKey || !PERFILES[perfilKey]) {
             showErrorStep(err, 'Seleccioná un perfil válido.');
             return false;
         }
 
-        if (!document.getElementById('chkCompromiso').checked) {
-            showErrorStep(err, 'Debés aceptar el compromiso para continuar.');
-            return false;
-        }
+        const config = PERFILES[perfilKey];
 
-        return true;
-    }
-
-    // ================================================================
-    // VALIDACIÓN PASO 2
-    // ================================================================
-    function validateStep2() {
-        const err = document.getElementById('errorStep2');
-        err.style.display = 'none';
-
-        const informconfError = document.getElementById('errorInformconf');
-        const carteraError = document.getElementById('errorCartera');
-        if (informconfError.style.display === 'block' || carteraError.style.display === 'block') {
-            showErrorStep(err, 'No podés continuar porque tenés deudas activas.');
-            return false;
-        }
-
+        // Fecha de nacimiento
         const dia = document.getElementById('diaNac').value;
         const mes = document.getElementById('mesNac').value;
         const anio = document.getElementById('anioNac').value;
@@ -1050,19 +1025,12 @@
             showErrorStep(err, 'Error al calcular la edad.');
             return false;
         }
-
-        const perfilKey = document.getElementById('perfil').value;
-        const config = PERFILES[perfilKey];
-        if (!config) {
-            showErrorStep(err, 'Perfil inválido.');
-            return false;
-        }
-
         if (edadCalculada < config.edadMin || edadCalculada > config.edadMax) {
             showErrorStep(err, `Tu edad (${edadCalculada} años) no se ajusta al perfil seleccionado (rango ${config.edadMin}-${config.edadMax}).`);
             return false;
         }
 
+        // Antigüedad (excepto jubilado y rentista)
         if (perfilKey !== 'jubilado' && perfilKey !== 'rentista') {
             const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
             const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
@@ -1073,17 +1041,19 @@
             }
         }
 
-        const cedulaRaw = document.getElementById('welcomeCedula').dataset.raw || '';
+        // Cédula y WhatsApp (ya validados en bienvenida, pero verificamos)
+        const cedulaRaw = datosIniciales.cedula || '';
         if (cedulaRaw.length < 6 || cedulaRaw.length > 7) {
             showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
             return false;
         }
-        const celularRaw = document.getElementById('welcomeCelular').dataset.raw || '';
+        const celularRaw = datosIniciales.celular || '';
         if (celularRaw.length !== 10 || !celularRaw.startsWith('09')) {
             showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
             return false;
         }
 
+        // Departamento y ciudad
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -1100,6 +1070,7 @@
             return false;
         }
 
+        // Ingreso
         const ingresoRaw = document.getElementById('ingreso').dataset.raw || document.getElementById('ingreso').value.replace(/[^0-9]/g, '');
         const ingreso = parseInt(ingresoRaw, 10);
         if (isNaN(ingreso) || ingreso < 1750000) {
@@ -1107,6 +1078,7 @@
             return false;
         }
 
+        // Empresa y teléfono laboral si aplica
         if (config.requiereEmpresa) {
             const empresa = document.getElementById('empresa').value.trim();
             if (empresa.length < 2) {
@@ -1120,6 +1092,14 @@
                 showErrorStep(err, 'Teléfono laboral: 10 dígitos, empieza con 09.');
                 return false;
             }
+        }
+
+        // Informconf y cartera (ya están validados en sus funciones, pero chequeamos que no estén bloqueando)
+        const informconfError = document.getElementById('errorInformconf');
+        const carteraError = document.getElementById('errorCartera');
+        if (informconfError.style.display === 'block' || carteraError.style.display === 'block') {
+            showErrorStep(err, 'No podés continuar porque tenés deudas activas.');
+            return false;
         }
 
         return true;
@@ -1396,18 +1376,10 @@
     // CALCULAR CUOTA PREVIEW (PASO 1)
     // ================================================================
     function calcularCuotaPreview() {
-        const perfilKey = document.getElementById('perfil').value;
-        if (!perfilKey) {
-            document.getElementById('cuotaPreview').textContent = '—';
-            document.getElementById('mensajeDatosFaltantes').style.display = 'block';
-            document.getElementById('mensajeDatosFaltantes').textContent = 'Seleccioná un perfil para ver tu cuota.';
-            return;
-        }
         const monto = parseInt(document.getElementById('monto').value);
         const plazo = parseInt(document.getElementById('plazo').value);
         const cuota = obtenerCuota(monto, plazo);
         document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        verificarChecksPerfil();
     }
 
     // ================================================================
@@ -1422,23 +1394,25 @@
         document.getElementById('grupoEmpresa').style.display = 'none';
         document.getElementById('grupoTelefonoLab').style.display = 'none';
         actualizarRequisitosPorPerfil();
-        verificarChecksPerfil();
+        verificarChecksPaso2();
         calcularCuotaPreview();
         document.getElementById('perfil').addEventListener('change', function() {
             actualizarRequisitosPorPerfil();
-            verificarChecksPerfil();
+            verificarChecksPaso2();
         });
         validarInformconf();
         validarCartera();
+        // Habilitar botón continuar del paso 2 si todo está ok (se valida al hacer clic)
     });
 
+    // Exponer funciones globales
     window.nextStep = nextStep;
     window.prevStep = prevStep;
     window.validarInformconf = validarInformconf;
     window.validarCartera = validarCartera;
     window.calcularCuotaPreview = calcularCuotaPreview;
     window.actualizarRequisitosPorPerfil = actualizarRequisitosPorPerfil;
-    window.verificarChecksPerfil = verificarChecksPerfil;
+    window.verificarChecksPaso2 = verificarChecksPaso2;
 </script>
 </body>
 </html>
