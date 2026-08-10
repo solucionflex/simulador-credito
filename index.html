@@ -902,11 +902,8 @@
     // CHECKS DEL PASO 2 (único check)
     // ================================================================
     function verificarChecksPaso2() {
-        const chk = document.getElementById('chkCompromiso');
-        const btn = document.getElementById('btnContinueStep2');
-        // No deshabilitamos el botón aquí, la validación se hace en nextStep
-        // Solo mostramos mensaje opcional
-        // El botón se habilita o deshabilita en validateStep2()
+        // No deshabilitamos el botón aquí, la validación se hace en validateStep2
+        // Solo se usa para actualizar el estado visual si se desea
     }
 
     // ================================================================
@@ -966,7 +963,6 @@
     function nextStep(step) {
         if (step === 2) {
             // Paso 1 → Paso 2 no requiere validación (solo simulación)
-            // Avanzar sin validar
         }
         if (step === 3 && !validateStep2()) {
             return;
@@ -1003,7 +999,6 @@
             return false;
         }
 
-        // Perfil
         const perfilKey = document.getElementById('perfil').value;
         if (!perfilKey || !PERFILES[perfilKey]) {
             showErrorStep(err, 'Seleccioná un perfil válido.');
@@ -1030,7 +1025,6 @@
             return false;
         }
 
-        // Antigüedad (excepto jubilado y rentista)
         if (perfilKey !== 'jubilado' && perfilKey !== 'rentista') {
             const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
             const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
@@ -1041,7 +1035,6 @@
             }
         }
 
-        // Cédula y WhatsApp (ya validados en bienvenida, pero verificamos)
         const cedulaRaw = datosIniciales.cedula || '';
         if (cedulaRaw.length < 6 || cedulaRaw.length > 7) {
             showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
@@ -1053,7 +1046,6 @@
             return false;
         }
 
-        // Departamento y ciudad
         const departamento = document.getElementById('departamento').value;
         const ciudad = document.getElementById('ciudad').value;
         const otraCiudad = document.getElementById('otraCiudad').value.trim();
@@ -1070,7 +1062,6 @@
             return false;
         }
 
-        // Ingreso
         const ingresoRaw = document.getElementById('ingreso').dataset.raw || document.getElementById('ingreso').value.replace(/[^0-9]/g, '');
         const ingreso = parseInt(ingresoRaw, 10);
         if (isNaN(ingreso) || ingreso < 1750000) {
@@ -1078,7 +1069,6 @@
             return false;
         }
 
-        // Empresa y teléfono laboral si aplica
         if (config.requiereEmpresa) {
             const empresa = document.getElementById('empresa').value.trim();
             if (empresa.length < 2) {
@@ -1094,7 +1084,6 @@
             }
         }
 
-        // Informconf y cartera (ya están validados en sus funciones, pero chequeamos que no estén bloqueando)
         const informconfError = document.getElementById('errorInformconf');
         const carteraError = document.getElementById('errorCartera');
         if (informconfError.style.display === 'block' || carteraError.style.display === 'block') {
@@ -1106,7 +1095,7 @@
     }
 
     // ================================================================
-    // RESUMEN (PASO 3)
+    // GENERAR RESUMEN (PASO 3)
     // ================================================================
     function generarResumen() {
         const { nombres, apellidos, cedula, celular, email } = datosIniciales;
@@ -1136,11 +1125,23 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        const docsMarcados = [];
+        // Obtener todos los documentos del perfil y su estado
+        const docsMarcados = new Set();
         document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
-            if (label) docsMarcados.push(label.textContent.trim());
+            if (label) docsMarcados.add(label.textContent.trim());
         });
+
+        const documentosList = config ? config.documentos : [];
+        let docsHtml = '';
+        if (documentosList.length > 0) {
+            documentosList.forEach(doc => {
+                const posee = docsMarcados.has(doc);
+                docsHtml += `<div style="font-size:12px; color:var(--text);">${posee ? '✅' : '❌'} ${doc}</div>`;
+            });
+        } else {
+            docsHtml = '<div style="font-size:12px; color:var(--text-helper);">No hay documentos definidos para este perfil.</div>';
+        }
 
         const chkCompromiso = document.getElementById('chkCompromiso').checked ? '✅ Aceptado' : '❌ No aceptado';
 
@@ -1164,7 +1165,8 @@
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
             <p><strong>WhatsApp:</strong> ${celularFormateado}</p>
             <hr style="border:1px solid var(--border); margin:8px 0;">
-            <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno marcado'}</p>
+            <p><strong>Documentos (posee / no posee):</strong></p>
+            ${docsHtml}
             <hr style="border:1px solid var(--border); margin:8px 0;">
             <p><strong>Compromisos aceptados:</strong> ${chkCompromiso}</p>
             ${advertencia}
@@ -1214,11 +1216,23 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        const docsMarcados = [];
+        // Obtener todos los documentos del perfil y su estado
+        const docsMarcados = new Set();
         document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
-            if (label) docsMarcados.push(label.textContent.trim());
+            if (label) docsMarcados.add(label.textContent.trim());
         });
+
+        const documentosList = config ? config.documentos : [];
+        let docsMsg = '';
+        if (documentosList.length > 0) {
+            documentosList.forEach(doc => {
+                const posee = docsMarcados.has(doc);
+                docsMsg += `${posee ? '✅' : '❌'} ${doc}%0A`;
+            });
+        } else {
+            docsMsg = 'No hay documentos definidos para este perfil.%0A';
+        }
 
         const chkCompromiso = document.getElementById('chkCompromiso').checked;
 
@@ -1241,12 +1255,8 @@
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
 
-        mensaje += `📋 *DOCUMENTOS QUE POSEE:*%0A`;
-        if (docsMarcados.length > 0) {
-            docsMarcados.forEach(doc => { mensaje += `✅ ${doc}%0A`; });
-        } else {
-            mensaje += `Ninguno marcado%0A`;
-        }
+        mensaje += `📋 *DOCUMENTOS (posee / no posee):*%0A`;
+        mensaje += docsMsg;
 
         mensaje += `%0A📌 *COMPROMISO ACEPTADO:* ${chkCompromiso ? 'SÍ' : 'NO'}%0A`;
 
@@ -1254,7 +1264,7 @@
             mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
         }
 
-        mensaje += `%0A🏷️ *Vendedor:* ${VENDEDOR}%0A%0A`;
+        mensaje += `%0A🏷️ ${VENDEDOR}%0A%0A`;
         mensaje += `_✅ El cliente aceptó la declaración de veracidad._`;
 
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
@@ -1402,7 +1412,6 @@
         });
         validarInformconf();
         validarCartera();
-        // Habilitar botón continuar del paso 2 si todo está ok (se valida al hacer clic)
     });
 
     // Exponer funciones globales
