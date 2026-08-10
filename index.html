@@ -288,14 +288,24 @@
                     <select class="form-control" id="perfil" required onchange="actualizarRequisitosPorPerfil(); verificarChecksPerfil();">
                         <option value="">Seleccionar perfil...</option>
                         <option value="asalariado_ips">Asalariado con IPS</option>
-                        <option value="asalariado_informal">Asalariado Informal (sin IVA ni IPS)</option>
-                        <option value="funcionario_permanente">Funcionario Público PERMANENTE</option>
-                        <option value="funcionario_contratado">Funcionario Público CONTRATADO</option>
+                        <option value="asalariado_informal">Asalariado Informal</option>
+                        <option value="funcionario_publico">Funcionario Público</option>
                         <option value="jubilado">Jubilado</option>
                         <option value="asalariado_iva">Asalariado con IVA</option>
                         <option value="prof_independiente">Profesional Independiente</option>
                         <option value="independiente">Independiente</option>
-                        <option value="micro_comerciante">Micro / Comerciante</option>
+                        <option value="micro_iva">Microempresa con IVA y/o PATENTE</option>
+                        <option value="micro_sin_iva">Microempresa sin IVA ni PATENTE</option>
+                        <option value="rentista">Rentistas (alquileres)</option>
+                    </select>
+                </div>
+
+                <!-- Sub-opción para Funcionario Público -->
+                <div id="subTipoFuncionario" style="display:none;" class="form-group">
+                    <label>Tipo de funcionario *</label>
+                    <select class="form-control" id="tipoFuncionario" onchange="actualizarRequisitosPorPerfil()">
+                        <option value="permanente">Permanente (1 mes antigüedad)</option>
+                        <option value="contratado">Contratado (15 meses antigüedad)</option>
                     </select>
                 </div>
 
@@ -316,9 +326,11 @@
                         <label>Plazo (meses) *</label>
                         <select class="form-control" id="plazo" onchange="calcularCuotaPreview()">
                             <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
                             <option value="12" selected>12</option>
+                            <option value="15">15</option>
                             <option value="18">18</option>
-                            <option value="24">24</option>
                         </select>
                     </div>
                 </div>
@@ -331,23 +343,17 @@
                     </div>
                 </div>
 
-                <!-- CHECKS OBLIGATORIOS -->
+                <!-- CHECKS OBLIGATORIOS (simplificados) -->
                 <div class="consent-checkbox-group">
                     <label>
-                        <input type="checkbox" id="chkUbicacion" onchange="verificarChecksPerfil()">
-                        Acepto proporcionar los datos de mi domicilio (dirección particular) y mi ubicación por WhatsApp si se me solicitan.
+                        <input type="checkbox" id="chkGeneral" onchange="verificarChecksPerfil()">
+                        Acepto proporcionar mi dirección particular, ubicación por WhatsApp y todos los documentos requeridos para mi perfil si la presolicitud es aprobada.
                     </label>
                 </div>
                 <div class="consent-checkbox-group" id="chkLaboralContainer">
                     <label>
                         <input type="checkbox" id="chkLaboral" onchange="verificarChecksPerfil()">
                         Acepto proporcionar los datos de mi lugar de trabajo (nombre y dirección) si se me solicitan.
-                    </label>
-                </div>
-                <div class="consent-checkbox-group">
-                    <label>
-                        <input type="checkbox" id="chkDocumentos" onchange="verificarChecksPerfil()">
-                        Acepto enviar todos los documentos requeridos para mi perfil si mi presolicitud es aprobada.
                     </label>
                 </div>
 
@@ -534,51 +540,47 @@
     const VENDEDOR = 'Isidro Cabrera - Vendedor Autorizado - 27812';
 
     // ================================================================
-    // CUOTERO OFICIAL
+    // NUEVO CUOTERO (montos 1M,2M,3M,4M,5M / plazos 6,8,10,12,15,18)
     // ================================================================
     const CUOTAS_FIJAS = {
-        1000000: { 6:235000, 12:127000, 18:101000, 24:90000 },
-        2000000: { 6:465000, 12:254000, 18:201000, 24:177000 },
-        3000000: { 6:685000, 12:380000, 18:302000, 24:266000 },
-        4000000: { 6:900000, 12:507000, 18:402000, 24:354000 },
-        5000000: { 6:1150000, 12:633000, 18:503000, 24:443000 }
+        1000000: { 6:235000, 8:182000, 10:149000, 12:127000, 15:112000, 18:101000 },
+        2000000: { 6:465000, 8:358000, 10:292500, 12:254000, 15:223000, 18:201000 },
+        3000000: { 6:696000, 8:546000, 10:446000, 12:391000, 15:345000, 18:313000 },
+        4000000: { 6:911000, 8:711000, 10:582000, 12:518000, 15:456000, 18:413000 },
+        5000000: { 6:1161000, 8:896000, 10:723000, 12:644000, 15:566000, 18:514000 }
     };
 
     // ================================================================
-    // PERFILES Y REQUISITOS
+    // PERFILES (10 perfiles, con sus configuraciones)
     // ================================================================
     const PERFILES = {
         'asalariado_ips': {
             etiqueta: 'Asalariado con IPS',
             edadMin: 20, edadMax: 70,
             antiguedadMinMeses: 6,
-            documentos: ['Boleta de IPS (6 últimos aportes)', 'Liquidación de salario', '2 referencias personales (1 familiar)'],
+            documentos: ['Boletas de IPS (6 últimos aportes)', 'Liquidación de salario', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
-            requiereTelefonoLab: true
+            requiereTelefonoLab: true,
+            mostrarLaboral: true
         },
         'asalariado_informal': {
-            etiqueta: 'Asalariado Informal (sin IVA ni IPS)',
+            etiqueta: 'Asalariado Informal',
             edadMin: 20, edadMax: 70,
             antiguedadMinMeses: 6,
             documentos: ['Certificado de trabajo (máx 60 días)', 'RUC de la empresa o patronal', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
-            requiereTelefonoLab: true
+            requiereTelefonoLab: true,
+            mostrarLaboral: true
         },
-        'funcionario_permanente': {
-            etiqueta: 'Funcionario Público PERMANENTE',
+        'funcionario_publico': {
+            etiqueta: 'Funcionario Público',
             edadMin: 20, edadMax: 70,
-            antiguedadMinMeses: 1,
+            antiguedadMinMeses: 1, // se ajusta según tipo (1 o 15)
             documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false
-        },
-        'funcionario_contratado': {
-            etiqueta: 'Funcionario Público CONTRATADO',
-            edadMin: 20, edadMax: 70,
-            antiguedadMinMeses: 15,
-            documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
-            requiereEmpresa: false,
-            requiereTelefonoLab: false
+            requiereTelefonoLab: false,
+            mostrarLaboral: true,
+            esFuncionario: true
         },
         'jubilado': {
             etiqueta: 'Jubilado',
@@ -586,7 +588,8 @@
             antiguedadMinMeses: 0,
             documentos: ['Boletas de IPS o JUPE (2 últimos cobros)', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false
+            requiereTelefonoLab: false,
+            mostrarLaboral: false
         },
         'asalariado_iva': {
             etiqueta: 'Asalariado con IVA',
@@ -594,7 +597,8 @@
             antiguedadMinMeses: 6,
             documentos: ['3 últimos IVAs', '6 últimas facturas emitidas a la empresa', 'RUC de la empresa', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
-            requiereTelefonoLab: true
+            requiereTelefonoLab: true,
+            mostrarLaboral: true
         },
         'prof_independiente': {
             etiqueta: 'Profesional Independiente',
@@ -602,7 +606,8 @@
             antiguedadMinMeses: 12,
             documentos: ['3 últimos IVAs', 'Título profesional o registro', 'Facturas emitidas a clientes (3 últimos meses)', 'RUC', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false
+            requiereTelefonoLab: false,
+            mostrarLaboral: true
         },
         'independiente': {
             etiqueta: 'Independiente',
@@ -611,24 +616,98 @@
             documentos: ['Patente o RUC', '3 últimos IVAs o facturas de compra', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false,
-            // Adicional: para validación de edad con IVA/Patente
-            requiereIvaPatente: true
+            mostrarLaboral: true
         },
-        'micro_comerciante': {
-            etiqueta: 'Micro / Comerciante',
+        'micro_iva': {
+            etiqueta: 'Microempresa con IVA y/o PATENTE',
             edadMin: 23, edadMax: 65,
             antiguedadMinMeses: 12,
-            documentos: ['Patente o RUC (1 año)', '3 últimos IVAs', 'Fotos del local', 'Ubicación GPS para visita in situ', '2 referencias personales (1 familiar)'],
+            documentos: ['Patente o RUC (1 año)', '3 últimos IVAs normalizados', 'Fotos del negocio', 'Ubicación GPS', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false,
-            requiereIvaPatente: true
+            mostrarLaboral: true
+        },
+        'micro_sin_iva': {
+            etiqueta: 'Microempresa sin IVA ni PATENTE',
+            edadMin: 25, edadMax: 65,
+            antiguedadMinMeses: 12,
+            documentos: ['Patente (opcional)', 'Fotos del negocio', 'Fotos de mercaderías', 'Ubicación GPS', '2 referencias personales (1 familiar)'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false,
+            mostrarLaboral: true
+        },
+        'rentista': {
+            etiqueta: 'Rentistas (alquileres)',
+            edadMin: 20, edadMax: 70,
+            antiguedadMinMeses: 0,
+            documentos: ['Contrato privado de alquiler', 'Foto de cédula del inquilino', 'Ubicación GPS', 'Fotos del inquilinato', 'Factura de servicio a nombre del rentista'],
+            requiereEmpresa: false,
+            requiereTelefonoLab: false,
+            mostrarLaboral: false
         }
     };
 
     // ================================================================
-    // ESTADO GLOBAL
+    // FUNCIONES AUXILIARES
     // ================================================================
-    let datosIniciales = {};  // guarda los datos de la pantalla de bienvenida
+    function formatearNumero(n) {
+        return n ? n.toLocaleString('es-PY') : '0';
+    }
+
+    function formatearCedula(ced) {
+        const num = ced.replace(/[^0-9]/g, '');
+        if (num.length === 0) return '';
+        return parseInt(num, 10).toLocaleString('es-PY');
+    }
+
+    function formatearWhatsApp(num) {
+        const limpio = num.replace(/[^0-9]/g, '');
+        if (limpio.length === 0) return '';
+        if (limpio.length <= 4) return limpio;
+        if (limpio.length <= 7) return limpio.slice(0,4) + ' ' + limpio.slice(4);
+        return limpio.slice(0,4) + ' ' + limpio.slice(4,7) + ' ' + limpio.slice(7,10);
+    }
+
+    function obtenerCuota(monto, plazo) {
+        if (!CUOTAS_FIJAS[monto]) return null;
+        return CUOTAS_FIJAS[monto][plazo] || null;
+    }
+
+    // ================================================================
+    // FORMATO EN VIVO: Cédula, WhatsApp, Ingreso
+    // ================================================================
+    function formatearCedulaVivo(e) {
+        const input = e.target;
+        const raw = input.value.replace(/[^0-9]/g, '');
+        input.value = formatearCedula(raw);
+        input.dataset.raw = raw;
+    }
+
+    function formatearWhatsAppVivo(e) {
+        const input = e.target;
+        const raw = input.value.replace(/[^0-9]/g, '');
+        input.value = formatearWhatsApp(raw);
+        input.dataset.raw = raw;
+    }
+
+    function formatearIngresoVivo(e) {
+        const input = e.target;
+        const raw = input.value.replace(/[^0-9]/g, '');
+        if (raw === '') {
+            input.value = '';
+            input.dataset.raw = '';
+            return;
+        }
+        const num = parseInt(raw, 10);
+        if (!isNaN(num)) {
+            input.value = num.toLocaleString('es-PY');
+        }
+        input.dataset.raw = raw;
+    }
+
+    // Aplicar a los campos de la bienvenida
+    document.getElementById('welcomeCedula').addEventListener('input', formatearCedulaVivo);
+    document.getElementById('welcomeCelular').addEventListener('input', formatearWhatsAppVivo);
 
     // ================================================================
     // GENERAR SELECTORES DE FECHA
@@ -684,70 +763,10 @@
     }
 
     // ================================================================
-    // FUNCIONES AUXILIARES
-    // ================================================================
-    function formatearNumero(n) {
-        return n ? n.toLocaleString('es-PY') : '0';
-    }
-
-    function formatearCedula(ced) {
-        const num = ced.replace(/[^0-9]/g, '');
-        if (num.length === 0) return '';
-        return parseInt(num, 10).toLocaleString('es-PY');
-    }
-
-    function formatearWhatsApp(num) {
-        const limpio = num.replace(/[^0-9]/g, '');
-        if (limpio.length === 0) return '';
-        if (limpio.length <= 4) return limpio;
-        if (limpio.length <= 7) return limpio.slice(0,4) + ' ' + limpio.slice(4);
-        return limpio.slice(0,4) + ' ' + limpio.slice(4,7) + ' ' + limpio.slice(7,10);
-    }
-
-    function obtenerCuota(monto, plazo) {
-        if (!CUOTAS_FIJAS[monto]) return null;
-        return CUOTAS_FIJAS[monto][plazo] || null;
-    }
-
-    // ================================================================
-    // FORMATO EN VIVO: Cédula, WhatsApp, Ingreso (en simulador y bienvenida)
-    // ================================================================
-    function formatearCedulaVivo(e) {
-        const input = e.target;
-        const raw = input.value.replace(/[^0-9]/g, '');
-        input.value = formatearCedula(raw);
-        input.dataset.raw = raw;
-    }
-
-    function formatearWhatsAppVivo(e) {
-        const input = e.target;
-        const raw = input.value.replace(/[^0-9]/g, '');
-        input.value = formatearWhatsApp(raw);
-        input.dataset.raw = raw;
-    }
-
-    function formatearIngresoVivo(e) {
-        const input = e.target;
-        const raw = input.value.replace(/[^0-9]/g, '');
-        if (raw === '') {
-            input.value = '';
-            input.dataset.raw = '';
-            return;
-        }
-        const num = parseInt(raw, 10);
-        if (!isNaN(num)) {
-            input.value = num.toLocaleString('es-PY');
-        }
-        input.dataset.raw = raw;
-    }
-
-    // Aplicar a los campos de la bienvenida
-    document.getElementById('welcomeCedula').addEventListener('input', formatearCedulaVivo);
-    document.getElementById('welcomeCelular').addEventListener('input', formatearWhatsAppVivo);
-
-    // ================================================================
     // PANTALLA DE BIENVENIDA → SIMULADOR
     // ================================================================
+    let datosIniciales = {};
+
     document.getElementById('btnWelcomeGo').addEventListener('click', function() {
         const err = document.getElementById('welcomeError');
         err.style.display = 'none';
@@ -794,9 +813,6 @@
         document.getElementById('welcomeScreen').style.display = 'none';
         document.getElementById('simulatorScreen').style.display = 'block';
 
-        // Rellenar los campos del simulador con los datos guardados (en el paso 2 no están, pero los usaremos en el resumen)
-        // También podemos prellenar los campos de nombre/apellido en el paso 2? No hay campos ahí, solo fecha, etc.
-        // Pero en el resumen los mostraremos.
         // Inicializar el simulador en el paso 1
         nextStep(1);
         // Calcular cuota inicial
@@ -824,23 +840,40 @@
         const grupoEmpresa = document.getElementById('grupoEmpresa');
         const grupoTelefono = document.getElementById('grupoTelefonoLab');
         const grupoAntiguedad = document.getElementById('grupoAntiguedad');
+        const subTipoDiv = document.getElementById('subTipoFuncionario');
 
         infoDiv.style.display = 'none';
         reqContainer.style.display = 'none';
         grupoEmpresa.style.display = 'none';
         grupoTelefono.style.display = 'none';
         grupoAntiguedad.style.display = 'block';
+        subTipoDiv.style.display = 'none';
 
         if (!config) return;
+
+        // Mostrar sub-tipo para funcionario público
+        if (config.esFuncionario) {
+            subTipoDiv.style.display = 'block';
+            // Ajustar antigüedad según el tipo seleccionado
+            const tipo = document.getElementById('tipoFuncionario').value;
+            if (tipo === 'permanente') {
+                config.antiguedadMinMeses = 1;
+                config.etiqueta = 'Funcionario Público (Permanente)';
+            } else {
+                config.antiguedadMinMeses = 15;
+                config.etiqueta = 'Funcionario Público (Contratado)';
+            }
+        } else {
+            // Restaurar etiqueta si no es funcionario
+            if (perfilKey) {
+                config.etiqueta = PERFILES[perfilKey].etiqueta;
+            }
+        }
 
         // Mostrar info del perfil
         infoDiv.style.display = 'block';
         let antiguedadTexto = config.antiguedadMinMeses === 0 ? 'No aplica' : `${config.antiguedadMinMeses} meses`;
         let edadTexto = `${config.edadMin} a ${config.edadMax} años`;
-        // Si es independiente o micro_comerciante, agregar aclaración
-        if (perfilKey === 'independiente' || perfilKey === 'micro_comerciante') {
-            edadTexto = '23 años (con IVA y/o Patente) o 25 años (sin IVA/Patente)';
-        }
         infoDiv.innerHTML = `
             <strong>${config.etiqueta}</strong><br>
             <span>Edad: ${edadTexto} · Antigüedad mínima: ${antiguedadTexto}</span>
@@ -877,8 +910,8 @@
             document.getElementById('telefonoLab').value = '';
         }
 
-        // Para jubilado, ocultar antigüedad
-        if (perfilKey === 'jubilado') {
+        // Para jubilado y rentista, ocultar antigüedad
+        if (perfilKey === 'jubilado' || perfilKey === 'rentista') {
             grupoAntiguedad.style.display = 'none';
             document.getElementById('antiguedad_anios').value = '';
             document.getElementById('antiguedad_meses').value = '';
@@ -886,9 +919,9 @@
             grupoAntiguedad.style.display = 'block';
         }
 
-        // Mostrar/ocultar check de datos laborales (no para jubilado)
+        // Mostrar/ocultar check de datos laborales
         const chkLaboralContainer = document.getElementById('chkLaboralContainer');
-        if (perfilKey === 'jubilado') {
+        if (config.mostrarLaboral === false) {
             chkLaboralContainer.style.display = 'none';
             document.getElementById('chkLaboral').checked = false;
         } else {
@@ -905,19 +938,19 @@
     // CHECKS DEL PASO 1
     // ================================================================
     function verificarChecksPerfil() {
-        const chkUbicacion = document.getElementById('chkUbicacion');
+        const chkGeneral = document.getElementById('chkGeneral');
         const chkLaboral = document.getElementById('chkLaboral');
-        const chkDocumentos = document.getElementById('chkDocumentos');
         const btn = document.getElementById('btnNextStep2');
         const perfilKey = document.getElementById('perfil').value;
+        const config = PERFILES[perfilKey];
 
-        let ok = chkUbicacion.checked && chkDocumentos.checked;
-        if (perfilKey !== 'jubilado' && perfilKey !== '') {
+        let ok = chkGeneral.checked;
+        // Si el perfil requiere check laboral (no jubilado ni rentista)
+        if (config && config.mostrarLaboral !== false) {
             ok = ok && chkLaboral.checked;
         }
 
         btn.disabled = !ok;
-        // Mostrar mensaje en la cuota si falta algo
         const mensaje = document.getElementById('mensajeDatosFaltantes');
         if (!ok) {
             mensaje.style.display = 'block';
@@ -1016,16 +1049,15 @@
             return false;
         }
 
-        // Verificar que todos los checks obligatorios estén marcados
-        const chkUbicacion = document.getElementById('chkUbicacion');
-        const chkDocumentos = document.getElementById('chkDocumentos');
+        const chkGeneral = document.getElementById('chkGeneral');
         const chkLaboral = document.getElementById('chkLaboral');
+        const config = PERFILES[perfilKey];
 
-        if (!chkUbicacion.checked || !chkDocumentos.checked) {
-            showErrorStep(err, 'Debés aceptar todos los compromisos (ubicación y documentos).');
+        if (!chkGeneral.checked) {
+            showErrorStep(err, 'Debés aceptar el compromiso general.');
             return false;
         }
-        if (perfilKey !== 'jubilado' && !chkLaboral.checked) {
+        if (config.mostrarLaboral !== false && !chkLaboral.checked) {
             showErrorStep(err, 'Para este perfil, debés aceptar proporcionar datos laborales.');
             return false;
         }
@@ -1069,37 +1101,13 @@
             return false;
         }
 
-        // Validar edad según perfil
-        let edadMin = config.edadMin;
-        let edadMax = config.edadMax;
-
-        // Para independiente y micro_comerciante, verificar si tiene IVA/Patente marcado en los documentos
-        if (perfilKey === 'independiente' || perfilKey === 'micro_comerciante') {
-            // Verificar si los documentos marcados incluyen "Patente o RUC" y alguno que indique IVA
-            const chks = document.querySelectorAll('.chk-requisito:checked');
-            const labels = Array.from(chks).map(chk => chk.parentElement.querySelector('label').textContent.trim());
-            const tienePatente = labels.some(l => l.toLowerCase().includes('patente') || l.toLowerCase().includes('ruc'));
-            const tieneIva = labels.some(l => l.toLowerCase().includes('iva') || l.toLowerCase().includes('facturas'));
-            if (tienePatente && tieneIva) {
-                // Con IVA/Patente, edad mínima 23
-                edadMin = 23;
-            } else {
-                // Sin IVA/Patente, edad mínima 25
-                edadMin = 25;
-            }
-        }
-
-        if (edadCalculada < edadMin || edadCalculada > edadMax) {
-            let msg = `Tu edad (${edadCalculada} años) no se ajusta al perfil seleccionado.`;
-            if (perfilKey === 'independiente' || perfilKey === 'micro_comerciante') {
-                msg += ' Para este perfil, si no contás con IVA y/o Patente, la edad mínima es 25 años. Asegurate de marcar los documentos correspondientes.';
-            }
-            showErrorStep(err, msg);
+        if (edadCalculada < config.edadMin || edadCalculada > config.edadMax) {
+            showErrorStep(err, `Tu edad (${edadCalculada} años) no se ajusta al perfil seleccionado (rango ${config.edadMin}-${config.edadMax}).`);
             return false;
         }
 
-        // Validar antigüedad (excepto jubilado)
-        if (perfilKey !== 'jubilado') {
+        // Validar antigüedad (excepto jubilado y rentista)
+        if (perfilKey !== 'jubilado' && perfilKey !== 'rentista') {
             const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
             const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
             const totalMeses = antiguedadAnios * 12 + antiguedadMeses;
@@ -1110,12 +1118,12 @@
         }
 
         // Validar otros campos
-        const cedulaRaw = document.getElementById('cedula')?.dataset?.raw || '';
+        const cedulaRaw = document.getElementById('welcomeCedula').dataset.raw || '';
         if (cedulaRaw.length < 6 || cedulaRaw.length > 7) {
             showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
             return false;
         }
-        const celularRaw = document.getElementById('celular')?.dataset?.raw || '';
+        const celularRaw = document.getElementById('welcomeCelular').dataset.raw || '';
         if (celularRaw.length !== 10 || !celularRaw.startsWith('09')) {
             showErrorStep(err, 'WhatsApp: 10 dígitos, empieza con 09.');
             return false;
@@ -1166,7 +1174,6 @@
     // RESUMEN (PASO 3)
     // ================================================================
     function generarResumen() {
-        // Datos desde la bienvenida
         const { nombres, apellidos, cedula, celular, email } = datosIniciales;
         const edad = calcularEdadDesdeSelectores();
         const monto = parseInt(document.getElementById('monto').value);
@@ -1194,6 +1201,7 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
+        // Documentos marcados
         const docsMarcados = [];
         document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
@@ -1201,9 +1209,8 @@
         });
 
         // Checks del paso 1
-        const chkUbicacion = document.getElementById('chkUbicacion').checked ? '✅ Aceptado' : '❌ No aceptado';
+        const chkGeneral = document.getElementById('chkGeneral').checked ? '✅ Aceptado' : '❌ No aceptado';
         const chkLaboral = document.getElementById('chkLaboralContainer').style.display !== 'none' ? (document.getElementById('chkLaboral').checked ? '✅ Aceptado' : '❌ No aceptado') : 'No aplica';
-        const chkDocumentos = document.getElementById('chkDocumentos').checked ? '✅ Aceptado' : '❌ No aceptado';
 
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
@@ -1220,7 +1227,7 @@
             <p>Perfil: ${perfilLabel}</p>
             ${config && config.requiereEmpresa ? `<p>🏢 Empresa: ${empresa}</p>` : ''}
             ${config && config.requiereTelefonoLab ? `<p>📞 Teléfono laboral: ${telefonoLab}</p>` : ''}
-            ${perfilKey !== 'jubilado' ? `<p>🕒 Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>` : ''}
+            ${(perfilKey !== 'jubilado' && perfilKey !== 'rentista') ? `<p>🕒 Antigüedad laboral: ${antiguedadAnios} años ${antiguedadMeses} meses</p>` : ''}
             <p><strong>Informconf:</strong> ${informconf ? '⚠️ SÍ' : '✅ No'}</p>
             <p><strong>Casa de cartera:</strong> ${carteraFinal}</p>
             <p><strong>WhatsApp:</strong> ${celularFormateado}</p>
@@ -1229,9 +1236,8 @@
             <hr style="border:1px solid var(--border); margin:8px 0;">
             <p><strong>Compromisos aceptados:</strong></p>
             <ul style="font-size:12px; color:var(--text-light); list-style:none; padding-left:0;">
-                <li>📌 Datos de domicilio/ubicación: ${chkUbicacion}</li>
+                <li>📌 General (dirección, ubicación, documentos): ${chkGeneral}</li>
                 <li>📌 Datos laborales: ${chkLaboral}</li>
-                <li>📌 Envío de documentos: ${chkDocumentos}</li>
             </ul>
             ${advertencia}
             <hr style="border:1px solid var(--border); margin:8px 0;">
@@ -1253,7 +1259,6 @@
 
         if (!validateStep2()) return;
 
-        // Recolectar todos los datos
         const { nombres, apellidos, cedula, celular, email } = datosIniciales;
         const edad = calcularEdadDesdeSelectores();
         const monto = parseInt(document.getElementById('monto').value);
@@ -1287,10 +1292,8 @@
             if (label) docsMarcados.push(label.textContent.trim());
         });
 
-        // Checks
-        const chkUbicacion = document.getElementById('chkUbicacion').checked;
+        const chkGeneral = document.getElementById('chkGeneral').checked;
         const chkLaboral = document.getElementById('chkLaboral').checked;
-        const chkDocumentos = document.getElementById('chkDocumentos').checked;
 
         let mensaje = `*NUEVA PRESOLICITUD - Tking Credit*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
@@ -1307,7 +1310,7 @@
         mensaje += `📊 *Perfil:* ${perfilLabel}%0A`;
         if (config && config.requiereEmpresa) mensaje += `🏢 *Empresa:* ${empresa}%0A`;
         if (config && config.requiereTelefonoLab) mensaje += `📞 *Teléfono laboral:* ${telefonoLab}%0A`;
-        if (perfilKey !== 'jubilado') mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
+        if (perfilKey !== 'jubilado' && perfilKey !== 'rentista') mensaje += `🕒 *Antigüedad laboral:* ${antiguedadAnios} años ${antiguedadMeses} meses%0A`;
         mensaje += `⚠️ *INFORMCONF:* ${informconf ? 'SÍ' : 'NO'}%0A`;
         mensaje += `🏦 *Casa de cartera:* ${carteraFinal}%0A%0A`;
 
@@ -1319,9 +1322,8 @@
         }
 
         mensaje += `%0A📌 *COMPROMISOS ACEPTADOS:*%0A`;
-        mensaje += `- Datos de domicilio/ubicación: ${chkUbicacion ? 'SÍ' : 'NO'}%0A`;
+        mensaje += `- General (dirección, ubicación, documentos): ${chkGeneral ? 'SÍ' : 'NO'}%0A`;
         mensaje += `- Datos laborales: ${chkLaboral ? 'SÍ' : 'NO'}%0A`;
-        mensaje += `- Envío de documentos: ${chkDocumentos ? 'SÍ' : 'NO'}%0A`;
 
         if (informconfModificado || carteraModificado) {
             mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
@@ -1420,18 +1422,12 @@
     document.getElementById('welcomeApellidos').addEventListener('input', soloLetras);
 
     // ================================================================
-    // FORMATO EN VIVO: Cédula, WhatsApp, Ingreso (simulador)
+    // FORMATO EN VIVO: Ingreso en el simulador
     // ================================================================
-    // Estos campos existen en el paso 2, pero no los hemos creado aún, los agregaremos dinámicamente
-    // De hecho, en el paso 2 actual no hay campos de cédula, celular ni correo (están en la bienvenida)
-    // Pero en el paso 2 tenemos "ingreso". Aplicamos formato al ingreso.
     document.getElementById('ingreso').addEventListener('input', formatearIngresoVivo);
 
-    // También necesitamos campos de cédula y celular en el paso 2? No, ya están en la bienvenida y se guardan.
-    // Por lo tanto, no es necesario.
-
     // ================================================================
-    // TEMA OSCURO (ambos botones)
+    // TEMA OSCURO
     // ================================================================
     function toggleTheme() {
         document.body.classList.toggle('dark');
@@ -1469,7 +1465,6 @@
         const plazo = parseInt(document.getElementById('plazo').value);
         const cuota = obtenerCuota(monto, plazo);
         document.getElementById('cuotaPreview').textContent = cuota ? '₲ ' + cuota.toLocaleString('es-PY') : '₲ 0';
-        // Ocultar mensaje si ya hay perfil seleccionado y checks ok (se maneja en verificarChecksPerfil)
         verificarChecksPerfil();
     }
 
