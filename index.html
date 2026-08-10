@@ -201,22 +201,28 @@
                 <div style="font-size:12px; color:var(--text-helper); margin-top:4px;">✅ Sin papeleo · Sin filas · Atención personalizada</div>
             </div>
 
-            <div class="form-group">
-                <label>Nombres *</label>
-                <input class="form-control" type="text" id="welcomeNombres" placeholder="Ej: Juan Carlos" required>
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Nombres *</label>
+                    <input class="form-control" type="text" id="welcomeNombres" placeholder="Ej: Juan Carlos" required>
+                </div>
+                <div class="form-group">
+                    <label>Apellidos *</label>
+                    <input class="form-control" type="text" id="welcomeApellidos" placeholder="Ej: Pérez González" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Apellidos *</label>
-                <input class="form-control" type="text" id="welcomeApellidos" placeholder="Ej: Pérez González" required>
+
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Cédula *</label>
+                    <input class="form-control" type="text" id="welcomeCedula" placeholder="1.234.567" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp *</label>
+                    <input class="form-control" type="tel" id="welcomeCelular" placeholder="0991 123 456" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Cédula *</label>
-                <input class="form-control" type="text" id="welcomeCedula" placeholder="1.234.567" required>
-            </div>
-            <div class="form-group">
-                <label>WhatsApp *</label>
-                <input class="form-control" type="tel" id="welcomeCelular" placeholder="0991 123 456" required>
-            </div>
+
             <div class="form-group">
                 <label>Correo electrónico *</label>
                 <input class="form-control" type="email" id="welcomeEmail" placeholder="ejemplo@correo.com" required>
@@ -273,7 +279,7 @@
         <!-- STEP WRAPPER -->
         <div class="step-wrapper" id="stepWrapper">
             <div class="step-indicator">
-                <div class="step-dot active" data-step="1"><span class="circle">1</span><div class="step-label">Perfil</div></div>
+                <div class="step-dot active" data-step="1"><span class="circle">1</span><div class="step-label">Simular</div></div>
                 <div class="step-dot" data-step="2"><span class="circle">2</span><div class="step-label">Datos</div></div>
                 <div class="step-dot" data-step="3"><span class="circle">3</span><div class="step-label">Cierre</div></div>
                 <div class="step-line"></div>
@@ -281,8 +287,43 @@
         </div>
 
         <form id="formProspecto" autocomplete="off">
-            <!-- PASO 1: PERFIL Y SIMULACIÓN -->
+            <!-- PASO 1: SIMULACIÓN Y PERFIL -->
             <div class="form-step active-step" id="step1">
+                <!-- Monto y Plazo juntos arriba -->
+                <div class="row-2" style="gap:12px;">
+                    <div class="form-group">
+                        <label>Monto (Gs.) *</label>
+                        <select class="form-control" id="monto" onchange="calcularCuotaPreview()">
+                            <option value="1000000">1.000.000</option>
+                            <option value="2000000">2.000.000</option>
+                            <option value="3000000">3.000.000</option>
+                            <option value="4000000">4.000.000</option>
+                            <option value="5000000" selected>5.000.000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Plazo (meses) *</label>
+                        <select class="form-control" id="plazo" onchange="calcularCuotaPreview()">
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12" selected>12</option>
+                            <option value="15">15</option>
+                            <option value="18">18</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cuota estimada debajo -->
+                <div class="cuota-box" id="cuotaBox">
+                    <div class="label">Tu cuota estimada</div>
+                    <div class="value" id="cuotaPreview">—</div>
+                    <div id="mensajeDatosFaltantes" class="mensaje-datos">
+                        Seleccioná un perfil para ver tu cuota.
+                    </div>
+                </div>
+
+                <!-- Perfil debajo de la cuota -->
                 <div class="form-group">
                     <label>Perfil / Actividad *</label>
                     <select class="form-control" id="perfil" required onchange="actualizarRequisitosPorPerfil(); verificarChecksPerfil();">
@@ -311,49 +352,11 @@
 
                 <div id="infoPerfil" class="perfil-info" style="display:none;"></div>
 
-                <div class="row-2" style="gap:12px; margin-top:8px;">
-                    <div class="form-group">
-                        <label>Monto (Gs.) *</label>
-                        <select class="form-control" id="monto" onchange="calcularCuotaPreview()">
-                            <option value="1000000">1.000.000</option>
-                            <option value="2000000">2.000.000</option>
-                            <option value="3000000">3.000.000</option>
-                            <option value="4000000">4.000.000</option>
-                            <option value="5000000" selected>5.000.000</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Plazo (meses) *</label>
-                        <select class="form-control" id="plazo" onchange="calcularCuotaPreview()">
-                            <option value="6">6</option>
-                            <option value="8">8</option>
-                            <option value="10">10</option>
-                            <option value="12" selected>12</option>
-                            <option value="15">15</option>
-                            <option value="18">18</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="cuota-box" id="cuotaBox">
-                    <div class="label">Tu cuota estimada</div>
-                    <div class="value" id="cuotaPreview">—</div>
-                    <div id="mensajeDatosFaltantes" class="mensaje-datos">
-                        Seleccioná un perfil para ver tu cuota.
-                    </div>
-                </div>
-
-                <!-- CHECKS OBLIGATORIOS (simplificados) -->
+                <!-- CHECKS OBLIGATORIOS (UN SOLO CHECK CORTITO) -->
                 <div class="consent-checkbox-group">
                     <label>
-                        <input type="checkbox" id="chkGeneral" onchange="verificarChecksPerfil()">
-                        Acepto proporcionar mi dirección particular, ubicación por WhatsApp y todos los documentos requeridos para mi perfil si la presolicitud es aprobada.
-                    </label>
-                </div>
-                <div class="consent-checkbox-group" id="chkLaboralContainer">
-                    <label>
-                        <input type="checkbox" id="chkLaboral" onchange="verificarChecksPerfil()">
-                        Acepto proporcionar los datos de mi lugar de trabajo (nombre y dirección) si se me solicitan.
+                        <input type="checkbox" id="chkCompromiso" onchange="verificarChecksPerfil()">
+                        Acepto proporcionar la información completa requerida (domicilio, ubicación, documentos y datos laborales) si mi presolicitud es aprobada.
                     </label>
                 </div>
 
@@ -560,8 +563,7 @@
             antiguedadMinMeses: 6,
             documentos: ['Boletas de IPS (6 últimos aportes)', 'Liquidación de salario', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
-            requiereTelefonoLab: true,
-            mostrarLaboral: true
+            requiereTelefonoLab: true
         },
         'asalariado_informal': {
             etiqueta: 'Asalariado Informal',
@@ -569,8 +571,7 @@
             antiguedadMinMeses: 6,
             documentos: ['Certificado de trabajo (máx 60 días)', 'RUC de la empresa o patronal', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
-            requiereTelefonoLab: true,
-            mostrarLaboral: true
+            requiereTelefonoLab: true
         },
         'funcionario_publico': {
             etiqueta: 'Funcionario Público',
@@ -579,7 +580,6 @@
             documentos: ['Liquidación de salario', 'Certificado de trabajo', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
             requiereTelefonoLab: false,
-            mostrarLaboral: true,
             esFuncionario: true
         },
         'jubilado': {
@@ -588,8 +588,7 @@
             antiguedadMinMeses: 0,
             documentos: ['Boletas de IPS o JUPE (2 últimos cobros)', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false,
-            mostrarLaboral: false
+            requiereTelefonoLab: false
         },
         'asalariado_iva': {
             etiqueta: 'Asalariado con IVA',
@@ -597,8 +596,7 @@
             antiguedadMinMeses: 6,
             documentos: ['3 últimos IVAs', '6 últimas facturas emitidas a la empresa', 'RUC de la empresa', '2 referencias personales (1 familiar)'],
             requiereEmpresa: true,
-            requiereTelefonoLab: true,
-            mostrarLaboral: true
+            requiereTelefonoLab: true
         },
         'prof_independiente': {
             etiqueta: 'Profesional Independiente',
@@ -606,8 +604,7 @@
             antiguedadMinMeses: 12,
             documentos: ['3 últimos IVAs', 'Título profesional o registro', 'Facturas emitidas a clientes (3 últimos meses)', 'RUC', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false,
-            mostrarLaboral: true
+            requiereTelefonoLab: false
         },
         'independiente': {
             etiqueta: 'Independiente',
@@ -615,8 +612,7 @@
             antiguedadMinMeses: 18,
             documentos: ['Patente o RUC', '3 últimos IVAs o facturas de compra', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false,
-            mostrarLaboral: true
+            requiereTelefonoLab: false
         },
         'micro_iva': {
             etiqueta: 'Microempresa con IVA y/o PATENTE',
@@ -624,8 +620,7 @@
             antiguedadMinMeses: 12,
             documentos: ['Patente o RUC (1 año)', '3 últimos IVAs normalizados', 'Fotos del negocio', 'Ubicación GPS', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false,
-            mostrarLaboral: true
+            requiereTelefonoLab: false
         },
         'micro_sin_iva': {
             etiqueta: 'Microempresa sin IVA ni PATENTE',
@@ -633,8 +628,7 @@
             antiguedadMinMeses: 12,
             documentos: ['Patente (opcional)', 'Fotos del negocio', 'Fotos de mercaderías', 'Ubicación GPS', '2 referencias personales (1 familiar)'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false,
-            mostrarLaboral: true
+            requiereTelefonoLab: false
         },
         'rentista': {
             etiqueta: 'Rentistas (alquileres)',
@@ -642,8 +636,7 @@
             antiguedadMinMeses: 0,
             documentos: ['Contrato privado de alquiler', 'Foto de cédula del inquilino', 'Ubicación GPS', 'Fotos del inquilinato', 'Factura de servicio a nombre del rentista'],
             requiereEmpresa: false,
-            requiereTelefonoLab: false,
-            mostrarLaboral: false
+            requiereTelefonoLab: false
         }
     };
 
@@ -817,7 +810,6 @@
         nextStep(1);
         // Calcular cuota inicial
         calcularCuotaPreview();
-        // Asegurar que el check laboral se oculte/muestre según perfil
         actualizarRequisitosPorPerfil();
         verificarChecksPerfil();
     });
@@ -854,7 +846,6 @@
         // Mostrar sub-tipo para funcionario público
         if (config.esFuncionario) {
             subTipoDiv.style.display = 'block';
-            // Ajustar antigüedad según el tipo seleccionado
             const tipo = document.getElementById('tipoFuncionario').value;
             if (tipo === 'permanente') {
                 config.antiguedadMinMeses = 1;
@@ -864,13 +855,11 @@
                 config.etiqueta = 'Funcionario Público (Contratado)';
             }
         } else {
-            // Restaurar etiqueta si no es funcionario
             if (perfilKey) {
                 config.etiqueta = PERFILES[perfilKey].etiqueta;
             }
         }
 
-        // Mostrar info del perfil
         infoDiv.style.display = 'block';
         let antiguedadTexto = config.antiguedadMinMeses === 0 ? 'No aplica' : `${config.antiguedadMinMeses} meses`;
         let edadTexto = `${config.edadMin} a ${config.edadMax} años`;
@@ -879,7 +868,6 @@
             <span>Edad: ${edadTexto} · Antigüedad mínima: ${antiguedadTexto}</span>
         `;
 
-        // Mostrar requisitos
         reqContainer.style.display = 'block';
         reqList.innerHTML = '';
         if (config.documentos && config.documentos.length > 0) {
@@ -894,7 +882,6 @@
             });
         }
 
-        // Mostrar/ocultar campos adicionales
         if (config.requiereEmpresa) {
             grupoEmpresa.style.display = 'block';
             document.getElementById('empresa').required = true;
@@ -910,7 +897,6 @@
             document.getElementById('telefonoLab').value = '';
         }
 
-        // Para jubilado y rentista, ocultar antigüedad
         if (perfilKey === 'jubilado' || perfilKey === 'rentista') {
             grupoAntiguedad.style.display = 'none';
             document.getElementById('antiguedad_anios').value = '';
@@ -919,44 +905,25 @@
             grupoAntiguedad.style.display = 'block';
         }
 
-        // Mostrar/ocultar check de datos laborales
-        const chkLaboralContainer = document.getElementById('chkLaboralContainer');
-        if (config.mostrarLaboral === false) {
-            chkLaboralContainer.style.display = 'none';
-            document.getElementById('chkLaboral').checked = false;
-        } else {
-            chkLaboralContainer.style.display = 'block';
-        }
-
-        // Recalcular cuota
         calcularCuotaPreview();
-        // Verificar checks
         verificarChecksPerfil();
     }
 
     // ================================================================
-    // CHECKS DEL PASO 1
+    // CHECKS DEL PASO 1 (un solo check)
     // ================================================================
     function verificarChecksPerfil() {
-        const chkGeneral = document.getElementById('chkGeneral');
-        const chkLaboral = document.getElementById('chkLaboral');
+        const chk = document.getElementById('chkCompromiso');
         const btn = document.getElementById('btnNextStep2');
-        const perfilKey = document.getElementById('perfil').value;
-        const config = PERFILES[perfilKey];
-
-        let ok = chkGeneral.checked;
-        // Si el perfil requiere check laboral (no jubilado ni rentista)
-        if (config && config.mostrarLaboral !== false) {
-            ok = ok && chkLaboral.checked;
-        }
-
-        btn.disabled = !ok;
         const mensaje = document.getElementById('mensajeDatosFaltantes');
-        if (!ok) {
-            mensaje.style.display = 'block';
-            mensaje.textContent = 'Aceptá todos los compromisos para continuar.';
-        } else {
+
+        if (chk.checked) {
+            btn.disabled = false;
             mensaje.style.display = 'none';
+        } else {
+            btn.disabled = true;
+            mensaje.style.display = 'block';
+            mensaje.textContent = 'Aceptá el compromiso para continuar.';
         }
     }
 
@@ -1049,16 +1016,8 @@
             return false;
         }
 
-        const chkGeneral = document.getElementById('chkGeneral');
-        const chkLaboral = document.getElementById('chkLaboral');
-        const config = PERFILES[perfilKey];
-
-        if (!chkGeneral.checked) {
-            showErrorStep(err, 'Debés aceptar el compromiso general.');
-            return false;
-        }
-        if (config.mostrarLaboral !== false && !chkLaboral.checked) {
-            showErrorStep(err, 'Para este perfil, debés aceptar proporcionar datos laborales.');
+        if (!document.getElementById('chkCompromiso').checked) {
+            showErrorStep(err, 'Debés aceptar el compromiso para continuar.');
             return false;
         }
 
@@ -1079,7 +1038,6 @@
             return false;
         }
 
-        // Fecha de nacimiento
         const dia = document.getElementById('diaNac').value;
         const mes = document.getElementById('mesNac').value;
         const anio = document.getElementById('anioNac').value;
@@ -1093,7 +1051,6 @@
             return false;
         }
 
-        // Perfil y validación de edad
         const perfilKey = document.getElementById('perfil').value;
         const config = PERFILES[perfilKey];
         if (!config) {
@@ -1106,7 +1063,6 @@
             return false;
         }
 
-        // Validar antigüedad (excepto jubilado y rentista)
         if (perfilKey !== 'jubilado' && perfilKey !== 'rentista') {
             const antiguedadAnios = parseInt(document.getElementById('antiguedad_anios').value) || 0;
             const antiguedadMeses = parseInt(document.getElementById('antiguedad_meses').value) || 0;
@@ -1117,7 +1073,6 @@
             }
         }
 
-        // Validar otros campos
         const cedulaRaw = document.getElementById('welcomeCedula').dataset.raw || '';
         if (cedulaRaw.length < 6 || cedulaRaw.length > 7) {
             showErrorStep(err, 'Cédula: 6 o 7 dígitos.');
@@ -1201,16 +1156,13 @@
         const otraCartera = document.getElementById('otraCartera').value.trim();
         const carteraFinal = carteras === 'otro' ? otraCartera : carteras;
 
-        // Documentos marcados
         const docsMarcados = [];
         document.querySelectorAll('.chk-requisito:checked').forEach(chk => {
             const label = chk.parentElement.querySelector('label');
             if (label) docsMarcados.push(label.textContent.trim());
         });
 
-        // Checks del paso 1
-        const chkGeneral = document.getElementById('chkGeneral').checked ? '✅ Aceptado' : '❌ No aceptado';
-        const chkLaboral = document.getElementById('chkLaboralContainer').style.display !== 'none' ? (document.getElementById('chkLaboral').checked ? '✅ Aceptado' : '❌ No aceptado') : 'No aplica';
+        const chkCompromiso = document.getElementById('chkCompromiso').checked ? '✅ Aceptado' : '❌ No aceptado';
 
         let advertencia = '';
         if (informconfModificado || carteraModificado) {
@@ -1234,11 +1186,7 @@
             <hr style="border:1px solid var(--border); margin:8px 0;">
             <p><strong>Documentos que posee:</strong> ${docsMarcados.length > 0 ? docsMarcados.join(', ') : 'Ninguno marcado'}</p>
             <hr style="border:1px solid var(--border); margin:8px 0;">
-            <p><strong>Compromisos aceptados:</strong></p>
-            <ul style="font-size:12px; color:var(--text-light); list-style:none; padding-left:0;">
-                <li>📌 General (dirección, ubicación, documentos): ${chkGeneral}</li>
-                <li>📌 Datos laborales: ${chkLaboral}</li>
-            </ul>
+            <p><strong>Compromisos aceptados:</strong> ${chkCompromiso}</p>
             ${advertencia}
             <hr style="border:1px solid var(--border); margin:8px 0;">
             <p style="font-size:11px; color:var(--text-light);"><i class="fas fa-user-check"></i> ${VENDEDOR}</p>
@@ -1292,8 +1240,7 @@
             if (label) docsMarcados.push(label.textContent.trim());
         });
 
-        const chkGeneral = document.getElementById('chkGeneral').checked;
-        const chkLaboral = document.getElementById('chkLaboral').checked;
+        const chkCompromiso = document.getElementById('chkCompromiso').checked;
 
         let mensaje = `*NUEVA PRESOLICITUD - Tking Credit*%0A%0A`;
         mensaje += `👤 *Cliente:* ${nombres} ${apellidos}%0A`;
@@ -1321,9 +1268,7 @@
             mensaje += `Ninguno marcado%0A`;
         }
 
-        mensaje += `%0A📌 *COMPROMISOS ACEPTADOS:*%0A`;
-        mensaje += `- General (dirección, ubicación, documentos): ${chkGeneral ? 'SÍ' : 'NO'}%0A`;
-        mensaje += `- Datos laborales: ${chkLaboral ? 'SÍ' : 'NO'}%0A`;
+        mensaje += `%0A📌 *COMPROMISO ACEPTADO:* ${chkCompromiso ? 'SÍ' : 'NO'}%0A`;
 
         if (informconfModificado || carteraModificado) {
             mensaje += `%0A*⚠️ ADVERTENCIA:* El cliente modificó su respuesta sobre Informconf o Casa de cartera para continuar. Los datos serán verificados.%0A`;
@@ -1396,9 +1341,6 @@
         }
     });
 
-    // ================================================================
-    // MOSTRAR/OCULTAR "OTRA CARTERA"
-    // ================================================================
     document.getElementById('carteras').addEventListener('change', function() {
         const otra = document.getElementById('otraCartera');
         if (this.value === 'otro') {
@@ -1479,21 +1421,17 @@
         document.getElementById('otraCartera').classList.add('hidden');
         document.getElementById('grupoEmpresa').style.display = 'none';
         document.getElementById('grupoTelefonoLab').style.display = 'none';
-        // Inicializar perfil
         actualizarRequisitosPorPerfil();
         verificarChecksPerfil();
         calcularCuotaPreview();
-        // Eventos para cambiar perfil
         document.getElementById('perfil').addEventListener('change', function() {
             actualizarRequisitosPorPerfil();
             verificarChecksPerfil();
         });
-        // Inicializar validaciones de informconf y cartera
         validarInformconf();
         validarCartera();
     });
 
-    // Exponer funciones globales para eventos inline
     window.nextStep = nextStep;
     window.prevStep = prevStep;
     window.validarInformconf = validarInformconf;
